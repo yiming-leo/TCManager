@@ -1,5 +1,6 @@
 package cn.calendo.tcmdistribution.service;
 
+import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,6 +12,8 @@ import java.util.List;
  * 医院给邮政的配送信息报文
  */
 public interface IShipInfoService extends IService<ShipInfo> {
+
+    /////////////////////////////////////////////查询/////////////////////////////////////////////
 
     /**
      * 自定义向邮政发送药品报文并保存
@@ -28,8 +31,8 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param decoctMedicine
      * @param outpatientNo
      * @param patientName
-     * @param remarks
-     * @param isDel
+     * @param infoRemarks
+     * @param isDeleted
      * @return
      */
     boolean sendShipInfoByInsert(Date transactionDate, Time transactionTime, String recipientName,
@@ -125,7 +128,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
 
     /**
      * 根据门诊号查询某条信息
-     * @param outpatient_no 门诊号
+     * @param outpatientNo 门诊号
      * @return List<ShipInfo>
      */
     List<ShipInfo> queryShipInfoByOutpatientNo(String outpatientNo);
@@ -136,5 +139,34 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @return List<ShipInfo>
      */
     List<ShipInfo> queryShipInfoByPatientName(String patientName);
+
+
+    /////////////////////////////////////////////移除/////////////////////////////////////////////
+
+    /**
+     * 根据id删除某条已发送的报文
+     * @param rmvShipInfoDTO 唯一序列号
+     * @return ShipInfo
+     */
+    boolean removeShipInfoById(RmvShipInfoDTO rmvShipInfoDTO);
+
+    /**
+     * 根据id批量删除已发送报文
+     * @param ids 唯一序列号的集合
+     * @return List<ShipInfo>
+     */
+    List<ShipInfo> removeShipInfoBatch(List<Long> ids);
+
+    /////////////////////////////////////////////发送/////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////反悔/////////////////////////////////////////////
+
+    /**
+     * 根据id反悔还原某条已删除的报文
+     * @param rmvShipInfoDTO 唯一序列号
+     * @return ShipInfo
+     */
+    boolean repentShipInfoById(RmvShipInfoDTO rmvShipInfoDTO);
 
 }

@@ -1,6 +1,7 @@
 package cn.calendo.tcmdistribution.service.impl;
 
 import cn.calendo.tcmdistribution.dao.ShipInfoDao;
+import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import cn.calendo.tcmdistribution.service.IShipInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -16,6 +17,9 @@ import java.util.List;
  */
 @Service
 public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> implements IShipInfoService {
+
+    /////////////////////////////////////////////查询/////////////////////////////////////////////
+
     @Override
     public boolean sendShipInfoByInsert(Date transactionDate, Time transactionTime, String recipientName,
                                         String recipientAddress, String recipientTelephone, String postalCode,
@@ -137,6 +141,34 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
         lqw.eq(ShipInfo::getPatientName, patientName);//条件为传入的
         return list(lqw);
+    }
+
+    /////////////////////////////////////////////移除/////////////////////////////////////////////
+
+    @Override
+    public boolean removeShipInfoById(RmvShipInfoDTO rmvShipInfoDTO) {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getId, rmvShipInfoDTO.getId());//条件为获取到的dto的id
+        rmvShipInfoDTO.setIsDeleted(1);//设置isDeleted为1
+        return update(rmvShipInfoDTO, lqw);//被设置更新后的实体类对象和查询条件
+    }
+
+    @Override
+    public List<ShipInfo> removeShipInfoBatch(List<Long> ids) {
+        return null;
+    }
+
+    /////////////////////////////////////////////发送/////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////反悔/////////////////////////////////////////////
+
+    @Override
+    public boolean repentShipInfoById(RmvShipInfoDTO rmvShipInfoDTO) {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getId, rmvShipInfoDTO.getId());//条件为获取到的dto的id
+        rmvShipInfoDTO.setIsDeleted(0);//设置isDeleted为0
+        return update(rmvShipInfoDTO, lqw);//被设置更新后的实体类对象和查询条件
     }
 
 }

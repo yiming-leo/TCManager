@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 查询邮政配药报文接口
+ */
 @RestController
 @CrossOrigin
 @Slf4j
@@ -27,7 +30,7 @@ public class GetShipInfo {
     @PostMapping("/all")
     public R getShipInfoAll() {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoAll();
-        if (shipInfos == null) {
+        if (shipInfos.size() == 0) {
             return R.error(404, "不存在", new Date());
         }
         return R.success(200, "查询成功", new Date(), shipInfos);
@@ -42,7 +45,7 @@ public class GetShipInfo {
     @PostMapping("/by_id")
     public R getShipInfoById(@RequestParam(value = "id") Long id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);
-        if (shipInfo.getId() == null) {
+        if (shipInfo == null) {
             return R.error(404, "不存在", new Date());
         }
         return R.success(200, "查询成功", new Date(), shipInfo);

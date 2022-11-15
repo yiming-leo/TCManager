@@ -25,7 +25,6 @@ public class ShipInfo implements Serializable {
     /**
      * 雪花算法自动生成的id
      */
-    @TableField(value = "id")
     private Long id;
     /**
      * 交易日期 YYYY MM DD
