@@ -1,6 +1,7 @@
 package cn.calendo.tcmdistribution.service;
 
 import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
+import cn.calendo.tcmdistribution.dto.SndShipInfoDTO;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,34 +15,6 @@ import java.util.List;
 public interface IShipInfoService extends IService<ShipInfo> {
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
-
-    /**
-     * 自定义向邮政发送药品报文并保存
-     * @param transactionDate
-     * @param transactionTime
-     * @param recipientName
-     * @param recipientAddress
-     * @param recipientTelephone
-     * @param postalCode
-     * @param prescriptionNo
-     * @param hospitalNo
-     * @param pharmaFactoryNo
-     * @param deliveryRequire
-     * @param prescriptionInfo
-     * @param decoctMedicine
-     * @param outpatientNo
-     * @param patientName
-     * @param infoRemarks
-     * @param isDeleted
-     * @return
-     */
-    boolean sendShipInfoByInsert(Date transactionDate, Time transactionTime, String recipientName,
-                         String recipientAddress, String recipientTelephone, String postalCode,
-                         String prescriptionNo, String hospitalNo, String pharmaFactoryNo,
-                         String deliveryRequire, String prescriptionInfo, Integer decoctMedicine,
-                         String outpatientNo, String patientName, String infoRemarks, Integer isDeleted);
-
-//    boolean sendShipInfoByQueryDB();
 
     /**
      * 查询所有发送的药品报文
@@ -145,10 +118,17 @@ public interface IShipInfoService extends IService<ShipInfo> {
 
     /**
      * 根据id删除某条已发送的报文
-     * @param rmvShipInfoDTO 唯一序列号
-     * @return ShipInfo
+     * @param rmvShipInfoDTO 报文删除的dto
+     * @return 删除与否
      */
     boolean removeShipInfoById(RmvShipInfoDTO rmvShipInfoDTO);
+
+    /**
+     * 根据id永久删除某条已发送的报文
+     * @param id 报文删除的dto
+     * @return 删除与否
+     */
+    boolean foreverRemoveShipInfoById(Long id);
 
     /**
      * 根据id批量删除已发送报文
@@ -157,10 +137,32 @@ public interface IShipInfoService extends IService<ShipInfo> {
      */
     List<ShipInfo> removeShipInfoBatch(List<Long> ids);
 
+    /////////////////////////////////////////////新增/////////////////////////////////////////////
+
+    /**
+     * 新增医院给邮政的报文
+     * @param shipInfo 报文
+     * @return 新增与否
+     */
+    boolean saveShipInfo(ShipInfo shipInfo);
+
     /////////////////////////////////////////////发送/////////////////////////////////////////////
 
+    /**
+     * 发送医院给邮政的报文
+     * @param sndShipInfoDTO 报文dto
+     * @return 发送与否
+     */
+    boolean sendShipInfo(SndShipInfoDTO sndShipInfoDTO);
 
-    /////////////////////////////////////////////反悔/////////////////////////////////////////////
+    /**
+     * 发送给邮政信息
+     * @param text 自定义信息
+     * @return 发送与否
+     */
+    boolean sendReject(String text);
+
+    /////////////////////////////////////////////恢复/////////////////////////////////////////////
 
     /**
      * 根据id反悔还原某条已删除的报文

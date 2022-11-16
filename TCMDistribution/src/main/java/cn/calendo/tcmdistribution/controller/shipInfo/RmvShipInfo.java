@@ -24,8 +24,7 @@ public class RmvShipInfo {
     /**
      * 根据指定id删除某条已传送的邮政报文（由于需要操作字段isDeleted，因此传入DTO）
      *
-     * @param id        唯一标识
-     * @param isDeleted 删除与否
+     * @param id 唯一标识
      * @return R对象
      */
     @PutMapping("/rmv")
@@ -35,6 +34,20 @@ public class RmvShipInfo {
         rmvShipInfoDTO.setId(id);
         //调用方法
         boolean res = shipInfoService.removeShipInfoById(rmvShipInfoDTO);
+        if (!res) {
+            return R.error(404, "删除失败", new Date());
+        }
+        return R.success(200, "删除成功", new Date());
+    }
+
+    /**
+     * 永久删除指定id的已传送的邮政报文
+     * @param id 唯一标识
+     * @return R对象
+     */
+    @DeleteMapping("/fov_rmv")
+    public R foreverRmvShipInfoById(@RequestParam(value = "id") Long id){
+        boolean res = shipInfoService.foreverRemoveShipInfoById(id);
         if (!res) {
             return R.error(404, "删除失败", new Date());
         }

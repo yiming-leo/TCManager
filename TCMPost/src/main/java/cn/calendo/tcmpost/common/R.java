@@ -1,4 +1,4 @@
-package cn.calendo.tcmdistribution.common;
+package cn.calendo.tcmpost.common;
 
 import lombok.Data;
 

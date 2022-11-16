@@ -1,16 +1,25 @@
 package cn.calendo.tcmdistribution.service.impl;
 
+import cn.calendo.tcmdistribution.common.R;
+import cn.calendo.tcmdistribution.common.SendRequest;
 import cn.calendo.tcmdistribution.dao.ShipInfoDao;
 import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
+import cn.calendo.tcmdistribution.dto.SndShipInfoDTO;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import cn.calendo.tcmdistribution.service.IShipInfoService;
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.io.IOException;
 import java.util.List;
+
+import static cn.calendo.tcmdistribution.common.Constants.POSTER_URL_POST_NORMAL;
+import static cn.calendo.tcmdistribution.common.Constants.POSTER_URL_POST_REJECT;
 
 /**
  * 医院给邮政的配送信息报文
@@ -18,17 +27,10 @@ import java.util.List;
 @Service
 public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> implements IShipInfoService {
 
+    @Autowired
+    private SendRequest sendRequest;
+
     /////////////////////////////////////////////查询/////////////////////////////////////////////
-
-    @Override
-    public boolean sendShipInfoByInsert(Date transactionDate, Time transactionTime, String recipientName,
-                                        String recipientAddress, String recipientTelephone, String postalCode,
-                                        String prescriptionNo, String hospitalNo, String pharmaFactoryNo,
-                                        String deliveryRequire, String prescriptionInfo, Integer decoctMedicine,
-                                        String outpatientNo, String patientName, String remarks, Integer isDel) {
-
-        return false;
-    }
 
     @Override
     public List<ShipInfo> queryShipInfoAll() {
@@ -154,14 +156,51 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     }
 
     @Override
+    public boolean foreverRemoveShipInfoById(Long id) {
+        return removeById(id);
+    }
+
+    @Override
     public List<ShipInfo> removeShipInfoBatch(List<Long> ids) {
         return null;
     }
 
+    /////////////////////////////////////////////新增/////////////////////////////////////////////
+
+    @Override
+    public boolean saveShipInfo(ShipInfo shipInfo) {
+        return save(shipInfo);
+    }
+
     /////////////////////////////////////////////发送/////////////////////////////////////////////
 
+    @Override
+    public boolean sendShipInfo(SndShipInfoDTO sndShipInfoDTO) {
+        try {
+            String res = sendRequest.sendPost(POSTER_URL_POST_NORMAL, JSON.toJSONString(sndShipInfoDTO));
+            R r = JSONObject.parseObject(res, R.class);
+            System.out.println("res: " + res);
+            System.out.println("r: " + r);
+            if (r.getStatus() != 200) {
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
-    /////////////////////////////////////////////反悔/////////////////////////////////////////////
+    @Override
+    public boolean sendReject(String text) {
+        try {
+            String res = sendRequest.sendPost(POSTER_URL_POST_REJECT, text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /////////////////////////////////////////////恢复/////////////////////////////////////////////
 
     @Override
     public boolean repentShipInfoById(RmvShipInfoDTO rmvShipInfoDTO) {

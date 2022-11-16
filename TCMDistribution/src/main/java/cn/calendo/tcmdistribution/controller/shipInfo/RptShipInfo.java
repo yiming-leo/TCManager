@@ -22,7 +22,6 @@ public class RptShipInfo {
      * 根据指定id还原某条已删除的邮政报文（由于需要操作字段isDeleted，因此传入DTO）
      *
      * @param id        唯一标识
-     * @param isDeleted 删除与否
      * @return R对象
      */
     @PutMapping("/rpt")
