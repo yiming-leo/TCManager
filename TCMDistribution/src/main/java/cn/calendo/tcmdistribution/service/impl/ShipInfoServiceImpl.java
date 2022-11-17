@@ -3,10 +3,14 @@ package cn.calendo.tcmdistribution.service.impl;
 import cn.calendo.tcmdistribution.common.R;
 import cn.calendo.tcmdistribution.common.SendRequest;
 import cn.calendo.tcmdistribution.dao.ShipInfoDao;
+import cn.calendo.tcmdistribution.dto.BatchSaveFacDTO;
+import cn.calendo.tcmdistribution.dto.RcvPresInfoDTO;
 import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
 import cn.calendo.tcmdistribution.dto.SndShipInfoDTO;
+import cn.calendo.tcmdistribution.entity.PresInfo;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import cn.calendo.tcmdistribution.service.IShipInfoService;
+import cn.calendo.tcmdistribution.utils.Encrypt;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +33,9 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
 
     @Autowired
     private SendRequest sendRequest;
+
+    @Autowired
+    private Encrypt encrypt;
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
@@ -170,6 +177,44 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     @Override
     public boolean saveShipInfo(ShipInfo shipInfo) {
         return save(shipInfo);
+    }
+
+    /////////////////////////////////////////////按药厂批量新增/////////////////////////////////////////////
+
+    @Override
+    public Integer batchSaveShipInfoByFac(BatchSaveFacDTO batchSaveFacDTO, PresInfo presInfo) {
+        //bean拷贝：从presInfo到rcvPresInfoDTO
+        RcvPresInfoDTO rcvPresInfoDTO = new RcvPresInfoDTO();
+        BeanUtil.copyProperties(presInfo, rcvPresInfoDTO, "isDistri", "isDeleted");
+        Integer facNumber = batchSaveFacDTO.getFacNumber();
+        List facName = batchSaveFacDTO.getFacName();
+        Integer count = 0;
+        for (int i = 0; i < facNumber; i++) {
+            ShipInfo shipInfo = new ShipInfo();
+            shipInfo.setTransactionDate(presInfo.getTransactionDate());
+            shipInfo.setTransactionTime(presInfo.getTransactionTime());
+            shipInfo.setRecipientName(batchSaveFacDTO.getRecipientName());
+            shipInfo.setRecipientAddress(batchSaveFacDTO.getRecipientAddress());
+            shipInfo.setRecipientTelephone(batchSaveFacDTO.getRecipientTelephone());
+            shipInfo.setPostalCode(batchSaveFacDTO.getPostalCode());
+            shipInfo.setPrescriptionNo(String.valueOf(presInfo.getId()));
+            shipInfo.setHospitalNo(batchSaveFacDTO.getHospitalNo());
+            shipInfo.setPharmaFactoryNo(String.valueOf(facName.get(i)));
+            shipInfo.setDeliveryRequire(batchSaveFacDTO.getDeliveryRequire());
+
+            String md5Encrypt = encrypt.MD5Encrypt(String.valueOf(rcvPresInfoDTO));
+            shipInfo.setPrescriptionInfo(md5Encrypt);//处方信息需要加密
+            String md5Decrypt = encrypt.MD5Decrypt(md5Encrypt);
+            System.out.println("---------------->" + md5Decrypt);
+
+            shipInfo.setDecoctMedicine(batchSaveFacDTO.getDecoctMedicine());
+            shipInfo.setOutpatientNo(presInfo.getOutpatientNo());
+            shipInfo.setPatientName(presInfo.getPatientName());
+            shipInfo.setInfoRemarks(presInfo.getMethodRemark());
+            save(shipInfo);
+            count++;
+        }
+        return count;
     }
 
     /////////////////////////////////////////////发送/////////////////////////////////////////////

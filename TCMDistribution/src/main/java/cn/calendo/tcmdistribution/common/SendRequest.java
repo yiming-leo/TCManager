@@ -35,7 +35,6 @@ public class SendRequest {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-
         } finally {
             try {
                 httpClient.close();
