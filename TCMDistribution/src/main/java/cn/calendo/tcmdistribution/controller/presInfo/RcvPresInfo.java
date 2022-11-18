@@ -4,7 +4,6 @@ import cn.calendo.tcmdistribution.common.R;
 import cn.calendo.tcmdistribution.dto.RcvPresInfoDTO;
 import cn.calendo.tcmdistribution.listener.rabbitmq.MessageListener;
 import cn.calendo.tcmdistribution.service.IPresInfoService;
-import cn.calendo.tcmdistribution.service.impl.rabbitmq.RabbitmqDirectMessageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
