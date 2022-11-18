@@ -32,8 +32,10 @@ public class RptShipInfo {
         //调用方法
         boolean res = shipInfoService.repentShipInfoById(rmvShipInfoDTO);
         if (!res) {
+            log.error("恢复失败");
             return R.error(404, "恢复失败", new Date());
         }
+        log.info("恢复成功");
         return R.success(200, "恢复成功", new Date());
     }
 

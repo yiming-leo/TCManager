@@ -72,8 +72,10 @@ public class SavShipInfo {
 
         boolean res = shipInfoService.saveShipInfo(shipInfo);
         if (!res) {
-            return R.error(404, "新增失败", new Date());
+            log.error("新增失败");
+            return R.error(500, "新增失败", new Date());
         }
+        log.info("新增成功");
         return R.success(200, "新增成功", new Date());
     }
 

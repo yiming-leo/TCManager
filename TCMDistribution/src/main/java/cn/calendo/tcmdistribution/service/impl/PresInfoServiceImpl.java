@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -69,7 +70,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public PresInfo queryHistoryPresInfoById(Long id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 1);//条件为删除
-        lqw.eq(PresInfo::getId,id);
+        lqw.eq(PresInfo::getId, id);
         return getOne(lqw);
     }
 
@@ -91,6 +92,78 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
         lqw.orderByDesc(PresInfo::getTransactionDate);//按日期降序排列
         lqw.orderByDesc(PresInfo::getTransactionTime);//按时间降序排列
         return getOne(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByTransactionDate(String date) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getTransactionDate, date);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByTransactionTime(String time) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getTransactionTime, time);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPatientName(String patientName) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getPatientName, patientName);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPatientGender(String patientGender) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getPatientGender, patientGender);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPatientAge(String patientAge) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getPatientAge, patientAge);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByDoctorName(String doctorName) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getDoctorName, doctorName);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByDoctorId(String doctorId) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getDoctorId, doctorId);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByOutpatientNo(String outpatientNo) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getOutpatientNo, outpatientNo);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPrice(BigDecimal price) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.eq(PresInfo::getPrice, price);//条件为传入的
+        return list(lqw);
     }
 
     /////////////////////////////////////////////移除/////////////////////////////////////////////

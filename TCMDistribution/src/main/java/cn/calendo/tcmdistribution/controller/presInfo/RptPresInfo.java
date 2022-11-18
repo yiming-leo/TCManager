@@ -35,8 +35,10 @@ public class RptPresInfo {
         //调用方法
         boolean res = PresInfoService.repentPresInfoById(rmvPresInfoDTO);
         if (!res) {
-            return R.error(404, "恢复失败", new Date());
+            log.error("恢复失败");
+            return R.error(500, "恢复失败", new Date());
         }
+        log.info("恢复成功");
         return R.success(200, "恢复成功", new Date());
     }
     

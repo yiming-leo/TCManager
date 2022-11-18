@@ -30,8 +30,10 @@ public class HisPresInfo {
     public R getHistoryPresInfoAll(){
         List<PresInfo> presInfos = presInfoService.queryHistoryPresInfoAll();
         if (presInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), presInfos);
     }
 
@@ -44,8 +46,10 @@ public class HisPresInfo {
     public R getHistoryShipInfoById(@RequestParam(value = "id") Long id) {
         PresInfo presInfo = presInfoService.queryHistoryPresInfoById(id);
         if (presInfo == null) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), presInfo);
     }
 

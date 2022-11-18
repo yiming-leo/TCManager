@@ -5,6 +5,8 @@ import cn.calendo.tcmdistribution.dto.RmvPresInfoDTO;
 import cn.calendo.tcmdistribution.entity.PresInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,29 +60,47 @@ public interface IPresInfoService extends IService<PresInfo> {
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
     /**
-     * 查询所有发送的药品报文
+     * 查询所有处方
      * @return PresInfo的集合
      */
     List<PresInfo> queryPresInfoAll();
 
     /**
-     * 根据id查询某条信息
+     * 根据id查询某条处方
      * @param id 唯一序列号
      * @return PresInfo
      */
     PresInfo queryPresInfoById(Long id);
 
+    List<PresInfo> queryPresInfoByTransactionDate(String date);
+
+    List<PresInfo> queryPresInfoByTransactionTime(String time);
+
+    List<PresInfo> queryPresInfoByPatientName(String patientName);
+
+    List<PresInfo> queryPresInfoByPatientGender(String patientGender);
+
+    List<PresInfo> queryPresInfoByPatientAge(String patientAge);
+
+    List<PresInfo> queryPresInfoByDoctorName(String doctorName);
+
+    List<PresInfo> queryPresInfoByDoctorId(String doctorId);
+
+    List<PresInfo> queryPresInfoByOutpatientNo(String outpatientNo);
+
+    List<PresInfo> queryPresInfoByPrice(BigDecimal price);
+
     /////////////////////////////////////////////移除/////////////////////////////////////////////
 
     /**
-     * 根据id删除某条已发送的报文
+     * 根据id删除某条处方
      * @param rmvPresInfoDTO 报文删除的dto
      * @return 删除与否
      */
     boolean removePresInfoById(RmvPresInfoDTO rmvPresInfoDTO);
 
     /**
-     * 根据id永久删除某条已发送的报文
+     * 根据id永久删除某条某条处方
      * @param id 报文删除的dto
      * @return 删除与否
      */
@@ -89,9 +109,9 @@ public interface IPresInfoService extends IService<PresInfo> {
     /////////////////////////////////////////////恢复/////////////////////////////////////////////
 
     /**
-     * 根据id反悔还原某条已删除的报文
-     * @param rmvPresInfoDTO 唯一序列号
-     * @return PresInfo
+     * 根据id反悔还原某条已删除的处方
+     * @param rmvPresInfoDTO 移除的dto
+     * @return t/f
      */
     boolean repentPresInfoById(RmvPresInfoDTO rmvPresInfoDTO);
 

@@ -3,6 +3,7 @@ package cn.calendo.tcmdistribution.controller.presInfo;
 import cn.calendo.tcmdistribution.common.R;
 import cn.calendo.tcmdistribution.dto.RmvPresInfoDTO;
 import cn.calendo.tcmdistribution.service.IPresInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.Date;
  * 移除处方信息接口
  */
 @RestController
-@Service
+@Slf4j
 @CrossOrigin
 @RequestMapping("/pres_info")
 public class RmvPresInfo {
@@ -35,8 +36,10 @@ public class RmvPresInfo {
         //调用方法
         boolean res = PresInfoService.removePresInfoById(rmvPresInfoDTO);
         if (!res) {
-            return R.error(404, "删除失败", new Date());
+            log.error("删除失败");
+            return R.error(500, "删除失败", new Date());
         }
+        log.info("删除成功");
         return R.success(200, "删除成功", new Date());
     }
 
@@ -49,8 +52,10 @@ public class RmvPresInfo {
     public R foreverRmvPresInfoById(@RequestParam(value = "id") Long id){
         boolean res = PresInfoService.foreverRemovePresInfoById(id);
         if (!res) {
-            return R.error(404, "删除失败", new Date());
+            log.error("删除失败");
+            return R.error(500, "删除失败", new Date());
         }
+        log.info("删除成功");
         return R.success(200, "删除成功", new Date());
     }
 }

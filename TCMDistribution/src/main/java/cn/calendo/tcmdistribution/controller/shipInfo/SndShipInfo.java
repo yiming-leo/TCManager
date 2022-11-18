@@ -32,14 +32,17 @@ public class SndShipInfo {
     public R sendMessage2Post(@RequestParam(value = "id") Long id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);//查出相应报文实体类
         if (shipInfo == null) {
+            log.info("暂无此报文");
             return R.error(404, "暂无此报文", new Date());
         }
         SndShipInfoDTO sndShipInfoDTO = new SndShipInfoDTO();
         BeanUtil.copyProperties(shipInfo, sndShipInfoDTO, "isDeleted");//bean拷贝
         boolean res = shipInfoService.sendShipInfo(sndShipInfoDTO);//发送dto
         if (!res) {
-            return R.error(404, "发送失败", new Date());
+            log.error("发送失败");
+            return R.error(500, "发送失败", new Date());
         }
+        log.info("发送成功");
         return R.success(200, "发送成功", new Date());
     }
 
@@ -52,8 +55,10 @@ public class SndShipInfo {
     public R sendReject2Post(@RequestParam(value = "reject_text") String reject_text) {
         boolean res = shipInfoService.sendReject(reject_text);
         if (!res) {
-            return R.error(404, "发送失败", new Date());
+            log.error("发送失败");
+            return R.error(500, "发送失败", new Date());
         }
+        log.info("发送成功");
         return R.success(200, "发送成功", new Date());
     }
 

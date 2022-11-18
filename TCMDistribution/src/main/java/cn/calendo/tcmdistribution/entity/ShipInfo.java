@@ -16,7 +16,7 @@ import java.sql.Time;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "tbl_hosp2post")
+@TableName(value = "tbl_ship_info")
 public class ShipInfo implements Serializable {
     /**
      * 序列化配置

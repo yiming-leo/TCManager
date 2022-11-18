@@ -16,6 +16,10 @@ spring:
     password: root
     # 连接池类型
     type: com.alibaba.druid.pool.DruidDataSource
+  # rabbitmq
+  rabbitmq:
+    host: 8.134.147.174
+    port: 5672
   # java mail
   mail:
     host: smtp.qq.com
@@ -61,7 +65,14 @@ mybatis-plus:
       id-type: ASSIGN_ID
 # 输出日志等级
 logging:
+  group:
+    ebank: cn.calendo.tcmdistribution.controller,cn.calendo.tcmdistribution.service,cn.calendo.tcmdistribution.dao
   level:
-    cn.calendo: debug # 这里如果不加包名会因映射问题而报错
+    root: info
+    ebank: debug
   pattern:
     dateformat: MM-dd HH:mm:ss:SSS
+#    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
+#  file:
+#    path: C:\Users\Lenovo\Desktop\TCManager\TCMD
+#    max-size: 10MB

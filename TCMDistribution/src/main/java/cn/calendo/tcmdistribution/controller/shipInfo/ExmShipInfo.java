@@ -33,18 +33,22 @@ public class ExmShipInfo {
     public R examShipInfoById(@RequestParam(value = "id") Long id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);//查出相应报文实体类
         if (shipInfo == null) {
+            log.info("暂无此报文");
             return R.error(404, "暂无此报文", new Date());
         }
         SndShipInfoDTO sndShipInfoDTO = new SndShipInfoDTO();
         BeanUtil.copyProperties(shipInfo, sndShipInfoDTO, "isDeleted");//bean拷贝
         boolean res = shipInfoService.sendShipInfo(sndShipInfoDTO);//发送dto
         if (!res) {
+            log.error("查得此记录但发送失败");
             return R.error(500, "查得此记录但发送失败", new Date());
         }
         boolean adoptRes = shipInfoService.adoptShipInfoById(id);
         if (!adoptRes) {
+            log.error("发送成功但记录更新失败");
             return R.error(500, "发送成功但记录更新失败", new Date());
         }
+        log.info("审核通过、发送成功、记录更新成功");
         return R.success(200, "审核通过、发送成功、记录更新成功", new Date(), id);
     }
 

@@ -38,12 +38,15 @@ public class DtbPresInfo {
         //由于这里的处方内并没有包含邮政报文的很多参数，需要手动添加许多参数
         Integer hit_count = shipInfoService.batchSaveShipInfoByFac(batchSaveFacDTO, presInfo);
         if (!hit_count.equals(batchSaveFacDTO.getFacNumber())) {
-            return R.error(404, "药厂分配失败", new Date(), "hit_count:" + hit_count);
+            log.error("药厂分配失败");
+            return R.error(500, "药厂分配失败", new Date(), "hit_count:" + hit_count);
         }
         boolean markRes = presInfoService.adoptPresInfoMark(batchSaveFacDTO.getId(),batchSaveFacDTO.getFacNumber());
         if (!markRes) {
-            return R.error(404, "药厂分配成功，记录更新失败", new Date());
+            log.error("药厂分配成功，记录更新失败");
+            return R.error(500, "药厂分配成功，记录更新失败", new Date());
         }
+        log.info("药厂分配成功，请在报文信息处查看");
         return R.success(200, "药厂分配成功，请在报文信息处查看", new Date());
     }
 

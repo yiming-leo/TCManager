@@ -31,8 +31,10 @@ public class GetShipInfo {
     public R getShipInfoAll() {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoAll();
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -46,8 +48,10 @@ public class GetShipInfo {
     public R getShipInfoById(@RequestParam(value = "id") Long id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);
         if (shipInfo == null) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfo);
     }
 
@@ -61,8 +65,10 @@ public class GetShipInfo {
     public R getShipInfoByDate(@RequestParam(value = "transactionDate") String transactionDate) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDate(transactionDate);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -76,8 +82,10 @@ public class GetShipInfo {
     public R getShipInfoByTime(@RequestParam(value = "transactionTime") String transactionTime) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTime(transactionTime);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -91,8 +99,10 @@ public class GetShipInfo {
     public R getShipInfoByRecipientName(@RequestParam(value = "recipientName") String recipientName) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByRecipientName(recipientName);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -106,8 +116,10 @@ public class GetShipInfo {
     public R getShipInfoByRecipientAddress(@RequestParam(value = "recipientAddress") String recipientAddress) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByRecipientAddress(recipientAddress);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -121,8 +133,10 @@ public class GetShipInfo {
     public R getShipInfoByRecipientTel(@RequestParam(value = "recipientTel") String recipientTel) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByRecipientTel(recipientTel);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -136,8 +150,10 @@ public class GetShipInfo {
     public R getShipInfoByPostalCode(@RequestParam(value = "postalCode") String postalCode) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByPostalCode(postalCode);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -151,8 +167,10 @@ public class GetShipInfo {
     public R getShipInfoByPrescriptionNo(@RequestParam(value = "prescriptionNo") String prescriptionNo) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByPrescriptionNo(prescriptionNo);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -166,8 +184,10 @@ public class GetShipInfo {
     public R getShipInfoByHospitalNo(@RequestParam(value = "hospitalNo") String hospitalNo) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByHospitalNo(hospitalNo);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -181,8 +201,10 @@ public class GetShipInfo {
     public R getShipInfoByPharmaFactoryNo(@RequestParam(value = "pharmaFactoryNo") String pharmaFactoryNo) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByPharmaFactoryNo(pharmaFactoryNo);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -196,8 +218,10 @@ public class GetShipInfo {
     public R getShipInfoByDecoctMedicine(@RequestParam(value = "decoctMedicine") Integer decoctMedicine) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDecoctMedicine(decoctMedicine);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -211,8 +235,10 @@ public class GetShipInfo {
     public R getShipInfoByOutpatientNo(@RequestParam(value = "outpatientNo") String outpatientNo) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByOutpatientNo(outpatientNo);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 
@@ -226,8 +252,10 @@ public class GetShipInfo {
     public R getShipInfoByPatientName(@RequestParam(value = "patientName") String patientName) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByPatientName(patientName);
         if (shipInfos.size() == 0) {
+            log.info("不存在");
             return R.error(404, "不存在", new Date());
         }
+        log.info("查询成功");
         return R.success(200, "查询成功", new Date(), shipInfos);
     }
 

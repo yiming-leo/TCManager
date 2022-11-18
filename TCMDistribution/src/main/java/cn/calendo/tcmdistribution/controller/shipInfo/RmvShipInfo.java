@@ -35,8 +35,10 @@ public class RmvShipInfo {
         //调用方法
         boolean res = shipInfoService.removeShipInfoById(rmvShipInfoDTO);
         if (!res) {
-            return R.error(404, "删除失败", new Date());
+            log.error("删除失败");
+            return R.error(500, "删除失败", new Date());
         }
+        log.info("删除成功");
         return R.success(200, "删除成功", new Date());
     }
 
@@ -49,8 +51,10 @@ public class RmvShipInfo {
     public R foreverRmvShipInfoById(@RequestParam(value = "id") Long id){
         boolean res = shipInfoService.foreverRemoveShipInfoById(id);
         if (!res) {
+            log.error("删除失败");
             return R.error(404, "删除失败", new Date());
         }
+        log.info("删除成功");
         return R.success(200, "删除成功", new Date());
     }
 

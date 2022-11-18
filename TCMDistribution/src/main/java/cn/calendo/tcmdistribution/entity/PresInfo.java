@@ -17,7 +17,7 @@ import java.sql.Time;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "tbl_prescription")
+@TableName(value = "tbl_pres_info")
 public class PresInfo implements Serializable {
     /**
      * 序列化配置
