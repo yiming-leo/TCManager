@@ -12,4 +12,8 @@ public class Constants {
      * 邮政发往工厂的召回的接口地址
      */
     public static final String FACTORY_URL_FAC_REJECT = "http://localhost:8081/poster/from_tcmd/reject";
+    /**
+     * AES加密算法密钥
+     */
+    public static final String AES_KEY = "0123456789012345";
 }

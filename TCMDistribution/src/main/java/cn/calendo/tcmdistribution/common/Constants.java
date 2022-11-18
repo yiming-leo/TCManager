@@ -12,4 +12,8 @@ public class Constants {
      * 医院发往邮政的召回的接口地址
      */
     public static final String POSTER_URL_POST_REJECT = "http://localhost:8081/poster/from_tcmd/reject";
+    /**
+     * AES加密算法密钥
+     */
+    public static final String AES_KEY = "0123456789012345";
 }

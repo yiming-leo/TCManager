@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+/**
+ * 接收医院的报文
+ */
 @RestController
 @Slf4j
 @CrossOrigin
@@ -20,10 +23,17 @@ public class RcvPostMed {
     private IPostMedService postMedService;
 
     @PostMapping("/from_tcmd")
-    public R receivePostMedicine(@RequestBody RcvShipInfoDTO rcvShipInfoDTO) {
+    public R receivePostMedAndCheckAndSave(@RequestBody RcvShipInfoDTO rcvShipInfoDTO) {
+        //接收报文
         PostMedDTO postMedDTO = postMedService.receivePostMedicine(rcvShipInfoDTO);
         if (postMedDTO == null) {
             return R.error(404, "接收失败", new Date());
+        }
+        //审核报文
+        //保存报文
+        boolean saveRes = postMedService.savePostMedicine(postMedDTO);
+        if (!saveRes) {
+            return R.error(404, "保存失败", new Date());
         }
         return R.success(200, "接收成功", new Date());
     }

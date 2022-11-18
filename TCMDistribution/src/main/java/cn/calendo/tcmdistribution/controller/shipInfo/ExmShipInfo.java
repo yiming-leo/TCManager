@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 /**
- * 发送并保存邮政配药报文接口
+ * 更新审核记录（审核成功：isDeleted为1，起始为0）
  */
 @RestController
 @Slf4j
 @CrossOrigin
-@RequestMapping("/ship_info/snd")
-public class SndShipInfo {
+@RequestMapping("/ship_info/exm")
+public class ExmShipInfo {
 
     @Autowired
     private IShipInfoService shipInfoService;
 
     /**
-     * 向邮政发送
-     * @param id 报文id
+     * 指定id的行审核通过并发送至邮政（isDeleted改为1）
+     *
+     * @param id shipInfo的id
      * @return R对象
      */
-    @PostMapping("/normal")
-    public R sendMessage2Post(@RequestParam(value = "id") Long id) {
+    @PutMapping("/single")
+    public R examShipInfoById(@RequestParam(value = "id") Long id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);//查出相应报文实体类
         if (shipInfo == null) {
             return R.error(404, "暂无此报文", new Date());
@@ -38,23 +39,13 @@ public class SndShipInfo {
         BeanUtil.copyProperties(shipInfo, sndShipInfoDTO, "isDeleted");//bean拷贝
         boolean res = shipInfoService.sendShipInfo(sndShipInfoDTO);//发送dto
         if (!res) {
-            return R.error(404, "发送失败", new Date());
+            return R.error(500, "查得此记录但发送失败", new Date());
         }
-        return R.success(200, "发送成功", new Date());
-    }
-
-    /**
-     * 向邮政发送自定义信息
-     * @param reject_text 自定义信息
-     * @return R对象
-     */
-    @PostMapping("/reject")
-    public R sendReject2Post(@RequestParam(value = "reject_text") String reject_text) {
-        boolean res = shipInfoService.sendReject(reject_text);
-        if (!res) {
-            return R.error(404, "发送失败", new Date());
+        boolean adoptRes = shipInfoService.adoptShipInfoById(id);
+        if (!adoptRes) {
+            return R.error(500, "发送成功但记录更新失败", new Date());
         }
-        return R.success(200, "发送成功", new Date());
+        return R.success(200, "审核通过、发送成功、记录更新成功", new Date(), id);
     }
 
 }

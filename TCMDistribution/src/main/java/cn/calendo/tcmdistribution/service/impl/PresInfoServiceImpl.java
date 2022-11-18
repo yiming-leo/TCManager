@@ -32,6 +32,16 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
         return true;
     }
 
+    /////////////////////////////////////////////分配成功标记/////////////////////////////////////////////
+
+    @Override
+    public boolean adoptPresInfoMark(Long id, Integer facNumber) {
+        PresInfo presInfo = getById(id);
+        presInfo.setIsDistri(facNumber);
+        presInfo.setIsDeleted(1);
+        return updateById(presInfo);
+    }
+
     /////////////////////////////////////////////增加/////////////////////////////////////////////
 
     @Override
@@ -44,6 +54,25 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
         return true;
     }
 
+    /////////////////////////////////////////////查询历史/////////////////////////////////////////////
+
+    @Override
+    public List<PresInfo> queryHistoryPresInfoAll() {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 1);//条件为删除
+        lqw.orderByDesc(PresInfo::getTransactionDate);//按日期降序排列
+        lqw.orderByDesc(PresInfo::getTransactionTime);//按时间降序排列
+        return list(lqw);
+    }
+
+    @Override
+    public PresInfo queryHistoryPresInfoById(Long id) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 1);//条件为删除
+        lqw.eq(PresInfo::getId,id);
+        return getOne(lqw);
+    }
+
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
     @Override
@@ -52,7 +81,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
         lqw.orderByDesc(PresInfo::getTransactionDate);//按日期降序排列
         lqw.orderByDesc(PresInfo::getTransactionTime);//按时间降序排列
-        return list();
+        return list(lqw);
     }
 
     @Override

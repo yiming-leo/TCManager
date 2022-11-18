@@ -12,6 +12,8 @@ import cn.calendo.tcmdistribution.entity.ShipInfo;
 import cn.calendo.tcmdistribution.service.IShipInfoService;
 import cn.calendo.tcmdistribution.utils.Encrypt;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -22,8 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static cn.calendo.tcmdistribution.common.Constants.POSTER_URL_POST_NORMAL;
-import static cn.calendo.tcmdistribution.common.Constants.POSTER_URL_POST_REJECT;
+import static cn.calendo.tcmdistribution.common.Constants.*;
 
 /**
  * 医院给邮政的配送信息报文
@@ -36,6 +37,25 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
 
     @Autowired
     private Encrypt encrypt;
+
+    /////////////////////////////////////////////查询历史/////////////////////////////////////////////
+
+    @Override
+    public List<ShipInfo> queryHistoryShipInfoAll() {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getIsDeleted, 1);//条件为删除
+        lqw.orderByDesc(ShipInfo::getTransactionDate);//按日期降序排列
+        lqw.orderByDesc(ShipInfo::getTransactionTime);//按时间降序排列
+        return list(lqw);
+    }
+
+    @Override
+    public ShipInfo queryHistoryShipInfoById(Long id) {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getIsDeleted, 1);//条件为删除
+        lqw.eq(ShipInfo::getId, id);
+        return getOne(lqw);
+    }
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
@@ -202,10 +222,12 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
             shipInfo.setPharmaFactoryNo(String.valueOf(facName.get(i)));
             shipInfo.setDeliveryRequire(batchSaveFacDTO.getDeliveryRequire());
 
-            String md5Encrypt = encrypt.MD5Encrypt(String.valueOf(rcvPresInfoDTO));
-            shipInfo.setPrescriptionInfo(md5Encrypt);//处方信息需要加密
-            String md5Decrypt = encrypt.MD5Decrypt(md5Encrypt);
-            System.out.println("---------------->" + md5Decrypt);
+            SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, AES_KEY.getBytes());
+            System.out.println(aes);
+
+            String aesEncrypt = encrypt.AESEncrypt(String.valueOf(rcvPresInfoDTO), aes);
+            shipInfo.setPrescriptionInfo(aesEncrypt);//处方信息需要加密
+//            String aesDecrypt = encrypt.AESDecrypt(aesEncrypt, aes);
 
             shipInfo.setDecoctMedicine(batchSaveFacDTO.getDecoctMedicine());
             shipInfo.setOutpatientNo(presInfo.getOutpatientNo());
@@ -215,6 +237,15 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
             count++;
         }
         return count;
+    }
+
+    /////////////////////////////////////////////审核通过/////////////////////////////////////////////
+
+    @Override
+    public boolean adoptShipInfoById(Long id) {
+        ShipInfo shipInfo = getById(id);
+        shipInfo.setIsDeleted(1);
+        return updateById(shipInfo);
     }
 
     /////////////////////////////////////////////发送/////////////////////////////////////////////

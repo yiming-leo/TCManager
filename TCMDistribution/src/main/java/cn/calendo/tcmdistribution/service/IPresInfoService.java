@@ -21,14 +21,39 @@ public interface IPresInfoService extends IService<PresInfo> {
      */
     boolean checkPresInfo(RcvPresInfoDTO rcvPresInfoDTO);
 
+    /////////////////////////////////////////////分配成功标记/////////////////////////////////////////////
+
+    /**
+     * 当药厂分配成功后需要标记isDeleted为1
+     * @param id 唯一码
+     * @return t/f
+     */
+    boolean adoptPresInfoMark(Long id,Integer facNumber);
+
     /////////////////////////////////////////////增加/////////////////////////////////////////////
 
     /**
      * 保存一条审核通过的处方
-     * @param id 处方id
+     * @param rcvPresInfoDTO 接收的处方信息(dto)
      * @return 保存与否
      */
     boolean saveRcvPresInfoDTO2PresInfoById(RcvPresInfoDTO rcvPresInfoDTO);
+
+    /////////////////////////////////////////////查询历史/////////////////////////////////////////////
+
+    /**
+     * 查询所有已分配的处方的信息
+     * @return PresInfo的集合
+     */
+    List<PresInfo> queryHistoryPresInfoAll();
+
+    /**
+     * 根据id查询某条已分配的处方的信息
+     * @param id 唯一序列号
+     * @return PresInfo
+     */
+    PresInfo queryHistoryPresInfoById(Long id);
+
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 

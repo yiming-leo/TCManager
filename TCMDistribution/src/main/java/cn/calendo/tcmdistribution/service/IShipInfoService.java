@@ -7,14 +7,27 @@ import cn.calendo.tcmdistribution.entity.PresInfo;
 import cn.calendo.tcmdistribution.entity.ShipInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 /**
  * 医院给邮政的配送信息报文
  */
 public interface IShipInfoService extends IService<ShipInfo> {
+
+    /////////////////////////////////////////////查询历史/////////////////////////////////////////////
+
+    /**
+     * 查询所有已发送的报文信息
+     * @return ShipInfo的集合
+     */
+    List<ShipInfo> queryHistoryShipInfoAll();
+
+    /**
+     * 根据id查询某条已发送的报文信息
+     * @param id 唯一序列号
+     * @return ShipInfo
+     */
+    ShipInfo queryHistoryShipInfoById(Long id);
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
@@ -175,6 +188,15 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @return 成功新增数量
      */
     Integer batchSaveShipInfoByFac(BatchSaveFacDTO batchSaveFacDTO, PresInfo presInfo);
+
+    /////////////////////////////////////////////审核通过/////////////////////////////////////////////
+
+    /**
+     * 指定id审核通过
+     * @param id 指定id
+     * @return t/f
+     */
+    boolean adoptShipInfoById(Long id);
 
     /////////////////////////////////////////////发送/////////////////////////////////////////////
 
