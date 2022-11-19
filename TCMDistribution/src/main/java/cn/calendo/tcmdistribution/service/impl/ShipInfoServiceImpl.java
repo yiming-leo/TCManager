@@ -19,12 +19,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
-import static cn.calendo.tcmdistribution.common.Constants.*;
 
 /**
  * 医院给邮政的配送信息报文
@@ -37,6 +38,15 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
 
     @Autowired
     private Encrypt encrypt;
+
+    @Value("${constants.posterUrlPostNormal}")
+    private String POSTER_URL_POST_NORMAL;
+
+    @Value("${constants.posterUrlPostReject}")
+    private String POSTER_URL_POST_REJECT;
+
+    @Value("${constants.aesKey}")
+    private String AES_KEY;
 
     /////////////////////////////////////////////查询历史/////////////////////////////////////////////
 
@@ -223,6 +233,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
             shipInfo.setDeliveryRequire(batchSaveFacDTO.getDeliveryRequire());
 
             SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, AES_KEY.getBytes());
+            System.out.println(Arrays.toString(AES_KEY.getBytes()));
             System.out.println(aes);
 
             String aesEncrypt = encrypt.AESEncrypt(String.valueOf(rcvPresInfoDTO), aes);

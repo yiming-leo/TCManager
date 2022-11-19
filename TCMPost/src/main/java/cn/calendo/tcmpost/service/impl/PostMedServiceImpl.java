@@ -12,9 +12,10 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import static cn.calendo.tcmpost.common.Constants.AES_KEY;
+import java.util.Arrays;
 
 @Service
 @Slf4j
@@ -22,6 +23,9 @@ public class PostMedServiceImpl extends ServiceImpl<PostMedDao, PostMed> impleme
 
     @Autowired
     private Encrypt encrypt;
+
+    @Value("${constants.aesKey}")
+    private String AES_KEY;
 
     @Override
     public PostMedDTO receivePostMedicine(RcvShipInfoDTO rcvShipInfoDTO) {
@@ -34,9 +38,8 @@ public class PostMedServiceImpl extends ServiceImpl<PostMedDao, PostMed> impleme
         String info = rcvShipInfoDTO.getPrescriptionInfo();
 
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, AES_KEY.getBytes());
-//        System.out.println(aes);
+        System.out.println(Arrays.toString(AES_KEY.getBytes()));
         String decrypt = encrypt.AESDecrypt(info, aes);
-//        System.out.println(decrypt);
         postMedDTO.setPrescriptionInfo(decrypt);
 
         postMedDTO.setDecoctMedicine(rcvShipInfoDTO.getDecoctMedicine());

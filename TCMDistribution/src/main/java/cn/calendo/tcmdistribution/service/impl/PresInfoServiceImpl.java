@@ -89,8 +89,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public PresInfo queryPresInfoById(Long id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.orderByDesc(PresInfo::getTransactionDate);//按日期降序排列
-        lqw.orderByDesc(PresInfo::getTransactionTime);//按时间降序排列
+        lqw.eq(PresInfo::getId, id);
         return getOne(lqw);
     }
 

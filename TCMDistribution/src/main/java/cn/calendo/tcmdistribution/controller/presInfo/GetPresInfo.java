@@ -28,7 +28,6 @@ public class GetPresInfo {
      *
      * @return R对象
      */
-
     @GetMapping("/all")
     public R getPresInfoAll(){
         List<PresInfo> presInfos = presInfoService.queryPresInfoAll();

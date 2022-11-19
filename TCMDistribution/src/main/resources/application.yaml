@@ -1,6 +1,11 @@
 # 应用服务 WEB 访问端口
 server:
   port: 8080
+# 自定义常量
+constants:
+  posterUrlPostNormal: "http://localhost:8081/poster/from_tcmd"
+  posterUrlPostReject: "http://localhost:8081/poster/from_tcmd/reject"
+  aesKey: "0123456789012345"
 # 应用名称
 spring:
   application:
