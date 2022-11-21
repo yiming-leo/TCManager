@@ -1,10 +1,10 @@
 # 应用服务 WEB 访问端口
 server:
-  port: 8080
+  port: 8085
 # 自定义常量
 constants:
-  posterUrlPostNormal: "http://localhost:8081/poster/from_tcmd"
-  posterUrlPostReject: "http://localhost:8081/poster/from_tcmd/reject"
+  posterUrlPostNormal: "http://localhost:8086/poster/from_tcmd"
+  posterUrlPostReject: "http://localhost:8086/poster/from_tcmd/reject"
   aesKey: "0123456789012345"
 # 应用名称
 spring:
@@ -74,10 +74,10 @@ logging:
     ebank: cn.calendo.tcmdistribution.controller,cn.calendo.tcmdistribution.service,cn.calendo.tcmdistribution.dao
   level:
     root: info
-    ebank: debug
+    ebank: info
   pattern:
     dateformat: MM-dd HH:mm:ss:SSS
-#    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
-#  file:
-#    path: C:\Users\Lenovo\Desktop\TCManager\TCMD
-#    max-size: 10MB
+    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
+  file:
+    path: /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD
+    max-size: 10MB

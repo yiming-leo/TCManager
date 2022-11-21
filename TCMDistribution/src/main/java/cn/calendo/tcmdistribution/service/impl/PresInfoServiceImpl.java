@@ -90,7 +90,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public PresInfo queryPresInfoById(Long id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.like(PresInfo::getId, id);
+        lqw.eq(PresInfo::getId, id);
         return getOne(lqw);
     }
 

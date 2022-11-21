@@ -62,7 +62,7 @@ public class GetShipInfo {
      * @return R对象
      */
     @GetMapping("/by_date")
-    public R getShipInfoByDate(@RequestParam(value = "transactionDate") String transactionDate) {
+    public R getShipInfoByDate(@RequestParam(value = "date") String transactionDate) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDate(transactionDate);
         if (shipInfos.size() == 0) {
             log.info("不存在");
@@ -80,8 +80,8 @@ public class GetShipInfo {
      * @return R对象
      */
     @GetMapping("/by_date_bt")
-    public R getShipInfoByDateBetween(@RequestParam(value = "transactionDateSt") String st,@RequestParam(value = "transactionDateEd") String ed) {
-        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDateBetween(st,ed);
+    public R getShipInfoByDateBetween(@RequestParam(value = "dateSt") String st, @RequestParam(value = "dateEd") String ed) {
+        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDateBetween(st, ed);
         if (shipInfos.size() == 0) {
             log.info("不存在");
             return R.error(404, "不存在", new Date());
@@ -97,7 +97,7 @@ public class GetShipInfo {
      * @return R对象
      */
     @GetMapping("/by_time")
-    public R getShipInfoByTime(@RequestParam(value = "transactionTime") String transactionTime) {
+    public R getShipInfoByTime(@RequestParam(value = "time") String transactionTime) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTime(transactionTime);
         if (shipInfos.size() == 0) {
             log.info("不存在");
@@ -115,8 +115,8 @@ public class GetShipInfo {
      * @return R对象
      */
     @GetMapping("/by_time_bt")
-    public R getShipInfoByTimeBetween(@RequestParam(value = "timeSt") String st,@RequestParam(value = "timeEd") String ed) {
-        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTimeBetween(st,ed);
+    public R getShipInfoByTimeBetween(@RequestParam(value = "timeSt") String st, @RequestParam(value = "timeEd") String ed) {
+        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTimeBetween(st, ed);
         if (shipInfos.size() == 0) {
             log.info("不存在");
             return R.error(404, "不存在", new Date());

@@ -82,7 +82,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public ShipInfo queryShipInfoById(Long id) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.like(ShipInfo::getId, id);//条件为传入的
+        lqw.eq(ShipInfo::getId, id);//条件为传入的
         return getOne(lqw);
     }
 
@@ -114,7 +114,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByTimeBetween(String st, String ed) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.between(ShipInfo::getTransactionDate, st, ed);
+        lqw.between(ShipInfo::getTransactionTime, st, ed);
         return list(lqw);
     }
 

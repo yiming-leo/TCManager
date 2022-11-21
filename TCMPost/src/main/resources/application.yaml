@@ -1,6 +1,6 @@
 # 应用服务 WEB 访问端口
 server:
-  port: 8081
+  port: 8086
 # 自定义常量
 constants:
   factoryUrlPostNormal: "http://localhost:8082/poster/from_tcmd"
