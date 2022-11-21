@@ -39,7 +39,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoAll();
 
     /**
-     * 根据id查询某条信息
+     * 根据id查询某条报文
      *
      * @param id 唯一序列号
      * @return ShipInfo
@@ -47,7 +47,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     ShipInfo queryShipInfoById(Long id);
 
     /**
-     * 根据日期查询某条信息
+     * 根据日期查询某条报文
      *
      * @param date 报文发送日期
      * @return List<ShipInfo>
@@ -55,7 +55,15 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByDate(String date);
 
     /**
-     * 根据时间查询某条信息
+     * 根据日期区间查询某报文
+     * @param st 起始日期
+     * @param ed 截止日期
+     * @return ShipInfo集合
+     */
+    List<ShipInfo> queryShipInfoByDateBetween(String st,String ed);
+
+    /**
+     * 根据时间查询某条报文
      *
      * @param time 报文发送日期
      * @return List<ShipInfo>
@@ -63,7 +71,15 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByTime(String time);
 
     /**
-     * 根据收件人姓名查询某条信息
+     * 根据时间区间查询某报文
+     * @param st 起始时间
+     * @param ed 截止时间
+     * @return ShipInfo集合
+     */
+    List<ShipInfo> queryShipInfoByTimeBetween(String st,String ed);
+
+    /**
+     * 根据收件人姓名查询某条报文
      *
      * @param recipientName 收件人姓名
      * @return List<ShipInfo>
@@ -71,7 +87,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByRecipientName(String recipientName);
 
     /**
-     * 根据收件人地址查询某条信息
+     * 根据收件人地址查询某条报文
      *
      * @param recipientAddress 收件人地址
      * @return List<ShipInfo>
@@ -79,7 +95,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByRecipientAddress(String recipientAddress);
 
     /**
-     * 根据收件人电话查询某条信息
+     * 根据收件人电话查询某条报文
      *
      * @param recipientTel 收件人电话
      * @return List<ShipInfo>
@@ -87,7 +103,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByRecipientTel(String recipientTel);
 
     /**
-     * 根据邮政编码查询某条信息
+     * 根据邮政编码查询某条报文
      *
      * @param postalCode 报文发送的邮政编码
      * @return List<ShipInfo>
@@ -95,7 +111,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByPostalCode(String postalCode);
 
     /**
-     * 根据处方号查询某条信息
+     * 根据处方号查询某条报文
      *
      * @param prescriptionNo 处方号
      * @return List<ShipInfo>
@@ -103,7 +119,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByPrescriptionNo(String prescriptionNo);
 
     /**
-     * 根据医院编号查询某条信息
+     * 根据医院编号查询某条报文
      *
      * @param hospitalNo 医院编号
      * @return List<ShipInfo>
@@ -111,7 +127,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByHospitalNo(String hospitalNo);
 
     /**
-     * 根据药厂编号查询某条信息
+     * 根据药厂编号查询某条报文
      *
      * @param pharmaFactoryNo 药厂编号
      * @return List<ShipInfo>
@@ -119,7 +135,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByPharmaFactoryNo(String pharmaFactoryNo);
 
     /**
-     * 根据是否煎药查询某条信息
+     * 根据是否煎药查询某条报文
      *
      * @param decoctMedicine 是否煎药。0：煎药；1：不煎药（草药）；2：膏方
      * @return List<ShipInfo>
@@ -127,7 +143,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByDecoctMedicine(Integer decoctMedicine);
 
     /**
-     * 根据门诊号查询某条信息
+     * 根据门诊号查询某条报文
      *
      * @param outpatientNo 门诊号
      * @return List<ShipInfo>
@@ -135,13 +151,12 @@ public interface IShipInfoService extends IService<ShipInfo> {
     List<ShipInfo> queryShipInfoByOutpatientNo(String outpatientNo);
 
     /**
-     * 根据就诊病人姓名查询某条信息
+     * 根据就诊病人姓名查询某条报文
      *
      * @param patientName 就诊病人姓名
      * @return List<ShipInfo>
      */
     List<ShipInfo> queryShipInfoByPatientName(String patientName);
-
 
     /////////////////////////////////////////////移除/////////////////////////////////////////////
 

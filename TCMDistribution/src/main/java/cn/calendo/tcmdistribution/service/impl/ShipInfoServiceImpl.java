@@ -82,7 +82,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public ShipInfo queryShipInfoById(Long id) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getId, id);//条件为传入的
+        lqw.like(ShipInfo::getId, id);//条件为传入的
         return getOne(lqw);
     }
 
@@ -90,7 +90,15 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByDate(String date) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getTransactionDate, date);//条件为传入的
+        lqw.like(ShipInfo::getTransactionDate, date);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<ShipInfo> queryShipInfoByDateBetween(String st, String ed) {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(ShipInfo::getTransactionDate, st, ed);
         return list(lqw);
     }
 
@@ -98,7 +106,15 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByTime(String time) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getTransactionTime, time);//条件为传入的
+        lqw.like(ShipInfo::getTransactionTime, time);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<ShipInfo> queryShipInfoByTimeBetween(String st, String ed) {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(ShipInfo::getTransactionDate, st, ed);
         return list(lqw);
     }
 
@@ -106,7 +122,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByRecipientName(String recipientName) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getRecipientName, recipientName);//条件为传入的
+        lqw.like(ShipInfo::getRecipientName, recipientName);//条件为传入的
         return list(lqw);
     }
 
@@ -114,7 +130,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByRecipientAddress(String recipientAddress) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getRecipientAddress, recipientAddress);//条件为传入的
+        lqw.like(ShipInfo::getRecipientAddress, recipientAddress);//条件为传入的
         return list(lqw);
     }
 
@@ -122,7 +138,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByRecipientTel(String recipientTel) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getRecipientTelephone, recipientTel);//条件为传入的
+        lqw.like(ShipInfo::getRecipientTelephone, recipientTel);//条件为传入的
         return list(lqw);
     }
 
@@ -130,7 +146,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByPostalCode(String postalCode) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getPostalCode, postalCode);//条件为传入的
+        lqw.like(ShipInfo::getPostalCode, postalCode);//条件为传入的
         return list(lqw);
     }
 
@@ -138,7 +154,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByPrescriptionNo(String prescriptionNo) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getPrescriptionNo, prescriptionNo);//条件为传入的
+        lqw.like(ShipInfo::getPrescriptionNo, prescriptionNo);//条件为传入的
         return list(lqw);
     }
 
@@ -146,7 +162,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByHospitalNo(String hospitalNo) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getHospitalNo, hospitalNo);//条件为传入的
+        lqw.like(ShipInfo::getHospitalNo, hospitalNo);//条件为传入的
         return list(lqw);
     }
 
@@ -154,7 +170,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByPharmaFactoryNo(String pharmaFactoryNo) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getPharmaFactoryNo, pharmaFactoryNo);//条件为传入的
+        lqw.like(ShipInfo::getPharmaFactoryNo, pharmaFactoryNo);//条件为传入的
         return list(lqw);
     }
 
@@ -162,7 +178,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByDecoctMedicine(Integer decoctMedicine) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getDecoctMedicine, decoctMedicine);//条件为传入的
+        lqw.like(ShipInfo::getDecoctMedicine, decoctMedicine);//条件为传入的
         return list(lqw);
     }
 
@@ -170,7 +186,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByOutpatientNo(String outpatientNo) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getOutpatientNo, outpatientNo);//条件为传入的
+        lqw.like(ShipInfo::getOutpatientNo, outpatientNo);//条件为传入的
         return list(lqw);
     }
 
@@ -178,7 +194,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     public List<ShipInfo> queryShipInfoByPatientName(String patientName) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(ShipInfo::getPatientName, patientName);//条件为传入的
+        lqw.like(ShipInfo::getPatientName, patientName);//条件为传入的
         return list(lqw);
     }
 
@@ -238,7 +254,6 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
 
             String aesEncrypt = encrypt.AESEncrypt(String.valueOf(rcvPresInfoDTO), aes);
             shipInfo.setPrescriptionInfo(aesEncrypt);//处方信息需要加密
-//            String aesDecrypt = encrypt.AESDecrypt(aesEncrypt, aes);
 
             shipInfo.setDecoctMedicine(batchSaveFacDTO.getDecoctMedicine());
             shipInfo.setOutpatientNo(presInfo.getOutpatientNo());

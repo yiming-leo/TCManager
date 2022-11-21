@@ -22,7 +22,7 @@ public class RcvPresInfoDTO implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     /**
-     * 唯一序列
+     * 雪花算法生成的ID
      */
     private Long id;
     /**

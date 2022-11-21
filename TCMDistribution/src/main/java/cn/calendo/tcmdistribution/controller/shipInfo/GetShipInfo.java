@@ -73,6 +73,24 @@ public class GetShipInfo {
     }
 
     /**
+     * 根据交易日期查询某条报文
+     *
+     * @param st 报文交易日期起始时间
+     * @param ed 报文交易日期截止时间
+     * @return R对象
+     */
+    @GetMapping("/by_date_bt")
+    public R getShipInfoByDateBetween(@RequestParam(value = "transactionDateSt") String st,@RequestParam(value = "transactionDateEd") String ed) {
+        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDateBetween(st,ed);
+        if (shipInfos.size() == 0) {
+            log.info("不存在");
+            return R.error(404, "不存在", new Date());
+        }
+        log.info("查询成功");
+        return R.success(200, "查询成功", new Date(), shipInfos);
+    }
+
+    /**
      * 根据交易时间查询某条报文
      *
      * @param transactionTime 报文交易时间
@@ -81,6 +99,24 @@ public class GetShipInfo {
     @GetMapping("/by_time")
     public R getShipInfoByTime(@RequestParam(value = "transactionTime") String transactionTime) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTime(transactionTime);
+        if (shipInfos.size() == 0) {
+            log.info("不存在");
+            return R.error(404, "不存在", new Date());
+        }
+        log.info("查询成功");
+        return R.success(200, "查询成功", new Date(), shipInfos);
+    }
+
+    /**
+     * 根据交易时间查询某条报文
+     *
+     * @param st 报文交易起始时间
+     * @param ed 报文交易截止时间
+     * @return R对象
+     */
+    @GetMapping("/by_time_bt")
+    public R getShipInfoByTimeBetween(@RequestParam(value = "timeSt") String st,@RequestParam(value = "timeEd") String ed) {
+        List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTimeBetween(st,ed);
         if (shipInfos.size() == 0) {
             log.info("不存在");
             return R.error(404, "不存在", new Date());

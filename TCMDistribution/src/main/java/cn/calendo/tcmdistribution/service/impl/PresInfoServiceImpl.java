@@ -8,6 +8,7 @@ import cn.calendo.tcmdistribution.service.IPresInfoService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -89,7 +90,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public PresInfo queryPresInfoById(Long id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getId, id);
+        lqw.like(PresInfo::getId, id);
         return getOne(lqw);
     }
 
@@ -97,7 +98,15 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByTransactionDate(String date) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getTransactionDate, date);//条件为传入的
+        lqw.like(PresInfo::getTransactionDate, date);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByTransactionDateBetween(String st, String ed) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(PresInfo::getTransactionDate, st, ed);
         return list(lqw);
     }
 
@@ -105,7 +114,15 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByTransactionTime(String time) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getTransactionTime, time);//条件为传入的
+        lqw.like(PresInfo::getTransactionTime, time);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByTransactionTimeBetween(String st, String ed) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(PresInfo::getTransactionTime, st, ed);
         return list(lqw);
     }
 
@@ -113,7 +130,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByPatientName(String patientName) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getPatientName, patientName);//条件为传入的
+        lqw.like(PresInfo::getPatientName, patientName);//条件为传入的
         return list(lqw);
     }
 
@@ -121,15 +138,23 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByPatientGender(String patientGender) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getPatientGender, patientGender);//条件为传入的
+        lqw.like(PresInfo::getPatientGender, patientGender);//条件为传入的
         return list(lqw);
     }
 
     @Override
-    public List<PresInfo> queryPresInfoByPatientAge(String patientAge) {
+    public List<PresInfo> queryPresInfoByPatientAge(Integer patientAge) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getPatientAge, patientAge);//条件为传入的
+        lqw.like(PresInfo::getPatientAge, patientAge);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPatientAgeBetween(Integer st, Integer ed) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(PresInfo::getPatientAge, st, ed);
         return list(lqw);
     }
 
@@ -137,7 +162,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByDoctorName(String doctorName) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getDoctorName, doctorName);//条件为传入的
+        lqw.like(PresInfo::getDoctorName, doctorName);//条件为传入的
         return list(lqw);
     }
 
@@ -145,7 +170,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByDoctorId(String doctorId) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getDoctorId, doctorId);//条件为传入的
+        lqw.like(PresInfo::getDoctorId, doctorId);//条件为传入的
         return list(lqw);
     }
 
@@ -153,7 +178,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByOutpatientNo(String outpatientNo) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getOutpatientNo, outpatientNo);//条件为传入的
+        lqw.like(PresInfo::getOutpatientNo, outpatientNo);//条件为传入的
         return list(lqw);
     }
 
@@ -161,7 +186,15 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     public List<PresInfo> queryPresInfoByPrice(BigDecimal price) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
-        lqw.eq(PresInfo::getPrice, price);//条件为传入的
+        lqw.like(PresInfo::getPrice, price);//条件为传入的
+        return list(lqw);
+    }
+
+    @Override
+    public List<PresInfo> queryPresInfoByPriceBetween(BigDecimal st, BigDecimal ed) {
+        LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
+        lqw.between(PresInfo::getPrice, st, ed);
         return list(lqw);
     }
 
