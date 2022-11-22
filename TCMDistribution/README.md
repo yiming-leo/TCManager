@@ -39,6 +39,35 @@
 `业务层对象接口` 前缀：`I`，词根：`实体类对象`，后缀：`Service`<br>
 `业务层对象实现类` 词根：`实体类对象`，后缀：`ServiceImpl`<br>
 
+# 技术栈
+## 后端
+### Spring相关
+`Springboot` 整体项目的搭建<br>
+`Springmvc` 页面持久化<br>
+### 消息队列
+`RabbitMQ` 用于对医生站处方发送的削峰
+### 定时任务
+`SpringScheduled` 异步刷新处方请求页面
+### 日志与报表
+`Slf4j` 日志记录<br>
+`WebSocket` 轻量级信息交互模块
+`EasyExcel` 日志与操作报表（以Excel形式生成）
+### 加密与解密
+`Hutool-Crypto` 加密相关算法(默认AES，详细请看[Encrypt.java](src/main/java/cn/calendo/tcmdistribution/utils/Encrypt.java))
+### 邮件与发送
+`JavaMail` 可与定时任务组合，定时给指定用户/用户群体发送报表等消息
+### 存储
+`Mysql` 处方信息与报文信息的存储
+## 前端
+`Vue` 渐进式框架<br>
+`ElementUI` 组件化开发<br>
+`Node.js` 工程巡航<br>
+## 运维
+### 容器与集群
+`Docker` 利用docker的沙箱隔离机制将项目的存储部署在内
+### 代理
+`Nginx` 前端项目的代理服务器，以作端口映射与负载均衡
+
 ## 信息流程
 `医生站`->`中药房`->`邮政局`
 
@@ -48,10 +77,12 @@
 
 ## 加密算法
 
-`对称加密: AES(默认) DES SM4`
-`非对称加密: RSA ECIES`
-不使用摘要加密的原因：摘要加密无法解密还原，只能比对加密结果 不使用国密加密的原因：需要额外引入算法依赖，会导致加密时间略长，系统性能下降 使用对称/非对称加密的原因：通过密钥进行加密，密钥由双方进行协商定制
-本系统默认使用`AES对称加密`算法，明文（报文ShipInfo系列）将在中药房准备发送至邮政局时进行加密，药厂需要匹配中药房的密钥进行解密。同时支持可扩展其它加密算法
+`对称加密: AES(默认) DES SM4`<br>
+`非对称加密: RSA ECIES`<br>
+不使用摘要加密的原因：摘要加密无法解密还原，只能比对加密结果<br>
+不使用国密加密的原因：需要额外引入算法依赖，会导致加密时间略长，系统性能下降<br>
+使用对称/非对称加密的原因：通过密钥进行加密，密钥由双方进行协商定制
+本系统默认使用`AES对称加密`算法，明文（报文ShipInfo系列）将在中药房准备发送至邮政局时进行加密，药厂需要匹配中药房的密钥进行解密。同时支持可扩展其它对称/非对称加密算法
 
 ## 传输对象
 
@@ -79,7 +110,7 @@ Bean转换与加密->`ShipInfo`->存入新DB->DTO转换->`SndShipDTO`->发送->`
 boolean checkPresInfo(RcvPresInfoDTO rcvPresInfoDTO);
 ```
 
-#### 查询（接口位置：内网）
+#### 查询
 
 ```java
         /**
@@ -471,6 +502,32 @@ boolean sendShipInfo(SndShipInfoDTO sndShipInfoDTO);
      */
     ShipInfo queryHistoryShipInfoById(Long id);
 ```
+
+### 定时任务相关
+
+```java
+/**
+ * 任务启动
+ *
+ * @param taskId     任务id
+ * @param expression cron表达式
+ * @return TaskIdDTO TaskIdDTO对象
+ */
+TaskIdDTO scheduleStart(String taskId, String expression);
+
+/**
+* 任务停止
+*
+* @param taskId 任务id
+* @return TaskIdDTO TaskIdDTO对象
+*/
+TaskIdDTO scheduleStop(String taskId);
+```
+
+### 日志相关
+日志查询无业务层方法，查询地址已集成在 `application.yaml`内，需部署到linux服务器后方可使用
+<br>
+相关代码为`LogQuery.java`
 
 #### 加密（不对外提供）
 默认AES

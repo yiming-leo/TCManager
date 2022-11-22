@@ -1,14 +1,11 @@
 package cn.calendo.tcmdistribution.utils;
 
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.HMac;import cn.hutool.crypto.digest.HmacAlgorithm;
 
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 
 
 /**
@@ -16,30 +13,6 @@ import java.util.Arrays;
  */
 @Component
 public class Encrypt {
-
-    /**
-     * MD5加密
-     *
-     * @param text
-     * @return
-     */
-    public String MD5Encrypt(String text) {
-        String md5Hex = DigestUtil.md5Hex(text);
-        System.out.println(md5Hex);
-        return md5Hex;
-    }
-
-    /**
-     * MD5解密
-     *
-     * @param md5text
-     * @return
-     */
-    public String MD5Decrypt(String md5text) {
-        byte[] decode = SecureUtil.decode(md5text);
-        System.out.println(Arrays.toString(decode));
-        return Arrays.toString(decode);
-    }
 
     /**
      * SM4加密
