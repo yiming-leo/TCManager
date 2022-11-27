@@ -50,7 +50,7 @@
 `SpringScheduled` 异步刷新处方请求页面
 ### 日志与报表
 `Slf4j` 日志记录<br>
-`WebSocket` 轻量级信息交互模块
+`WebSocket` 轻量级信息交互模块<br>
 `EasyExcel` 日志与操作报表（以Excel形式生成）
 ### 加密与解密
 `Hutool-Crypto` 加密相关算法(默认AES，详细请看[Encrypt.java](src/main/java/cn/calendo/tcmdistribution/utils/Encrypt.java))
@@ -96,7 +96,7 @@ Bean转换与加密->`ShipInfo`->存入新DB->DTO转换->`SndShipDTO`->发送->`
 
 接收医生站发送的处方信息并自动审核、存储、展示，并带有撤销、定时、查询历史、自定义查询等功能
 当医生站的处方信息发送到中药房时，系统会自动审核处方信息（接收/拒绝），并将信息自动反馈给医生站（`R对象`），如果审核通过，将自动保存（新增）至数据库，等待中药房操作员进行药厂分配（未分配时，`isDeleted`=0，`isDistri`=0），
-其中，`isDistri`是药厂分配数量：0：未分配；n+：分配的药厂数量；`isDeleted`是移除标记：0：未被移除废弃；1：被移除废弃，且正常的查询查询不到，需要在历史查询中查询；（<font color=#ffaaaa>撤销功能可以将`isDeleted`的1改为0</font>)
+其中，`isDistri`是药厂分配数量：0：未分配；n+：分配的药厂数量；`isDeleted`是操作完成标记：0：操作未完成；1：操作已完成，且正常的查询查询不到，需要在历史查询中查询；（<font color=#ffaaaa>撤销功能可以将`isDeleted`的1改为0</font>)
 
 #### 自动审核（接口位置：不对外提供）
 
@@ -332,7 +332,7 @@ boolean foreverRemovePresInfoById(Long id);
 `deliveryRequire`配送要求<br>
 `decoctMedicine`是否煎药（0：煎药；1：不煎药（草药）；2：膏方）<br>
 当操作员设置好并保存后，系统会自动审核格式与数据，若不符合将报错，若符合，将把操作的处方信息(PresInfo)的`isDeleted`=0设置为1，`isDistri`=0设置为`facNumber`条，并在报文数据库中新增`facNumber`条报文（未发送报文时，`isDeleted`=0），
-其中，`isDistri`是药厂分配数量：0：未分配；n+：分配的药厂数量；`isDeleted`是移除标记：0：未被移除废弃；1：被移除废弃，且正常的查询查询不到，需要在历史查询中查询；（<font color=#ffaaaa>撤销功能可以将`isDeleted`的1改为0</font>)
+其中，`isDistri`是药厂分配数量：0：未分配；n+：分配的药厂数量；`isDeleted`是操作完成标记：0：操作未完成；1：操作已完成，且正常的查询查询不到，需要在历史查询中查询；（<font color=#ffaaaa>撤销功能可以将`isDeleted`的1改为0</font>)
 当报文成功发送至邮政时，报文数据库的相应的发送报文的行的`isDeleted`也会自动变成1
 
 #### 手动分配
@@ -600,8 +600,8 @@ create table tbl_ship_info
     outpatient_no       varchar(10)       null comment '门诊号',
     patient_name        varchar(20)       null comment '就诊病人姓名',
     info_remarks        varchar(30)       null comment '备注',
-    is_deleted          tinyint default 0 null comment '删除备用行。0：未删除；1：删除',
-    constraint tbl_hosp2post_id_uindex
+    is_deleted          tinyint default 0 null comment '操作完成标记。0：操作未完成；1：操作完成',
+    constraint tbl_ship_info_id_uindex
         unique (id)
 )
     comment '医院给邮政报文';
@@ -637,8 +637,8 @@ create table tbl_pres_info
     process_method      varchar(20)       null comment '处理方法：如先煎，后下',
     medicine_remark     varchar(60)       null comment '药品明细备注',
     is_distri           tinyint default 0 not null comment '分配情况。0：未分配；n：药厂数量',
-    is_deleted          tinyint default 0 not null comment '删除',
-    constraint tbl_prescription_id_uindex
+    is_deleted          tinyint default 0 not null comment '操作完成标记',
+    constraint tbl_pres_info_id_uindex
         unique (id)
 )
     comment '医生站发往中药房的处方信息表';
@@ -670,7 +670,7 @@ create table tbl_post2fact
     prescription_info varchar(2000)     not null comment '加密处方信息，一般为json格式',
     decoct_medicine   tinyint           not null comment '是否煎药。0：煎药；1：不煎药（草药）；2：膏方',
     info_remarks      varchar(50)       null comment '备注',
-    is_deleted        tinyint default 0 not null,
+    is_deleted        tinyint default 0 not null comment  '操作完成标记',
     constraint tbl_post2fact_id_uindex
         unique (id)
 )
