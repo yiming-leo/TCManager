@@ -1,5 +1,5 @@
 <template>
-  <div class="ship_info">
+  <div class="pres_his">
     <a-table :data-source="data" :columns="columns">
       <div
           slot="filterDropdown"
@@ -52,9 +52,6 @@
           {{ text }}
         </template>
       </template>
-      <template slot="operation" slot-scope="text, record">
-        <a-button type="primary">发送报文</a-button>
-      </template>
     </a-table>
   </div>
 </template>
@@ -65,54 +62,56 @@ const data = [
     id: 1234567890,
     date: '2022-05-17',
     time: '17:08:29',
-    recipientName: "阿毛",
-    recipientAddress: "浙江省杭州市萧山区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
+    patientName: 'John Brown',
+    patientAge: 32,
+    patientGender: '男',
+    doctorName: '张医生',
+    doctorID: '0128',
+    outpatientNo: '4023',
+    price: 13.25,
   },
   {
     key: '2',
     id: 1234567891,
-    date: '2022-03-12',
-    time: '11:08:29',
-    recipientName: "王二",
-    recipientAddress: "浙江省杭州市滨江区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
+    date: '2022-05-18',
+    time: '09:18:33',
+    patientName: 'Joe Black',
+    patientAge: 42,
+    patientGender: '女',
+    doctorName: '张医生',
+    doctorID: '0128',
+    outpatientNo: '4023',
+    price: 14.11,
   },
   {
     key: '3',
-    id: 1234567894,
-    date: '2022-01-18',
+    id: 1234567892,
+    date: '2022-05-18',
     time: '07:28:21',
-    recipientName: "王二",
-    recipientAddress: "浙江省杭州市滨江区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
+    patientName: 'Jim Green',
+    patientAge: 32,
+    patientGender: '男',
+    doctorName: '张医生',
+    doctorID: '0128',
+    outpatientNo: '4023',
+    price: 76.32,
+  },
+  {
+    key: '4',
+    id: 1234567893,
+    date: '2022-10-27',
+    time: '12:07:12',
+    patientName: 'Jim Red',
+    patientAge: 32,
+    patientGender: '女',
+    doctorName: '张医生',
+    doctorID: '0128',
+    outpatientNo: '4023',
+    price: 73.21,
   },
 ];
 export default {
+  patientName: 'PresView',
   components: {},
   data() {
     return {
@@ -188,16 +187,16 @@ export default {
           },
         },
         {
-          title: '收件人姓名',
-          dataIndex: 'recipientName',
-          key: 'recipientName',
+          title: '病人姓名',
+          dataIndex: 'patientName',
+          key: 'patientName',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.recipientName
+              record.patientName
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -210,16 +209,16 @@ export default {
           },
         },
         {
-          title: '收件人地址',
-          dataIndex: 'recipientAddress',
-          key: 'recipientAddress',
+          title: '病人年龄',
+          dataIndex: 'patientAge',
+          key: 'patientAge',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.recipientAddress
+              record.patientAge
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -232,16 +231,16 @@ export default {
           },
         },
         {
-          title: '收件人电话',
-          dataIndex: 'recipientTelephone',
-          key: 'recipientTelephone',
+          title: '病人性别',
+          dataIndex: 'patientGender',
+          key: 'patientGender',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.recipientTelephone
+              record.patientGender
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -254,16 +253,16 @@ export default {
           },
         },
         {
-          title: '邮政编码',
-          dataIndex: 'postalCode',
-          key: 'postalCode',
+          title: '医生姓名',
+          dataIndex: 'doctorName',
+          key: 'doctorName',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.postalCode
+              record.doctorName
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -276,82 +275,16 @@ export default {
           },
         },
         {
-          title: '处方号',
-          dataIndex: 'prescriptionNo',
-          key: 'prescriptionNo',
+          title: '医生ID',
+          dataIndex: 'doctorID',
+          key: 'doctorID',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.prescriptionNo
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '医院编号',
-          dataIndex: 'hospitalNo',
-          key: 'hospitalNo',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.hospitalNo
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '药厂编号',
-          dataIndex: 'pharmaFactoryNo',
-          key: 'pharmaFactoryNo',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.pharmaFactoryNo
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '配送要求',
-          dataIndex: 'deliveryRequire',
-          key: 'deliveryRequire',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.deliveryRequire
+              record.doctorID
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -386,16 +319,16 @@ export default {
           },
         },
         {
-          title: '病人姓名',
-          dataIndex: 'patientName',
-          key: 'patientName',
+          title: '交易金额（RMB）',
+          dataIndex: 'price',
+          key: 'price',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.patientName
+              record.price
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -406,51 +339,6 @@ export default {
               });
             }
           },
-        },
-        {
-          title: '备注',
-          dataIndex: 'infoRemarks',
-          key: 'infoRemarks',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.infoRemarks
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          key: 'operation',
-          scopedSlots: {customRender: 'operation'},
-          // scopedSlots: {
-          //   filterDropdown: 'filterDropdown',
-          //   filterIcon: 'filterIcon',
-          //   customRender: 'customRender',
-          // },
-          // onFilter: (value, record) =>
-          //     record.price
-          //         .toString()
-          //         .toLowerCase()
-          //         .includes(value.toLowerCase()),
-          // onFilterDropdownVisibleChange: visible => {
-          //   if (visible) {
-          //     setTimeout(() => {
-          //       this.searchInput.focus();
-          //     });
-          //   }
-          // },
         },
       ],
     };

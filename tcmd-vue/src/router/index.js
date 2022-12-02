@@ -10,14 +10,6 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
   {//处方信息栏
     path: '/pres_info',
     name: 'pres_info',
@@ -28,15 +20,35 @@ const routes = [
     name: 'ship_info',
     component: () => import('../views/ShipView.vue')
   },
-  {//历史记录栏
-    path: '/history',
-    name: 'history',
-    component: () => import('../views/HistoryView.vue')
+  {//处方历史栏
+    path: '/pres_his',
+    name: 'pres_his',
+    component: () => import('../views/PresHisView.vue')
+  },
+  {//报文历史栏
+    path: '/ship_his',
+    name: 'ship_his',
+    component: () => import('../views/ShipHisView.vue')
   },
   {//日志信息栏
     path: '/log',
     name: 'log',
     component: () => import('../views/LogView.vue')
+  },
+  {//设置栏
+    path: '/setting',
+    name: 'setting',
+    component: () => import('../views/SettingView.vue')
+  },
+  {//定时任务栏
+    path: '/schedule',
+    name: 'schedule',
+    component: () => import('../views/ScheduleView.vue')
+  },
+  {//药厂栏
+    path: '/factory',
+    name: 'factory',
+    component: () => import('../views/FactoryView.vue')
   },
 ]
 
