@@ -62,23 +62,6 @@ export default {
   components: {},
   data() {
     return {
-      shipInfo: {
-        'key': '',
-        'id': 0,
-        'transactionDate': '',
-        'transactionTime': '',
-        'recipientName': '',
-        'recipientAddress': '',
-        'recipientTelephone': '',
-        'postalCode': '',
-        'prescriptionNo': '',
-        'hospitalNo': '',
-        'pharmaFactoryNo': '',
-        'deliveryRequire': '',
-        'outpatientNo': '',
-        'patientName': '',
-        'infoRemarks': '',
-      },
       tableData:[],
       searchText: '',
       searchInput: null,
@@ -108,8 +91,8 @@ export default {
         },
         {
           title: '开方日期',
-          dataIndex: 'date',
-          key: 'date',
+          dataIndex: 'transactionDate',
+          key: 'transactionDate',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -130,8 +113,8 @@ export default {
         },
         {
           title: '开方时间',
-          dataIndex: 'time',
-          key: 'time',
+          dataIndex: 'transactionTime',
+          key: 'transactionTime',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -403,9 +386,6 @@ export default {
       //将所有已分配药厂的处方的历史记录，进行查询
       const {data: res} = await Axios.get('http://49.235.113.96:8085/ship_info/his/all')
       this.tableData = res.data
-
-      console.log(this.data)
-      console.log(this.tableData)
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();

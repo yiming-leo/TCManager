@@ -15,7 +15,7 @@
             <router-link to="/ship_info"></router-link>
           </a-menu-item>
           <a-menu-item key="3">
-            <a-icon type="history"/>
+            <a-icon type="calendar"/>
             <span class="nav-text">处方历史</span>
             <router-link to="/pres_his"></router-link>
           </a-menu-item>

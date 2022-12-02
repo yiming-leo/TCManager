@@ -1,6 +1,6 @@
 <template>
   <div class="ship_info">
-    <a-table :data-source="data" :columns="columns">
+    <a-table :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
           slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -59,64 +59,13 @@
   </div>
 </template>
 <script>
-const data = [
-  {
-    key: '1',
-    id: 1234567890,
-    date: '2022-05-17',
-    time: '17:08:29',
-    recipientName: "阿毛",
-    recipientAddress: "浙江省杭州市萧山区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
-  },
-  {
-    key: '2',
-    id: 1234567891,
-    date: '2022-03-12',
-    time: '11:08:29',
-    recipientName: "王二",
-    recipientAddress: "浙江省杭州市滨江区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
-  },
-  {
-    key: '3',
-    id: 1234567894,
-    date: '2022-01-18',
-    time: '07:28:21',
-    recipientName: "王二",
-    recipientAddress: "浙江省杭州市滨江区",
-    recipientTelephone: "13999911132",
-    postalCode: "310000",
-    prescriptionNo: "29130846",
-    hospitalNo: "732841",
-    pharmaFactoryNo: "663792",
-    deliveryRequire: "少糖",
-    outpatientNo: "1212",
-    patientName: "八王",
-    infoRemarks: "无",
-  },
-];
+import Axios from "axios";
+
 export default {
   components: {},
   data() {
     return {
-      data,
+      tableData: [],
       searchText: '',
       searchInput: null,
       searchedColumn: '',
@@ -145,8 +94,8 @@ export default {
         },
         {
           title: '开方日期',
-          dataIndex: 'date',
-          key: 'date',
+          dataIndex: 'transactionDate',
+          key: 'transactionDate',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -167,8 +116,8 @@ export default {
         },
         {
           title: '开方时间',
-          dataIndex: 'time',
-          key: 'time',
+          dataIndex: 'transactionTime',
+          key: 'transactionTime',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -434,28 +383,19 @@ export default {
           dataIndex: 'operation',
           key: 'operation',
           scopedSlots: {customRender: 'operation'},
-          // scopedSlots: {
-          //   filterDropdown: 'filterDropdown',
-          //   filterIcon: 'filterIcon',
-          //   customRender: 'customRender',
-          // },
-          // onFilter: (value, record) =>
-          //     record.price
-          //         .toString()
-          //         .toLowerCase()
-          //         .includes(value.toLowerCase()),
-          // onFilterDropdownVisibleChange: visible => {
-          //   if (visible) {
-          //     setTimeout(() => {
-          //       this.searchInput.focus();
-          //     });
-          //   }
-          // },
         },
       ],
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    async init() {
+      //将所有已分配药厂的处方的历史记录，进行查询
+      const {data: res} = await Axios.get('http://49.235.113.96:8085/ship_info/get/all')
+      this.tableData = res.data
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];

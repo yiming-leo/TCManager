@@ -1,6 +1,6 @@
 <template>
   <div class="pres_his">
-    <a-table :data-source="data" :columns="columns">
+    <a-table :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
           slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -56,66 +56,13 @@
   </div>
 </template>
 <script>
-const data = [
-  {
-    key: '1',
-    id: 1234567890,
-    date: '2022-05-17',
-    time: '17:08:29',
-    patientName: 'John Brown',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 13.25,
-  },
-  {
-    key: '2',
-    id: 1234567891,
-    date: '2022-05-18',
-    time: '09:18:33',
-    patientName: 'Joe Black',
-    patientAge: 42,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 14.11,
-  },
-  {
-    key: '3',
-    id: 1234567892,
-    date: '2022-05-18',
-    time: '07:28:21',
-    patientName: 'Jim Green',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 76.32,
-  },
-  {
-    key: '4',
-    id: 1234567893,
-    date: '2022-10-27',
-    time: '12:07:12',
-    patientName: 'Jim Red',
-    patientAge: 32,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 73.21,
-  },
-];
+import Axios from "axios";
+
 export default {
-  patientName: 'PresView',
   components: {},
   data() {
     return {
-      data,
+      tableData: [],
       searchText: '',
       searchInput: null,
       searchedColumn: '',
@@ -144,8 +91,8 @@ export default {
         },
         {
           title: '开方日期',
-          dataIndex: 'date',
-          key: 'date',
+          dataIndex: 'transactionDate',
+          key: 'transactionDate',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -166,8 +113,8 @@ export default {
         },
         {
           title: '开方时间',
-          dataIndex: 'time',
-          key: 'time',
+          dataIndex: 'transactionTime',
+          key: 'transactionTime',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -343,7 +290,15 @@ export default {
       ],
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    async init() {
+      //将所有已分配药厂的处方的历史记录，进行查询
+      const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/his/all')
+      this.tableData = res.data
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
