@@ -28,7 +28,7 @@ public class RmvShipInfo {
      * @return R对象
      */
     @PutMapping("/rmv")
-    public R rmvShipInfoById(@RequestParam(value = "id") Long id) {
+    public R rmvShipInfoById(@RequestParam(value = "id") String id) {
         //设置dto，传入删除的参数
         RmvShipInfoDTO rmvShipInfoDTO = new RmvShipInfoDTO();
         rmvShipInfoDTO.setId(id);
@@ -48,7 +48,7 @@ public class RmvShipInfo {
      * @return R对象
      */
     @DeleteMapping("/fov_rmv")
-    public R foreverRmvShipInfoById(@RequestParam(value = "id") Long id){
+    public R foreverRmvShipInfoById(@RequestParam(value = "id") String id){
         boolean res = shipInfoService.foreverRemoveShipInfoById(id);
         if (!res) {
             log.error("删除失败");

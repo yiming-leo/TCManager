@@ -43,7 +43,7 @@ public class HisPresInfo {
      * @return R对象
      */
     @GetMapping("/by_id")
-    public R getHistoryShipInfoById(@RequestParam(value = "id") Long id) {
+    public R getHistoryShipInfoById(@RequestParam(value = "id") String id) {
         PresInfo presInfo = presInfoService.queryHistoryPresInfoById(id);
         if (presInfo == null) {
             log.info("不存在");

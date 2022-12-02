@@ -56,6 +56,9 @@
         <a-button type="primary">分配药厂</a-button>
       </template>
     </a-table>
+    <a-button type="primary" @click="distributeFail">
+      Open the notification box
+    </a-button>
   </div>
 </template>
 <script>
@@ -299,12 +302,29 @@ export default {
       ],
     };
   },
+  //组件初始化时自动执行
   created() {
     this.init();
   },
   methods: {
+    //分配成功的消息栏
+    distributeSuccess() {
+      this.$notification.success({
+        message: '药厂分配成功！',
+        description: '您现在可以在“药厂报文”菜单里查看新增的待发送的报文了。',
+        icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+      });
+    },
+    //分配失败的消息栏
+    distributeFail() {
+      this.$notification.success({
+        message: '药厂分配失败！',
+        description: '问题行id: ' + this.tableData[0].id,
+        icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+      });
+    },
+    //查询所有已分配药厂的处方的历史记录
     async init() {
-      //将所有已分配药厂的处方的历史记录，进行查询
       const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data
     },

@@ -25,7 +25,7 @@ public class RptShipInfo {
      * @return R对象
      */
     @PutMapping("/rpt")
-    public R rptShipInfoById(@RequestParam(value = "id") Long id) {
+    public R rptShipInfoById(@RequestParam(value = "id") String id) {
         //设置dto，传入删除的参数
         RmvShipInfoDTO rmvShipInfoDTO = new RmvShipInfoDTO();
         rmvShipInfoDTO.setId(id);

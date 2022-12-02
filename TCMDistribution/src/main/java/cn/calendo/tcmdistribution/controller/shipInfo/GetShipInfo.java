@@ -45,7 +45,7 @@ public class GetShipInfo {
      * @return R对象
      */
     @GetMapping("/by_id")
-    public R getShipInfoById(@RequestParam(value = "id") Long id) {
+    public R getShipInfoById(@RequestParam(value = "id") String id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);
         if (shipInfo == null) {
             log.info("不存在");

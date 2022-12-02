@@ -37,7 +37,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     /////////////////////////////////////////////分配成功标记/////////////////////////////////////////////
 
     @Override
-    public boolean adoptPresInfoMark(Long id, Integer facNumber) {
+    public boolean adoptPresInfoMark(String id, Integer facNumber) {
         PresInfo presInfo = getById(id);
         presInfo.setIsDistri(facNumber);
         presInfo.setIsDeleted(1);
@@ -68,7 +68,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     }
 
     @Override
-    public PresInfo queryHistoryPresInfoById(Long id) {
+    public PresInfo queryHistoryPresInfoById(String id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 1);//条件为删除
         lqw.eq(PresInfo::getId, id);
@@ -87,7 +87,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     }
 
     @Override
-    public PresInfo queryPresInfoById(Long id) {
+    public PresInfo queryPresInfoById(String id) {
         LambdaQueryWrapper<PresInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(PresInfo::getIsDeleted, 0);//条件为未删除
         lqw.eq(PresInfo::getId, id);
@@ -209,7 +209,7 @@ public class PresInfoServiceImpl extends ServiceImpl<PresInfoDao, PresInfo> impl
     }
 
     @Override
-    public boolean foreverRemovePresInfoById(Long id) {
+    public boolean foreverRemovePresInfoById(String id) {
         return false;
     }
 

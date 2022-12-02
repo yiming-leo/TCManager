@@ -52,8 +52,8 @@
           {{ text }}
         </template>
       </template>
-      <template slot="operation" slot-scope="text, record">
-        <a-button type="primary">发送报文</a-button>
+      <template slot="operation" slot-scope="text, record, column, index">
+        <a-button type="primary" @click="() => sendShipInfo(record.id)">发送报文</a-button>
       </template>
     </a-table>
   </div>
@@ -72,6 +72,7 @@ export default {
       columns: [
         {
           title: '序列号',
+          // dataIndex: this.data.id,
           dataIndex: 'id',
           key: 'id',
           scopedSlots: {
@@ -393,8 +394,38 @@ export default {
   methods: {
     async init() {
       //将所有已分配药厂的处方的历史记录，进行查询
-      const {data: res} = await Axios.get('http://49.235.113.96:8085/ship_info/get/all')
+      const {data: res} = await Axios.get('http://localhost:8085/ship_info/get/all')
       this.tableData = res.data
+    },
+    //发送报文至药厂
+    async sendShipInfo(id) {
+      //组装参数
+      let requestParam = new FormData()
+      requestParam.append('id', id)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://localhost:8085/ship_info/snd/normal',
+        data: requestParam,
+      }).then(res => {
+        //结果集处理
+        console.log(res.data)
+        if (res.data.status === 200) {
+          this.$notification.success({
+            message: '报文发送成功！',
+            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+            icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+          });
+        } else {
+          this.$notification.error({
+            message: '报文发送失败！',
+            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+            icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+          });
+        }
+      })
+      //重新刷新表格
+      await this.init()
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();

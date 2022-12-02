@@ -60,7 +60,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     }
 
     @Override
-    public ShipInfo queryHistoryShipInfoById(Long id) {
+    public ShipInfo queryHistoryShipInfoById(String id) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 1);//条件为删除
         lqw.eq(ShipInfo::getId, id);
@@ -79,7 +79,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     }
 
     @Override
-    public ShipInfo queryShipInfoById(Long id) {
+    public ShipInfo queryShipInfoById(String id) {
         LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ShipInfo::getIsDeleted, 0);//条件为未删除
         lqw.eq(ShipInfo::getId, id);//条件为传入的
@@ -209,12 +209,12 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     }
 
     @Override
-    public boolean foreverRemoveShipInfoById(Long id) {
+    public boolean foreverRemoveShipInfoById(String id) {
         return removeById(id);
     }
 
     @Override
-    public List<ShipInfo> removeShipInfoBatch(List<Long> ids) {
+    public List<ShipInfo> removeShipInfoBatch(List<String> ids) {
         return null;
     }
 
@@ -268,7 +268,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     /////////////////////////////////////////////审核通过/////////////////////////////////////////////
 
     @Override
-    public boolean adoptShipInfoById(Long id) {
+    public boolean adoptShipInfoById(String id) {
         ShipInfo shipInfo = getById(id);
         shipInfo.setIsDeleted(1);
         return updateById(shipInfo);

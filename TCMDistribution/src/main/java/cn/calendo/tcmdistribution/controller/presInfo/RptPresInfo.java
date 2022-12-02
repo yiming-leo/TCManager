@@ -28,7 +28,7 @@ public class RptPresInfo {
      * @return R对象
      */
     @PutMapping("/rpt")
-    public R rptPresInfoById(@RequestParam(value = "id") Long id) {
+    public R rptPresInfoById(@RequestParam(value = "id") String id) {
         //设置dto，传入删除的参数
         RmvPresInfoDTO rmvPresInfoDTO = new RmvPresInfoDTO();
         rmvPresInfoDTO.setId(id);

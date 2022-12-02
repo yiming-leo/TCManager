@@ -46,7 +46,7 @@ public class GetPresInfo {
      * @return R对象
      */
     @GetMapping("/by_id")
-    public R getPresInfoById(@RequestParam(value = "id") Long id) {
+    public R getPresInfoById(@RequestParam(value = "id") String id) {
         PresInfo presInfo = presInfoService.queryPresInfoById(id);
         if (presInfo == null) {
             log.info("不存在");

@@ -27,7 +27,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param id 唯一序列号
      * @return ShipInfo
      */
-    ShipInfo queryHistoryShipInfoById(Long id);
+    ShipInfo queryHistoryShipInfoById(String id);
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param id 唯一序列号
      * @return ShipInfo
      */
-    ShipInfo queryShipInfoById(Long id);
+    ShipInfo queryShipInfoById(String id);
 
     /**
      * 根据日期查询某条报文
@@ -174,7 +174,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param id 报文删除的dto
      * @return 删除与否
      */
-    boolean foreverRemoveShipInfoById(Long id);
+    boolean foreverRemoveShipInfoById(String id);
 
     /**
      * 根据id批量删除已发送报文
@@ -182,7 +182,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param ids 唯一序列号的集合
      * @return List<ShipInfo>
      */
-    List<ShipInfo> removeShipInfoBatch(List<Long> ids);
+    List<ShipInfo> removeShipInfoBatch(List<String> ids);
 
     /////////////////////////////////////////////新增/////////////////////////////////////////////
 
@@ -211,7 +211,7 @@ public interface IShipInfoService extends IService<ShipInfo> {
      * @param id 指定id
      * @return t/f
      */
-    boolean adoptShipInfoById(Long id);
+    boolean adoptShipInfoById(String id);
 
     /////////////////////////////////////////////发送/////////////////////////////////////////////
 

@@ -21,7 +21,7 @@ public class BatchSaveFacDTO implements Serializable {
     /**
      * 传入的PresInfo的id
      */
-    private Long id;
+    private String id;
     /**
      * 选择药厂数量
      */

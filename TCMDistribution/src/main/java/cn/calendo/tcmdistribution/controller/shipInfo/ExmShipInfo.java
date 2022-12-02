@@ -30,7 +30,7 @@ public class ExmShipInfo {
      * @return R对象
      */
     @PutMapping("/single")
-    public R examShipInfoById(@RequestParam(value = "id") Long id) {
+    public R examShipInfoById(@RequestParam(value = "id") String id) {
         ShipInfo shipInfo = shipInfoService.queryShipInfoById(id);//查出相应报文实体类
         if (shipInfo == null) {
             log.info("暂无此报文");

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RmvShipInfoDTO extends ShipInfo {
 
-    private Long id;
+    private String id;
 
     private Integer isDeleted;
 

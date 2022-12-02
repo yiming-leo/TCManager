@@ -31,7 +31,7 @@ public interface IPresInfoService extends IService<PresInfo> {
      * @param id 唯一码
      * @return t/f
      */
-    boolean adoptPresInfoMark(Long id, Integer facNumber);
+    boolean adoptPresInfoMark(String id, Integer facNumber);
 
     /////////////////////////////////////////////增加/////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ public interface IPresInfoService extends IService<PresInfo> {
      * @param id 唯一序列号
      * @return PresInfo
      */
-    PresInfo queryHistoryPresInfoById(Long id);
+    PresInfo queryHistoryPresInfoById(String id);
 
 
     /////////////////////////////////////////////查询/////////////////////////////////////////////
@@ -76,7 +76,7 @@ public interface IPresInfoService extends IService<PresInfo> {
      * @param id 唯一序列号
      * @return PresInfo
      */
-    PresInfo queryPresInfoById(Long id);
+    PresInfo queryPresInfoById(String id);
 
     /**
      * 根据日期查询某条处方
@@ -198,7 +198,7 @@ public interface IPresInfoService extends IService<PresInfo> {
      * @param id 报文删除的dto
      * @return 删除与否
      */
-    boolean foreverRemovePresInfoById(Long id);
+    boolean foreverRemovePresInfoById(String id);
 
     /////////////////////////////////////////////恢复/////////////////////////////////////////////
 

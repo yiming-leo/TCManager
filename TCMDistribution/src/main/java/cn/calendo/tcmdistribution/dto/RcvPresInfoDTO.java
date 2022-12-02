@@ -24,7 +24,7 @@ public class RcvPresInfoDTO implements Serializable {
     /**
      * 雪花算法生成的ID
      */
-    private Long id;
+    private String id;
     /**
      * 交易日期 YYYY MM DD
      */

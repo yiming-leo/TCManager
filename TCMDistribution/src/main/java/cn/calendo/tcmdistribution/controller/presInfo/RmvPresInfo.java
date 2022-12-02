@@ -29,7 +29,7 @@ public class RmvPresInfo {
      * @return R对象
      */
     @PutMapping("/rmv")
-    public R rmvPresInfoById(@RequestParam(value = "id") Long id) {
+    public R rmvPresInfoById(@RequestParam(value = "id") String id) {
         //设置dto，传入删除的参数
         RmvPresInfoDTO rmvPresInfoDTO = new RmvPresInfoDTO();
         rmvPresInfoDTO.setId(id);
@@ -49,7 +49,7 @@ public class RmvPresInfo {
      * @return R对象
      */
     @DeleteMapping("/fov_rmv")
-    public R foreverRmvPresInfoById(@RequestParam(value = "id") Long id){
+    public R foreverRmvPresInfoById(@RequestParam(value = "id") String id){
         boolean res = PresInfoService.foreverRemovePresInfoById(id);
         if (!res) {
             log.error("删除失败");
