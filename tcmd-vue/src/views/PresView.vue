@@ -52,13 +52,208 @@
           {{ text }}
         </template>
       </template>
+      <!--      操作区-->
       <template slot="operation" slot-scope="text, record">
-        <a-button type="primary">分配药厂</a-button>
+        <a-button type="primary" @click="distributeFactory(record.id)">分配药厂</a-button>
       </template>
     </a-table>
-    <a-button type="primary" @click="distributeFail">
-      Open the notification box
-    </a-button>
+    <!--    分配框-->
+    <a-drawer
+        title="将此处方分配至指定药厂"
+        :width="720"
+        :visible="visible"
+        :body-style="{ paddingBottom: '80px' }"
+        @close="onClose"
+    >
+      <a-form :form="form" layout="vertical" hide-required-mark>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="处方ID">
+              <a-input id="id"
+                       addon-before="UUID"
+                       disabled
+                       :placeholder="this.currentId"
+                       value="this.currentId"
+                       v-decorator="[
+                  'id',
+                  {
+                    rules: [
+                        { required: true, message: '请输入处方ID！' }
+                    ],
+                  },
+                ]"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="收件人姓名">
+              <a-input id="recipientName"
+                       v-decorator="[
+                  'recipientName',
+                  {
+                    rules: [{ required: true, message: '收件人姓名不能为空！' }],
+                  },
+                ]"
+                       placeholder="请填写收件人姓名"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="收件人地址">
+              <a-input id="recipientAddress"
+                       v-decorator="[
+                  'recipientAddress',
+                  {
+                    rules: [{ required: true, message: '请填写收件人地址' }],
+                  },
+                ]"
+                       placeholder="请填写收件人地址"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="收件人电话">
+              <a-input id="recipientTelephone"
+                       addon-before="+86"
+                       v-decorator="[
+                  'recipientTelephone',
+                  {
+                    rules: [
+                        { required: true, message: '请填写收件人电话' },
+                        { pattern: /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/, message: '电话格式不正确' },
+                    ],
+                  },
+                ]"
+                       placeholder="请填写收件人电话"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="邮政编码">
+              <a-input id="postalCode"
+                       v-decorator="[
+                  'postalCode',
+                  {
+                    rules: [
+                        { required: true, message: '请填写邮政编码' },
+                        { pattern: /^[1-9]\d{5}$/, message: '邮政编码格式不正确'}
+                    ],
+                  },
+                ]"
+                       placeholder="邮政编码"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="医院信息">
+              <a-select id="hospitalNo"
+                        v-decorator="[
+                  'hospitalNo',
+                  {
+                    rules: [{ required: true, message: '请填写医院信息' }],
+                  },
+                ]"
+                        placeholder="请填写医院信息"
+              >
+                <a-select-option value="0123">西溪医院</a-select-option>
+                <a-select-option value="0219">中山医院</a-select-option>
+                <a-select-option value="0231">新华医院</a-select-option>
+                <a-select-option value="0033">浙江二院</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="选择药厂">
+              <a-select id="facName"
+                        mode="multiple"
+                        style="width: 100%"
+                        placeholder="请选择至少一个以上的药厂"
+                        @change="handleChange"
+                        v-decorator="[
+                  'facName',
+                  {
+                    rules: [{ required: true, message: '请选择至少一个以上的药厂' }],
+                  },
+                ]"
+              >
+                <a-select-option value="0001">富阳制药</a-select-option>
+                <a-select-option value="0002">华东制药</a-select-option>
+                <a-select-option value="0003">滁州制药</a-select-option>
+                <a-select-option value="0004">台州制药</a-select-option>
+                <a-select-option value="0005">处州制药</a-select-option>
+                <a-select-option value="0006">湖州制药</a-select-option>
+                <a-select-option value="0007">金华制药</a-select-option>
+                <a-select-option value="0008">康恩贝制药</a-select-option>
+                <a-select-option value="0009">甬州制药</a-select-option>
+                <a-select-option value="0010">温州制药</a-select-option>
+                <a-select-option value="0011">衢州制药</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="是否煎药（药品类型）">
+              <a-select id="decoctMedicine"
+                        v-decorator="[
+                  'decoctMedicine',
+                  {
+                    rules: [
+                        { required: true, message: '请填写是否煎药' },
+                        { min: -99, max: 99, message: '煎药格式不正确'}
+                    ],
+                  },
+                ]"
+                        placeholder="请填写是否煎药"
+              >
+                <a-select-option value="0">煎药</a-select-option>
+                <a-select-option value="1">草药</a-select-option>
+                <a-select-option value="2">膏方</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="配送要求">
+              <a-textarea id="deliveryRequire"
+                          v-decorator="[
+                  'deliveryRequire',
+                  {
+                    rules: [{ required: true, message: '请填写配送要求' }],
+                  },
+                ]"
+                          :rows="4"
+                          placeholder="请填写配送要求"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+      <div
+          :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="onClose">取消</a-button>
+        <a-button type="primary" @click="showModal">分配</a-button>
+        <a-modal
+            title="请再次确认分配信息"
+            :visible="confirmVisible"
+            :confirm-loading="confirmLoading"
+            @ok="handleOk"
+            @cancel="handleCancel"
+        >
+          <p>{{ ModalText }}</p>
+        </a-modal>
+      </div>
+    </a-drawer>
   </div>
 </template>
 <script>
@@ -68,6 +263,24 @@ export default {
   components: {},
   data() {
     return {
+      ModalText: '确认将此处方分配至指定药厂？',
+      confirmVisible: false,
+      confirmLoading: false,
+
+      id: 0,
+      recipientName: '',
+      recipientAddress: '',
+      recipientTelephone: '',
+      facNumber: 0,
+      facName: [],
+      postalCode: '',
+      hospitalNo: '',
+      decoctMedicine: '',
+      deliveryRequire: '',
+
+      currentId: 0,
+      form: this.$form.createForm(this),
+      visible: false,
       tableData: [],
       searchText: '',
       searchInput: null,
@@ -229,8 +442,8 @@ export default {
         },
         {
           title: '医生ID',
-          dataIndex: 'doctorID',
-          key: 'doctorID',
+          dataIndex: 'doctorId',
+          key: 'doctorId',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
@@ -307,27 +520,96 @@ export default {
     this.init();
   },
   methods: {
-    //分配成功的消息栏
-    distributeSuccess() {
-      this.$notification.success({
-        message: '药厂分配成功！',
-        description: '您现在可以在“药厂报文”菜单里查看新增的待发送的报文了。',
-        icon: <a-icon type="check-circle" style="color: #16E09a"/>,
-      });
+    //提交表单前的确认框
+    showModal() {
+      this.confirmVisible = true;
     },
-    //分配失败的消息栏
-    distributeFail() {
-      this.$notification.success({
-        message: '药厂分配失败！',
-        description: '问题行id: ' + this.tableData[0].id,
-        icon: <a-icon type="check-circle" style="color: #16E09a"/>,
-      });
+    handleOk(e) {
+      this.submitDistributionForm()
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.confirmVisible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel(e) {
+      this.confirmVisible = false;
+    },
+    //提交分配药厂的信息按钮
+    async submitDistributionForm() {
+      //获取参数
+      this.id = this.currentId
+      this.recipientName = this.form.getFieldValue('recipientName')
+      this.recipientAddress = this.form.getFieldValue('recipientAddress')
+      this.recipientTelephone = this.form.getFieldValue('recipientTelephone')
+      this.facName = this.form.getFieldValue('facName')
+      this.facNumber = this.facName.length
+      this.postalCode = this.form.getFieldValue('postalCode')
+      this.hospitalNo = this.form.getFieldValue('hospitalNo')
+      this.decoctMedicine = this.form.getFieldValue('decoctMedicine')
+      this.deliveryRequire = this.form.getFieldValue('deliveryRequire')
+      //组装参数
+      let dataJson = {
+        "id": this.id,
+        "recipientName": this.recipientName,
+        "recipientAddress": this.recipientAddress,
+        "recipientTelephone": this.recipientTelephone,
+        "facName": this.facName,
+        "facNumber": this.facNumber,
+        "postalCode": this.postalCode,
+        "hospitalNo": this.hospitalNo,
+        "decoctMedicine": this.decoctMedicine,
+        "deliveryRequire": this.deliveryRequire,
+      }
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/pres_info/dtb/fac/hand',
+        data: dataJson,
+      }).then(res => {
+        //结果集处理
+        this.visible = false;
+        console.log(res.data)
+        if (res.data.status === 200) {
+          this.$message.success('处方分配成功！');
+          this.$notification.success({
+            message: '处方分配成功！',
+            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp
+                + '您现在可以在“药厂报文”菜单里查看新增的待发送的报文了。',
+            icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+            duration: 0
+          });
+        } else {
+          this.$message.error('处方分配失败！');
+          this.$notification.error({
+            message: '处方分配失败！',
+            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+            icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+            duration: 0
+          });
+        }
+      })
+      //重新刷新表格
+      await this.init()
+    },
+    //分配药厂按钮
+    distributeFactory(id) {
+      this.visible = true;
+      this.currentId = id;
+    },
+    //分配药厂的复选框
+    handleChange(value) {
+      console.log(`selected ${value}`);
+    },
+    onClose() {
+      this.visible = false;
     },
     //查询所有已分配药厂的处方的历史记录
     async init() {
       const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data
     },
+    //表格查询内置按钮
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];

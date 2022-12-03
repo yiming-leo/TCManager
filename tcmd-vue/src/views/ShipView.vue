@@ -53,9 +53,18 @@
         </template>
       </template>
       <template slot="operation" slot-scope="text, record, column, index">
-        <a-button type="primary" @click="() => sendShipInfo(record.id)">发送报文</a-button>
+        <a-button type="primary" @click="showModal(record.id)">发送报文</a-button>
       </template>
     </a-table>
+    <a-modal
+        title="请再次确认发送信息"
+        :visible="confirmVisible"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+        @cancel="handleCancel"
+    >
+      <p>{{ ModalText }}</p>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -65,7 +74,13 @@ export default {
   components: {},
   data() {
     return {
+      ModalText: '确认将此报文发送至药厂？',
+      confirmVisible: false,
+      confirmLoading: false,
+
+      checkId: 0,
       tableData: [],
+
       searchText: '',
       searchInput: null,
       searchedColumn: '',
@@ -392,10 +407,23 @@ export default {
     this.init();
   },
   methods: {
-    async init() {
-      //将所有已分配药厂的处方的历史记录，进行查询
-      const {data: res} = await Axios.get('http://localhost:8085/ship_info/get/all')
-      this.tableData = res.data
+    //提交表单前的确认框
+    showModal(id) {
+      this.checkId = id
+      this.confirmVisible = true;
+    },
+    handleOk(e) {
+      console.log(this.checkId)
+      this.sendShipInfo(this.checkId)
+      console.log("yes")
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.confirmVisible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel(e) {
+      this.confirmVisible = false;
     },
     //发送报文至药厂
     async sendShipInfo(id) {
@@ -405,27 +433,41 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/ship_info/snd/normal',
+        url: 'http://49.235.113.96:8085/ship_info/snd/normal',
         data: requestParam,
       }).then(res => {
         //结果集处理
         console.log(res.data)
         if (res.data.status === 200) {
+          this.$message.success('报文发送成功！');
           this.$notification.success({
             message: '报文发送成功！',
             description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
             icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+            duration: 0
           });
         } else {
+          this.$message.error('报文发送失败！');
           this.$notification.error({
             message: '报文发送失败！',
             description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
             icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+            duration: 0
           });
         }
       })
       //重新刷新表格
       await this.init()
+    },
+    //将所有已分配药厂的处方的历史记录，进行查询
+    async init() {
+      await Axios.request({
+        method: 'GET',
+        url: 'http://49.235.113.96:8085/ship_info/get/all',
+      }).then(res => {
+        console.log(res.data.data)
+        this.tableData = res.data.data
+      })
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();

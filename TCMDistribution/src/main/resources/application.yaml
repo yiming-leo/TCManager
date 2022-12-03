@@ -76,9 +76,9 @@ logging:
   level:
     root: info
     ebank: info
-  pattern:
-    dateformat: MM-dd HH:mm:ss:SSS
-    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
-  file:
-    path: /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD
-    max-size: 10MB
+#  pattern:
+#    dateformat: MM-dd HH:mm:ss:SSS
+#    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
+#  file:
+#    path: /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD
+#    max-size: 10MB
