@@ -1,6 +1,6 @@
 # 工程简介
 
-本工程分2大模块：1，TCMD(中药房管理系统)2，TCMP(中药房-邮政系统)
+本工程分3大模块：1，TCMD(中药房管理系统)2，TCMP(中药房-邮政系统)3，tcmd-vue(中药房管理系统前端)
 # 配置信息
 配置信息都集成在`application.yaml`内
 
@@ -44,6 +44,10 @@
 ### Spring相关
 `Springboot` 整体项目的搭建<br>
 `Springmvc` 页面持久化<br>
+### 数据层相关
+`mybatis-plus` 简化CRUD开发
+### 持久化与数据统计
+`redis` 请求数据缓存+PV&UV数据统计(`hyperloglog`数据结构实现)
 ### 消息队列
 `RabbitMQ` 用于对医生站处方发送的削峰
 ### 定时任务
@@ -57,10 +61,12 @@
 ### 邮件与发送
 `JavaMail` 可与定时任务组合，定时给指定用户/用户群体发送报表等消息
 ### 存储
-`Mysql` 处方信息与报文信息的存储
+`Mysql` 处方信息与报文信息的存储<br>
+`druid` 高性能数据库连接池
 ## 前端
 `Vue` 渐进式框架<br>
-`ElementUI` 组件化开发<br>
+`Axios` 异步请求框架<br>
+`Ant Design Vue` 组件化开发<br>
 `Node.js` 工程巡航<br>
 ## 运维
 ### 容器与集群

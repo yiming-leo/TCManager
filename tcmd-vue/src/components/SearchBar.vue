@@ -7,33 +7,51 @@
         @back="() => $router.go(-1)"
     >
       <template slot="extra">
-        <a-form-model id="loginForm" layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
-          <a-form-model-item>
-            <a-input v-model="formInline.user" placeholder="账号">
-              <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
-            </a-input>
-          </a-form-model-item>
-          <a-form-model-item>
-            <a-input v-model="formInline.password" type="password" placeholder="密码">
-              <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
-            </a-input>
-          </a-form-model-item>
-          <a-form-model-item>
-            <a-space>
-              <a-button
-                  type="primary"
-                  html-type="submit"
-                  :disabled="formInline.user === '' || formInline.password === ''"
-              >
-                登录
-              </a-button>
-              <a-button id="refresh" @mouseover="iconSpin" @mouseout="iconUnSpin" @click="refresh">
-                <a-icon type="sync" :spin="syncSpin"/>
-                数据同步
-              </a-button>
-            </a-space>
-          </a-form-model-item>
-        </a-form-model>
+        <transition name="slide-fade">
+          <a-space>
+            <div v-if="loginTCMA===false">
+              <a-form-model layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
+                <a-form-model-item>
+                  <a-input v-model="formInline.username" placeholder="用户名">
+                    <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
+                  </a-input>
+                </a-form-model-item>
+                <a-form-model-item>
+                  <a-input v-model="formInline.password" type="password" placeholder="密码">
+                    <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
+                  </a-input>
+                </a-form-model-item>
+                <a-form-model-item>
+                  <a-button
+                      type="primary"
+                      :loading="iconLoading"
+                      html-type="submit"
+                      @click="enterLoading"
+                      :disabled="formInline.username === '' || formInline.password === ''"
+                  >
+                    登录
+                  </a-button>
+                </a-form-model-item>
+              </a-form-model>
+            </div>
+            <div v-else-if="loginTCMA===true">
+              <a-form-model layout="inline" :model="formLogout">
+                <a-form-model-item>
+                  <a-input v-model="this.currentUsername" placeholder="用户名" disabled>
+                    <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
+                  </a-input>
+                </a-form-model-item>
+                <a-form-model-item>
+                  <a-button type="danger" @click="logout">登出</a-button>
+                </a-form-model-item>
+              </a-form-model>
+            </div>
+            <a-button id="refresh" @mouseover="iconSpin" @mouseout="iconUnSpin" @click="refresh">
+              <a-icon type="sync" :spin="syncSpin"/>
+              数据同步
+            </a-button>
+          </a-space>
+        </transition>
       </template>
     </a-page-header>
   </div>
@@ -42,33 +60,57 @@
 <script>
 export default {
   name: "SearchBar",
-  props: [
+  props: {
     // currentTitle,
-  ],
+  },
   data() {
     return {
+      iconLoading: false,
+      loginTCMA: false,
       syncSpin: false,
       currentTitle: '',
+      currentUsername: '',
       formInline: {
-        user: '',
+        username: '',
         password: '',
       },
+      formLogout: {}
     }
   },
   methods: {
+    //加载状态
+    enterLoading() {
+      this.iconLoading = true;
+    },
+    //登出
+    logout() {
+      this.loginTCMA = false;
+      this.$message.info('登出成功');
+      this.iconLoading = false;
+    },
     //同步图标旋转控制
-    iconUnSpin(){
+    iconUnSpin() {
       this.syncSpin = false;
     },
-    iconSpin(){
+    iconSpin() {
       this.syncSpin = true;
     },
     //同步图标刷新
-    refresh(){
+    refresh() {
     },
-    //账号密码表单
+    //账号密码表单登录
     handleSubmit(e) {
-      console.log(this.formInline);
+      this.iconLoading = true;
+      if (this.formInline.username === 'admin' && this.formInline.password === '123456') {
+        this.$message.success('登录成功');
+        this.loginTCMA = true;
+        this.currentUsername = this.formInline.username;
+        console.log(this.currentUsername)
+        this.formInline.username = '';
+        this.formInline.password = '';
+      } else {
+        this.$message.error('用户名或密码错误');
+      }
     },
     onSearch(value) {
       console.log(value);
@@ -78,10 +120,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ant-btn:hover, .ant-btn:focus{
-  color: #42b983;
-  border-color: #42b983;
+//.ant-btn:hover, .ant-btn:focus {
+//  color: #42b983;
+//  border-color: #42b983;
+//}
+.slide-fade-enter-active {
+  transition: all .3s ease;
 }
+
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
 .search-bar {
   align-items: center;
   vertical-align: center;

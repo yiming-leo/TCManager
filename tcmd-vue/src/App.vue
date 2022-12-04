@@ -135,8 +135,7 @@ export default {
   transition: all 250ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 
-.slide-fade-leave-to
-  /* .slide-fade-leave-active for below version 2.1.8 */ {
+.slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
 }
