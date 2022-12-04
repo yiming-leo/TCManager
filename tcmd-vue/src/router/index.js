@@ -50,6 +50,16 @@ const routes = [
     name: 'factory',
     component: () => import('../views/FactoryView.vue')
   },
+  {//特殊操作栏
+    path: '/special',
+    name: 'special',
+    component: () => import('../views/SpecialView.vue')
+  },
+  {//PVUV统计栏
+    path: '/pvuv',
+    name: 'pvuv',
+    component: () => import('../views/PvuvView.vue')
+  },
 ]
 
 const router = new VueRouter({
