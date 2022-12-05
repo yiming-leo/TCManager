@@ -10,7 +10,7 @@
         <transition name="slide-fade">
           <a-space>
             <div v-if="loginTCMA===false">
-              <a-form-model layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
+              <a-form-model layout="inline" :model="formInline" @submit.native.prevent>
                 <a-form-model-item>
                   <a-input v-model="formInline.username" placeholder="用户名">
                     <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
@@ -24,10 +24,9 @@
                 <a-form-model-item>
                   <a-button
                       type="primary"
-                      :loading="iconLoading"
                       html-type="submit"
-                      @click="enterLoading"
                       :disabled="formInline.username === '' || formInline.password === ''"
+                      @click="handleSubmit"
                   >
                     登录
                   </a-button>
@@ -60,9 +59,6 @@
 <script>
 export default {
   name: "SearchBar",
-  props: {
-    // currentTitle,
-  },
   data() {
     return {
       iconLoading: false,
@@ -78,15 +74,13 @@ export default {
     }
   },
   methods: {
-    //加载状态
-    enterLoading() {
-      this.iconLoading = true;
-    },
     //登出
     logout() {
       this.loginTCMA = false;
       this.$message.info('登出成功');
       this.iconLoading = false;
+      this.formInline.username = '';
+      this.$emit("isLogin",this.formInline.username)
     },
     //同步图标旋转控制
     iconUnSpin() {
@@ -100,17 +94,17 @@ export default {
     },
     //账号密码表单登录
     handleSubmit(e) {
-      this.iconLoading = true;
       if (this.formInline.username === 'admin' && this.formInline.password === '123456') {
         this.$message.success('登录成功');
         this.loginTCMA = true;
         this.currentUsername = this.formInline.username;
         console.log(this.currentUsername)
-        this.formInline.username = '';
+        this.formInline.username = ' ';
         this.formInline.password = '';
       } else {
         this.$message.error('用户名或密码错误');
       }
+      this.$emit("isLogin",this.formInline.username)
     },
     onSearch(value) {
       console.log(value);

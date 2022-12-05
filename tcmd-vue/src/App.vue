@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <a-layout id="components-layout-demo-fixed" style="min-height: 100vh">
-      <a-layout-sider v-model="collapsed" collapsible theme="light">
+      <a-layout-sider v-model="collapsed" collapsible theme="light" @click="checkLogin">
         <div class="logo"/>
         <a-affix :offset-top="0">
           <a-menu theme="light" mode="inline" :default-selected-keys="['1']">
@@ -32,25 +32,30 @@
             </a-menu-item>
             <a-menu-item key="6">
               <a-icon type="medicine-box"/>
-              <span class="nav-text">药厂数据</span>
+              <span class="nav-text">药厂信息</span>
               <router-link to="/factory"></router-link>
             </a-menu-item>
             <a-menu-item key="7">
-              <a-icon type="tool"/>
+              <a-icon type="plus-square"/>
+              <span class="nav-text">医院信息</span>
+              <router-link to="/hospital"></router-link>
+            </a-menu-item>
+            <a-menu-item key="8">
+              <a-icon type="warning"/>
               <span class="nav-text">特殊操作</span>
               <router-link to="/special"></router-link>
             </a-menu-item>
-            <a-menu-item key="8">
+            <a-menu-item key="9">
               <a-icon type="pie-chart"/>
-              <span class="nav-text">PV与UV</span>
+              <span class="nav-text">数据统计</span>
               <router-link to="/pvuv"></router-link>
             </a-menu-item>
-            <a-menu-item key="9">
+            <a-menu-item key="10">
               <a-icon type="file"/>
               <span class="nav-text">日志信息</span>
               <router-link to="/log"></router-link>
             </a-menu-item>
-            <a-menu-item key="10" @mouseover="iconSpin" @mouseout="iconUnSpin">
+            <a-menu-item key="11" @mouseover="iconSpin" @mouseout="iconUnSpin">
               <a-icon type="setting" :spin="settingSpin"/>
               <span class="nav-text">个人设置</span>
               <router-link to="/setting"></router-link>
@@ -60,12 +65,12 @@
       </a-layout-sider>
       <a-layout>
         <a-layout-header :style="{ background: '#fff', padding: 0 }">
-          <SearchBar></SearchBar>
+          <SearchBar @isLogin="getLoginCheck($event)"></SearchBar>
         </a-layout-header>
         <a-layout-content :style="{ margin: '0 16px 0', overflow: 'initial' }">
           <br>
           <transition name="slide-fade" mode="out-in">
-            <router-view v-if="viewVisible"></router-view>
+            <router-view :v-if="viewVisible===true&&login===true"></router-view>
           </transition>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
@@ -89,6 +94,8 @@ export default {
   },
   data() {
     return {
+      login: false,
+
       settingSpin: false,
 
       viewVisible: true,
@@ -96,6 +103,36 @@ export default {
     };
   },
   methods: {
+    //侧边栏登录检查
+    checkLogin() {
+      console.log(this.login)
+      if (this.login !== true) {
+        this.$router.push({
+          path: '/login'
+        })
+      }
+    },
+    handleOk(e) {
+      this.submitDistributionForm()
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.confirmVisible = false;
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleCancel(e) {
+      this.confirmVisible = false;
+    },
+    //接收登录检查
+    getLoginCheck(e) {
+      if (e === ' ') {
+        this.login = true
+        console.log('login success')
+      }else {
+        this.login = false
+        console.log('login failed')
+      }
+    },
     //同步图标旋转控制
     iconUnSpin() {
       this.settingSpin = false;
