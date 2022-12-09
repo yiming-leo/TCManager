@@ -57,7 +57,7 @@
             </a-menu-item>
             <a-menu-item key="11" @mouseover="iconSpin" @mouseout="iconUnSpin">
               <a-icon type="setting" :spin="settingSpin"/>
-              <span class="nav-text">个人设置</span>
+              <span class="nav-text">系统设置</span>
               <router-link to="/setting"></router-link>
             </a-menu-item>
           </a-menu>
@@ -70,7 +70,7 @@
         <a-layout-content :style="{ margin: '0 16px 0', overflow: 'initial' }">
           <br>
           <transition name="slide-fade" mode="out-in">
-            <router-view :v-if="viewVisible===true&&login===true"></router-view>
+            <router-view :v-if="login===true"></router-view>
           </transition>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
@@ -81,24 +81,19 @@
   </div>
 </template>
 <script>
-import {Icon} from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar.vue";
+import eventBus from "@/eventBus.js";
 
-const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
-});
 export default {
   components: {
     SearchBar,
-    IconFont,
   },
   data() {
     return {
       login: false,
-
+      currentTitle: '',
       settingSpin: false,
 
-      viewVisible: true,
       collapsed: false,
     };
   },
@@ -110,6 +105,8 @@ export default {
         this.$router.push({
           path: '/login'
         })
+      }else {
+        console.log('go')
       }
     },
     handleOk(e) {

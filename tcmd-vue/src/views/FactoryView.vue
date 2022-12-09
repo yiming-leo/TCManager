@@ -62,55 +62,69 @@
 const data = [
   {
     key: '1',
-    id: 1234567890,
-    date: '2022-05-17',
-    time: '17:08:29',
-    patientName: 'John Brown',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 13.25,
+    factoryName: '富阳制药',
+    factoryID: '0001',
+    factoryAddress: '浙江省杭州市富阳区前江路224号',
   },
   {
     key: '2',
-    id: 1234567891,
-    date: '2022-05-18',
-    time: '09:18:33',
-    patientName: 'Joe Black',
-    patientAge: 42,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 14.11,
+    factoryName: '华东制药',
+    factoryID: '0002',
+    factoryAddress: '浙江省杭州市钱塘区1325号',
   },
   {
     key: '3',
-    id: 1234567892,
-    date: '2022-05-18',
-    time: '07:28:21',
-    patientName: 'Jim Green',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 76.32,
+    factoryName: '滁州制药',
+    factoryID: '0003',
+    factoryAddress: '安徽省滁州市来安县纬一路69号',
   },
   {
     key: '4',
-    id: 1234567893,
-    date: '2022-10-27',
-    time: '12:07:12',
-    patientName: 'Jim Red',
-    patientAge: 32,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 73.21,
+    factoryName: '台州制药',
+    factoryID: '0004',
+    factoryAddress: '台州市临海市东海大道12号',
+  },
+  {
+    key: '5',
+    factoryName: '处州制药',
+    factoryID: '0005',
+    factoryAddress: '浙江省丽水市莲都区工业园区1号',
+  },
+  {
+    key: '6',
+    factoryName: '长兴制药',
+    factoryID: '0006',
+    factoryAddress: '湖州市长兴县长兴经济开发区经四路',
+  },
+  {
+    key: '7',
+    factoryName: '金华制药',
+    factoryID: '0007',
+    factoryAddress: '金华市金东区环城东路1180号',
+  },
+  {
+    key: '8',
+    factoryName: '康恩贝制药',
+    factoryID: '0008',
+    factoryAddress: '金华市兰溪市康恩贝大道1号',
+  },
+  {
+    key: '9',
+    factoryName: '甬州制药',
+    factoryID: '0009',
+    factoryAddress: '宁波市海曙区新丰路228号',
+  },
+  {
+    key: '10',
+    factoryName: '温州制药',
+    factoryID: '0010',
+    factoryAddress: '温州市瓯海区南纬一路4号',
+  },
+  {
+    key: '11',
+    factoryName: '衢州制药',
+    factoryID: '0011',
+    factoryAddress: '衢州市江山市兴工北路15号',
   },
 ];
 export default {
@@ -123,104 +137,16 @@ export default {
       searchedColumn: '',
       columns: [
         {
-          title: '序列号',
-          dataIndex: 'id',
-          key: 'id',
+          title: '药厂名称',
+          dataIndex: 'factoryName',
+          key: 'factoryName',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.id
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '开方日期',
-          dataIndex: 'date',
-          key: 'date',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.date
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '开方时间',
-          dataIndex: 'time',
-          key: 'time',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.time
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '病人姓名',
-          dataIndex: 'patientName',
-          key: 'patientName',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.patientName
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '病人年龄',
-          dataIndex: 'patientAge',
-          key: 'patientAge',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.patientAge
+              record.factoryName
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -233,16 +159,16 @@ export default {
           },
         },
         {
-          title: '病人性别',
-          dataIndex: 'patientGender',
-          key: 'patientGender',
+          title: '药厂编号',
+          dataIndex: 'factoryID',
+          key: 'factoryID',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.patientGender
+              record.factoryID
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -255,16 +181,16 @@ export default {
           },
         },
         {
-          title: '医生姓名',
-          dataIndex: 'doctorName',
-          key: 'doctorName',
+          title: '药厂地址',
+          dataIndex: 'factoryAddress',
+          key: 'factoryAddress',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.doctorName
+              record.factoryAddress
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -275,95 +201,6 @@ export default {
               });
             }
           },
-        },
-        {
-          title: '医生ID',
-          dataIndex: 'doctorID',
-          key: 'doctorID',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.doctorID
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '门诊号',
-          dataIndex: 'outpatientNo',
-          key: 'outpatientNo',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.outpatientNo
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '交易金额（RMB）',
-          dataIndex: 'price',
-          key: 'price',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.price
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          key: 'operation',
-          scopedSlots: {customRender: 'operation'},
-          // scopedSlots: {
-          //   filterDropdown: 'filterDropdown',
-          //   filterIcon: 'filterIcon',
-          //   customRender: 'customRender',
-          // },
-          // onFilter: (value, record) =>
-          //     record.price
-          //         .toString()
-          //         .toLowerCase()
-          //         .includes(value.toLowerCase()),
-          // onFilterDropdownVisibleChange: visible => {
-          //   if (visible) {
-          //     setTimeout(() => {
-          //       this.searchInput.focus();
-          //     });
-          //   }
-          // },
         },
       ],
     };

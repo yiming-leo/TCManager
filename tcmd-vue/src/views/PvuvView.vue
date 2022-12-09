@@ -8,15 +8,16 @@
 </template>
 <script>
 import * as echarts from 'echarts'
+
 export default {
   data() {
     return {
       myPVChart: '',
       myUVChart: '',
-      PVechartsOption: {
-        color: ['rgb(255,151,177)', 'rgb(225,160,48)',],
+      UVechartsOption: {
+        color: ['rgb(29,122,229)', 'rgb(225,118,119)',],
         title: {
-          text: ''
+          text: 'TCManager的UV图'
         },
         tooltip: { //提示框
           trigger: 'axis',
@@ -25,13 +26,107 @@ export default {
           icon: 'roundRect',//图例icon图标
           data: [
             {
-              name: "上年",
+              name: "去年",
               textStyle: {
                 color: '#8c8686'
               }
 
             }, {
-              name: "本年",
+              name: "今年",
+              textStyle: {
+                color: '#8c8686'
+              }
+            },
+          ],
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          top: '17%',
+          containLabel: true //grid区域是否包含坐标轴的刻度标签
+        },
+        xAxis: {
+          type: 'category', //坐标轴类型。
+          boundaryGap: true, //坐标轴两边留白策略
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+          axisLabel: {//坐标轴刻度标签的相关设置
+            interval: 0,
+            textStyle: {
+              color: '#8c8686',
+              fontSize: 10
+            },
+          },
+          axisLine: {//坐标轴轴线相关设置
+            // show: true,
+            lineStyle: {
+              // color: 'rgb(2,121,253)'
+            }
+          },
+          axisTick: { //坐标轴刻度相关设置。
+            show: true,
+          }
+        },
+        yAxis: {},
+        // yAxis: {
+        //   type: 'value',
+        //   axisLabel: { //x轴的坐标文字
+        //     show: true,
+        //     textStyle: {
+        //       color: '#fff' //文字的颜色
+        //     },
+        //   },
+        //   // max: 100,//最大值100
+        //   axisLine: {//坐标轴轴线相关设置
+        //     // show: true,
+        //     lineStyle: {
+        //       // color: 'rgb(2,121,253)'
+        //     }
+        //   },
+        //   axisTick: { //坐标轴刻度相关设置。
+        //     // show: true,
+        //   },
+        // },
+        series: [
+          {
+            name: '去年',
+            type: 'line',
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            smooth: true,
+            lineStyle: {
+              color: 'rgb(29,122,229)'  //线的颜色
+            }
+          },
+          {
+            name: '今年',
+            type: 'line',
+            smooth: true,
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 33, 62],
+            lineStyle: {
+              color: 'rgb(225,144,195)' //线的颜色
+            }
+          }
+        ]
+      },
+      PVechartsOption: {
+        color: ['rgb(56,225,195)', 'rgb(225,160,48)',],
+        title: {
+          text: 'TCManager的PV图'
+        },
+        tooltip: { //提示框
+          trigger: 'axis',
+        },
+        legend: {//图例的类型
+          icon: 'roundRect',//图例icon图标
+          data: [
+            {
+              name: "昨日",
+              textStyle: {
+                color: '#8c8686'
+              }
+
+            }, {
+              name: "今日",
               textStyle: {
                 color: '#8c8686'
               }
@@ -47,91 +142,40 @@ export default {
           containLabel: true //grid区域是否包含坐标轴的刻度标签
         },
         xAxis: {
-          type: 'category', //坐标轴类型。
-          boundaryGap: false, //坐标轴两边留白策略
-          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-          axisLabel: {//坐标轴刻度标签的相关设置
-            interval: 0,
-            textStyle: {
-              color: '#8c8686',
-              fontSize: 10
-            },
-          },
-          axisLine: {//坐标轴轴线相关设置
-            show: true,
-            lineStyle: {
-              color: 'rgb(2,121,253)'
-            }
-          },
-          axisTick: { //坐标轴刻度相关设置。
-            show: false,
-          }
-        },
-        yAxis: {
-          type: 'value',
-          axisLabel: { //x轴的坐标文字
-            show: true,
-            textStyle: {
-              color: '#fff' //文字的颜色
-            },
-
-          },
-          max: 100,//最大值100
-          axisLine: {//坐标轴轴线相关设置
-            show: true,
-            lineStyle: {
-              color: 'rgb(2,121,253)'
-            }
-          },
-          axisTick: { //坐标轴刻度相关设置。
-            show: false,
-          },
-          splitLine: {  //坐标在grid区域的分割线
-            lineStyle: { //设置分割线的样式(图表横线颜色)
-              color: ['#153a8a']
-            }
-          }
-        },
-        series: [
-          {
-            name: '上年',
-            type: 'line',
-            data: [10, 20, 30, 50, 50, 10, 50, 60, 10, 50, 10, 30],
-            lineStyle: {
-              color: 'rgb(8,252,7)'  //线的颜色
-            }
-          },
-          {
-            name: '本年',
-            type: 'line',
-            data: [20, 20, 30, 50, 50, 10, 50, 20, 30, 50, 50, 30],
-            lineStyle: {
-              color: 'rgb(255,168,0)' //线的颜色
-            }
-          }
-        ]
-      },
-      UVechartsOption: {
-        color: ['rgb(56,225,195)', 'rgb(101,113,225)',],
-        xAxis: {
-          data: ['A', 'B', 'C', 'D', 'E']
+          data: ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'],
         },
         yAxis: {},
         series: [
           {
-            data: [10, 22, 28, 23, 19],
+            name: '昨日',
+            data: [0, 0, 0, 0, 25, 47, 169, 137, 57, 62, 77, 10],
             type: 'line',
-            smooth: true
+            smooth: true,
+            lineStyle: {
+              color: 'rgb(29,229,158)'  //线的颜色
+            }
+          },
+          {
+            name: '今日',
+            data: [0, 0, 0, 0, 0, 12, 45, 77, 22, 41, 37, 0],
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              color: 'rgb(225,160,48)'  //线的颜色
+            }
           }
         ]
       }
     }
   },
-  mounted() {
+  created() {
     this.$nextTick(function () {
       this.initPVCharts();
       this.initUVCharts();
     })
+  },
+  mounted() {
+
   },
   methods: {
     //初始化PV图表
@@ -165,6 +209,7 @@ export default {
   height: 400px;
   background: #FFFFff;
 }
+
 .uv {
   width: 100%;
   height: 400px;

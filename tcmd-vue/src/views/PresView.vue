@@ -157,10 +157,10 @@
                 ]"
                         placeholder="请填写医院信息"
               >
-                <a-select-option value="0123">西溪医院</a-select-option>
-                <a-select-option value="0219">中山医院</a-select-option>
-                <a-select-option value="0231">新华医院</a-select-option>
-                <a-select-option value="0033">浙江二院</a-select-option>
+                <a-select-option value="0001">浙江省中医院</a-select-option>
+                <a-select-option value="0002">浙江省新华医院</a-select-option>
+                <a-select-option value="0003">浙江省中山医院</a-select-option>
+                <a-select-option value="0004">浙江省西溪医院</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -247,6 +247,8 @@
             title="请再次确认分配信息"
             :visible="confirmVisible"
             :confirm-loading="confirmLoading"
+            cancelText="取消"
+            okText="确认"
             @ok="handleOk"
             @cancel="handleCancel"
         >
@@ -604,7 +606,7 @@ export default {
     onClose() {
       this.visible = false;
     },
-    //查询所有已分配药厂的处方的历史记录
+    //查询所有已分配药厂的处方的记录
     async init() {
       const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data

@@ -5,6 +5,8 @@ import cn.calendo.tcmdistribution.dto.RmvShipInfoDTO;
 import cn.calendo.tcmdistribution.service.IShipInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

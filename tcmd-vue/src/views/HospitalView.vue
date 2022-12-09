@@ -62,55 +62,27 @@
 const data = [
   {
     key: '1',
-    id: 1234567890,
-    date: '2022-05-17',
-    time: '17:08:29',
-    patientName: 'John Brown',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 13.25,
+    HospitalName: '浙江省中医院',
+    HospitalID: '0001',
+    HospitalAddress: '杭州市上城区仁和路10号',
   },
   {
     key: '2',
-    id: 1234567891,
-    date: '2022-05-18',
-    time: '09:18:33',
-    patientName: 'Joe Black',
-    patientAge: 42,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 14.11,
+    HospitalName: '浙江省新华医院',
+    HospitalID: '0002',
+    HospitalAddress: '杭州市拱墅区潮王路318号',
   },
   {
     key: '3',
-    id: 1234567892,
-    date: '2022-05-18',
-    time: '07:28:21',
-    patientName: 'Jim Green',
-    patientAge: 32,
-    patientGender: '男',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 76.32,
+    HospitalName: '浙江省中山医院',
+    HospitalID: '0003',
+    HospitalAddress: '浙江省杭州市西湖区莫干山路219号',
   },
   {
     key: '4',
-    id: 1234567893,
-    date: '2022-10-27',
-    time: '12:07:12',
-    patientName: 'Jim Red',
-    patientAge: 32,
-    patientGender: '女',
-    doctorName: '张医生',
-    doctorID: '0128',
-    outpatientNo: '4023',
-    price: 73.21,
+    HospitalName: '浙江省西溪医院',
+    HospitalID: '0004',
+    HospitalAddress: '浙江省杭州市西湖区留下镇横埠街2号',
   },
 ];
 export default {
@@ -123,104 +95,16 @@ export default {
       searchedColumn: '',
       columns: [
         {
-          title: '序列号',
-          dataIndex: 'id',
-          key: 'id',
+          title: '医院名称',
+          dataIndex: 'HospitalName',
+          key: 'HospitalName',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.id
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '开方日期',
-          dataIndex: 'date',
-          key: 'date',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.date
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '开方时间',
-          dataIndex: 'time',
-          key: 'time',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.time
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '病人姓名',
-          dataIndex: 'patientName',
-          key: 'patientName',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.patientName
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '病人年龄',
-          dataIndex: 'patientAge',
-          key: 'patientAge',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.patientAge
+              record.HospitalName
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -233,16 +117,16 @@ export default {
           },
         },
         {
-          title: '病人性别',
-          dataIndex: 'patientGender',
-          key: 'patientGender',
+          title: '医院编号',
+          dataIndex: 'HospitalID',
+          key: 'HospitalID',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.patientGender
+              record.HospitalID
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -255,16 +139,16 @@ export default {
           },
         },
         {
-          title: '医生姓名',
-          dataIndex: 'doctorName',
-          key: 'doctorName',
+          title: '医院地址',
+          dataIndex: 'HospitalAddress',
+          key: 'HospitalAddress',
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
           onFilter: (value, record) =>
-              record.doctorName
+              record.HospitalAddress
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -275,95 +159,6 @@ export default {
               });
             }
           },
-        },
-        {
-          title: '医生ID',
-          dataIndex: 'doctorID',
-          key: 'doctorID',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.doctorID
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '门诊号',
-          dataIndex: 'outpatientNo',
-          key: 'outpatientNo',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.outpatientNo
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '交易金额（RMB）',
-          dataIndex: 'price',
-          key: 'price',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.price
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          },
-        },
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          key: 'operation',
-          scopedSlots: {customRender: 'operation'},
-          // scopedSlots: {
-          //   filterDropdown: 'filterDropdown',
-          //   filterIcon: 'filterIcon',
-          //   customRender: 'customRender',
-          // },
-          // onFilter: (value, record) =>
-          //     record.price
-          //         .toString()
-          //         .toLowerCase()
-          //         .includes(value.toLowerCase()),
-          // onFilterDropdownVisibleChange: visible => {
-          //   if (visible) {
-          //     setTimeout(() => {
-          //       this.searchInput.focus();
-          //     });
-          //   }
-          // },
         },
       ],
     };

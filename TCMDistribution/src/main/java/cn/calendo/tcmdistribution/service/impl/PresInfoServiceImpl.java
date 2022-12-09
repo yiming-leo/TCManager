@@ -8,7 +8,6 @@ import cn.calendo.tcmdistribution.service.IPresInfoService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

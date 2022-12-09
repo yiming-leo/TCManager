@@ -7,19 +7,24 @@
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
     >
-      <a-form-model-item ref="name" label="Activity name" prop="name">
+      <a-form-model-item ref="name" label="系统名称" prop="name">
         <a-input
             v-model="form.name"
             @blur="() => {$refs.name.onFieldBlur();}"
+            disabled
+            value="TCManager"
         />
       </a-form-model-item>
-      <a-form-model-item label="Activity zone" prop="region">
+      <a-form-model-item label="使用医院" prop="region">
         <a-select v-model="form.region" placeholder="please select your zone">
-          <a-select-option value="shanghai">
-            Zone one
+          <a-select-option value="1">
+            浙江省杭州市中山医院
           </a-select-option>
-          <a-select-option value="beijing">
-            Zone two
+          <a-select-option value="2">
+            浙江省杭州市新华医院
+          </a-select-option>
+          <a-select-option value="3">
+            浙江省杭州市中医院
           </a-select-option>
         </a-select>
       </a-form-model-item>
@@ -48,25 +53,22 @@
           </a-checkbox>
         </a-checkbox-group>
       </a-form-model-item>
-      <a-form-model-item label="Resources" prop="resource">
+      <a-form-model-item label="Pull Hub Resources" prop="resource">
         <a-radio-group v-model="form.resource">
           <a-radio value="1">
-            Sponsor
+            GitHub
           </a-radio>
           <a-radio value="2">
-            Venue
+            Gitee
           </a-radio>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item label="Activity form" prop="desc">
-        <a-input v-model="form.desc" type="textarea"/>
-      </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" @click="onSubmit">
-          Create
+          确定
         </a-button>
         <a-button style="margin-left: 10px;" @click="resetForm">
-          Reset
+          取消
         </a-button>
       </a-form-model-item>
     </a-form-model>
@@ -84,7 +86,7 @@ export default {
       wrapperCol: {span: 14},
       other: '',
       form: {
-        name: '',
+        name: 'TCManager',
         region: undefined,
         date1: undefined,
         delivery: false,

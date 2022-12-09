@@ -2,7 +2,7 @@
   <div class="search-bar">
     <a-page-header
         style="border: 1px solid rgb(235, 237, 240)"
-        :title="currentTitle"
+        title="返回"
         sub-title="当前位置"
         @back="() => $router.go(-1)"
     >
@@ -45,7 +45,7 @@
                 </a-form-model-item>
               </a-form-model>
             </div>
-            <a-button id="refresh" @mouseover="iconSpin" @mouseout="iconUnSpin" @click="refresh">
+            <a-button id="refresh" @mouseover="" @mouseout="" @click="refresh">
               <a-icon type="sync" :spin="syncSpin"/>
               数据同步
             </a-button>
@@ -57,14 +57,16 @@
 </template>
 
 <script>
+import PresView from "@/views/PresView.vue";
+
 export default {
   name: "SearchBar",
   data() {
     return {
+      setClock: false,
       iconLoading: false,
       loginTCMA: false,
       syncSpin: false,
-      currentTitle: '',
       currentUsername: '',
       formInline: {
         username: '',
@@ -80,17 +82,37 @@ export default {
       this.$message.info('登出成功');
       this.iconLoading = false;
       this.formInline.username = '';
-      this.$emit("isLogin",this.formInline.username)
+      this.$emit("isLogin", this.formInline.username)
     },
     //同步图标旋转控制
-    iconUnSpin() {
-      this.syncSpin = false;
-    },
-    iconSpin() {
-      this.syncSpin = true;
-    },
+    // iconUnSpin() {
+    //   this.syncSpin = false;
+    // },
+    // iconSpin() {
+    //   this.syncSpin = true;
+    // },
     //同步图标刷新
     refresh() {
+      this.setClock = !this.setClock;
+      console.log(this.syncSpin)
+      this.syncSpin = false;
+      let t1;
+      if (this.setClock == true) {
+        this.syncSpin = true;
+        t1 = window.setInterval(function () {
+          console.log('5秒钟之后执行了')
+          let init = PresView.methods.init()
+          console.log(init)
+        }, 5000)
+      }else {
+        this.syncSpin = false;
+        window.clearInterval(t1);
+        window.setInterval(function () {
+          console.log('99999秒钟之后执行了')
+          let init = PresView.methods.init()
+          console.log(init)
+        }, 9999000)
+      }
     },
     //账号密码表单登录
     handleSubmit(e) {
@@ -104,7 +126,7 @@ export default {
       } else {
         this.$message.error('用户名或密码错误');
       }
-      this.$emit("isLogin",this.formInline.username)
+      this.$emit("isLogin", this.formInline.username)
     },
     onSearch(value) {
       console.log(value);
