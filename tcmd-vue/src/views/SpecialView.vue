@@ -104,6 +104,66 @@ export default {
             });
           }
         })
+      } else if (option == 3) {
+        //组装参数
+        let requestParam = new FormData()
+        requestParam.append('id', dataId)
+        //发送请求
+        await Axios.request({
+          method: 'DELETE',
+          url: 'http://49.235.113.96:8085/pres_info/fov_rmv',
+          data: requestParam,
+        }).then(res => {
+          //结果集处理
+          console.log("res.data: " + res.data)
+          if (res.data.status == 200) {
+            this.$message.success('处方删除成功！');
+            this.$notification.success({
+              message: '处方删除成功！',
+              description: '操作行ID: ' + dataId + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+              icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+              duration: 0
+            });
+          } else {
+            this.$message.error('处方删除失败！');
+            this.$notification.error({
+              message: '处方删除失败！',
+              description: '操作行ID: ' + dataId + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+              icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+              duration: 0
+            });
+          }
+        })
+      } else if (option == 4) {
+        //组装参数
+        let requestParam = new FormData()
+        requestParam.append('id', dataId)
+        //发送请求
+        await Axios.request({
+          method: 'DELETE',
+          url: 'http://49.235.113.96:8085/ship_info/fov_rmv',
+          data: requestParam,
+        }).then(res => {
+          //结果集处理
+          console.log("res.data: " + res.data)
+          if (res.data.status == 200) {
+            this.$message.success('报文删除成功！');
+            this.$notification.success({
+              message: '报文删除成功！',
+              description: '操作行ID: ' + dataId + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+              icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+              duration: 0
+            });
+          } else {
+            this.$message.error('报文删除失败！');
+            this.$notification.error({
+              message: '报文删除失败！',
+              description: '操作行ID: ' + dataId + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+              icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+              duration: 0
+            });
+          }
+        })
       }
     }
   }

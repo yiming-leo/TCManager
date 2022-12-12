@@ -279,7 +279,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     @Override
     public boolean sendShipInfo(SndShipInfoDTO sndShipInfoDTO) {
         try {
-            String res = sendRequest.sendPost(POSTER_URL_POST_NORMAL, JSON.toJSONString(sndShipInfoDTO));
+            String res = sendRequest.sendPost(POSTER_URL_POST_NORMAL + "?token=123", JSON.toJSONString(sndShipInfoDTO));
             R r = JSONObject.parseObject(res, R.class);
             System.out.println("res: " + res);
             System.out.println("r: " + r);

@@ -1,6 +1,10 @@
 <template>
   <div class="pres_info">
-    <a-table :data-source="tableData" :columns="columns">
+    <div>
+      <a-range-picker @change="dateBetweenSelect"/>
+    </div>
+    <br>
+    <a-table bordered :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
           slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -280,6 +284,9 @@ export default {
       decoctMedicine: '',
       deliveryRequire: '',
 
+      dateSt: "",
+      dateEd: "",
+
       currentId: 0,
       form: this.$form.createForm(this),
       visible: false,
@@ -311,41 +318,21 @@ export default {
           },
         },
         {
-          title: '开方日期',
+          title: '开方时间',
           dataIndex: 'transactionDate',
           key: 'transactionDate',
+
           scopedSlots: {
             filterDropdown: 'filterDropdown',
             filterIcon: 'filterIcon',
             customRender: 'customRender',
           },
-          onFilter: (value, record) =>
-              record.date
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
+          onFilter: (value, record) => {
+            record.date
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase())
           },
-        },
-        {
-          title: '开方时间',
-          dataIndex: 'transactionTime',
-          key: 'transactionTime',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.time
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
           onFilterDropdownVisibleChange: visible => {
             if (visible) {
               setTimeout(() => {
@@ -487,7 +474,205 @@ export default {
           },
         },
         {
-          title: '交易金额（RMB）',
+          title: '草药数量',
+          dataIndex: 'herbsNumber',
+          key: 'herbsNumber',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.herbsNumber
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '使用方法',
+          dataIndex: 'useMethod',
+          key: 'useMethod',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.useMethod
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '服用方法',
+          dataIndex: 'takeMethod',
+          key: 'takeMethod',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.takeMethod
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '煎法',
+          dataIndex: 'decoctMethod',
+          key: 'decoctMethod',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.decoctMethod
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '单帖量',
+          dataIndex: 'singlePostVol',
+          key: 'singlePostVol',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.singlePostVol
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '方法备注',
+          dataIndex: 'methodRemark',
+          key: 'methodRemark',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.methodRemark
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '药品细节',
+          dataIndex: 'medicineDetail',
+          key: 'medicineDetail',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.medicineDetail
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '处理方法',
+          dataIndex: 'processMethod',
+          key: 'processMethod',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.processMethod
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '药品备注',
+          dataIndex: 'medicineRemark',
+          key: 'medicineRemark',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.medicineRemark
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '交易金额',
           dataIndex: 'price',
           key: 'price',
           scopedSlots: {
@@ -497,6 +682,28 @@ export default {
           },
           onFilter: (value, record) =>
               record.price
+                  .toString()
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+        {
+          title: '价格单元',
+          dataIndex: 'unit',
+          key: 'unit',
+          scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+          },
+          onFilter: (value, record) =>
+              record.unit
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -522,6 +729,34 @@ export default {
     this.init();
   },
   methods: {
+    //区间查询交易时间按钮
+    async dateBetweenSelect(date, dateString) {
+      this.dateSt = dateString[0]
+      this.dateEd = dateString[1]
+      if (this.dateSt == null || this.dateEd == null) {
+        await this.init()
+        return null
+      }
+      //组装参数
+      let requestParam = new FormData()
+      requestParam.append("dateSt", this.dateSt)
+      requestParam.append("dateEd", this.dateEd)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_date_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = null
+        this.tableData = res.data
+        console.log(this.tableData)
+        console.log(res.data)
+        //结果集处理
+        if (res.data.status !== 200) {
+          this.$message.error('日期区间查询失败！');
+        }
+      })
+    },
     //提交表单前的确认框
     showModal() {
       this.confirmVisible = true;
@@ -610,6 +845,9 @@ export default {
     async init() {
       const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data
+      for (let i = 0; i < this.tableData.length; i++) {
+        this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+      }
     },
     //表格查询内置按钮
     handleSearch(selectedKeys, confirm, dataIndex) {

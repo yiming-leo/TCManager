@@ -104,7 +104,7 @@ export default {
           let init = PresView.methods.init()
           console.log(init)
         }, 5000)
-      }else {
+      } else {
         this.syncSpin = false;
         window.clearInterval(t1);
         window.setInterval(function () {

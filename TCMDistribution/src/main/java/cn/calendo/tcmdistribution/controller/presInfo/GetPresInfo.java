@@ -80,7 +80,7 @@ public class GetPresInfo {
      * @param ed 终止日期
      * @return R对象
      */
-    @GetMapping("/by_date_bt")
+    @PostMapping("/by_date_bt")
     public R getPresInfoByTransactionDateBetween(@RequestParam(value = "dateSt") String st, @RequestParam(value = "dateEd") String ed) {
         List<PresInfo> presInfos = presInfoService.queryPresInfoByTransactionDateBetween(st, ed);
         if (presInfos == null) {
@@ -115,7 +115,7 @@ public class GetPresInfo {
      * @param ed 终止时间
      * @return R对象
      */
-    @GetMapping("/by_time_bt")
+    @PostMapping("/by_time_bt")
     public R getPresInfoByTransactionTimeBetween(@RequestParam(value = "timeSt") String st, @RequestParam(value = "timeEd") String ed) {
         List<PresInfo> presInfos = presInfoService.queryPresInfoByTransactionTimeBetween(st, ed);
         if (presInfos == null) {
@@ -184,7 +184,7 @@ public class GetPresInfo {
      * @param ed 终止年龄
      * @return R对象
      */
-    @GetMapping("/by_patient_age_bt")
+    @PostMapping("/by_patient_age_bt")
     public R getPresInfoByDoctorAgeBetween(@RequestParam(value = "ageSt") Integer st, @RequestParam(value = "ageEd") Integer ed) {
         List<PresInfo> presInfos = presInfoService.queryPresInfoByPatientAgeBetween(st, ed);
         if (presInfos == null) {
@@ -271,7 +271,7 @@ public class GetPresInfo {
      * @param ed 终止价格
      * @return R对象
      */
-    @GetMapping("/by_price_bt")
+    @PostMapping("/by_price_bt")
     public R getPresInfoByPriceBetween(@RequestParam(value = "priceSt") Double st, @RequestParam(value = "priceEd") Double ed) {
         BigDecimal bigDecimalSt = BigDecimal.valueOf(st);
         BigDecimal bigDecimalEd = BigDecimal.valueOf(ed);

@@ -79,7 +79,7 @@ public class GetShipInfo {
      * @param ed 报文交易日期截止时间
      * @return R对象
      */
-    @GetMapping("/by_date_bt")
+    @PostMapping("/by_date_bt")
     public R getShipInfoByDateBetween(@RequestParam(value = "dateSt") String st, @RequestParam(value = "dateEd") String ed) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByDateBetween(st, ed);
         if (shipInfos.size() == 0) {
@@ -114,7 +114,7 @@ public class GetShipInfo {
      * @param ed 报文交易截止时间
      * @return R对象
      */
-    @GetMapping("/by_time_bt")
+    @PostMapping("/by_time_bt")
     public R getShipInfoByTimeBetween(@RequestParam(value = "timeSt") String st, @RequestParam(value = "timeEd") String ed) {
         List<ShipInfo> shipInfos = shipInfoService.queryShipInfoByTimeBetween(st, ed);
         if (shipInfos.size() == 0) {

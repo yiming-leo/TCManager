@@ -90,7 +90,7 @@ export default {
           },
         },
         {
-          title: '开方日期',
+          title: '开方时间',
           dataIndex: 'transactionDate',
           key: 'transactionDate',
           scopedSlots: {
@@ -100,28 +100,6 @@ export default {
           },
           onFilter: (value, record) =>
               record.date
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              }, 0);
-            }
-          },
-        },
-        {
-          title: '开方时间',
-          dataIndex: 'transactionTime',
-          key: 'transactionTime',
-          scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-          },
-          onFilter: (value, record) =>
-              record.time
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase()),
@@ -386,6 +364,9 @@ export default {
       //将所有已分配药厂的处方的历史记录，进行查询
       const {data: res} = await Axios.get('http://49.235.113.96:8085/ship_info/his/all')
       this.tableData = res.data
+      for (let i = 0; i < this.tableData.length; i++) {
+        this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+      }
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
