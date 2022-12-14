@@ -1,5 +1,25 @@
 <template>
   <div class="ship_info">
+    <div>
+      <a-row type="flex">
+        <a-col :span="12" :order="1">
+          <a-space>
+            开方日期查询
+            <a-range-picker :locale="locale" @change="dateBetweenSelect"/>
+          </a-space>
+        </a-col>
+        <a-col :span="12" :order="2">
+          <a-space>
+            开方时间查询
+            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
+            ~
+            <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
+            <a-button @click="timeBetweenSelect">查询</a-button>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
+    <br>
     <a-table :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
@@ -69,17 +89,23 @@
 </template>
 <script>
 import Axios from "axios";
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 
 export default {
   components: {},
   data() {
     return {
+      locale,
+
       ModalText: '确认将此报文发送至药厂？',
       confirmVisible: false,
       confirmLoading: false,
 
       checkId: 0,
       tableData: [],
+
+      dateSt: "",
+      dateEd: "",
 
       searchText: '',
       searchInput: null,
@@ -385,6 +411,35 @@ export default {
     this.init();
   },
   methods: {
+    //区间查询交易时间按钮
+    async dateBetweenSelect(date, dateString) {
+      this.dateSt = dateString[0]
+      this.dateEd = dateString[1]
+      if (this.dateSt == null || this.dateEd == null || this.dateSt === "" || this.dateEd === "") {
+        await this.init()
+        return null
+      }
+      //组装参数
+      let requestParam = new FormData()
+      requestParam.append("dateSt", this.dateSt)
+      requestParam.append("dateEd", this.dateEd)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/ship_info/get/by_date_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
+        console.log(res.status)
+        //结果集处理
+        if (res.status != 200) {
+          this.$message.error('日期区间查询失败！');
+        }
+      })
+    },
     //提交表单前的确认框
     showModal(id) {
       this.checkId = id

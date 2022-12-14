@@ -1,7 +1,41 @@
 <template>
   <div class="pres_info">
     <div>
-      <a-range-picker @change="dateBetweenSelect"/>
+      <a-row type="flex">
+        <a-col :span="6" :order="1">
+          <a-space>
+            开方日期查询
+            <a-range-picker :locale="locale" @change="dateBetweenSelect"/>
+          </a-space>
+        </a-col>
+        <a-col :span="6" :order="2">
+          <a-space>
+            开方时间查询
+            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
+            ~
+            <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
+            <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
+          </a-space>
+        </a-col>
+        <a-col :span="6" :order="3">
+          <a-space>
+            病人年龄查询
+            <a-input style=" width: 100px; text-align: center" placeholder="最小年龄" @change="timeStartSelect"/>
+            ~
+            <a-input style="width: 100px; text-align: center; " placeholder="最大年龄" @change="timeEndSelect"/>
+            <a-button @click="ageBetweenSelect">查询</a-button>
+          </a-space>
+        </a-col>
+        <a-col :span="6" :order="4">
+          <a-space>
+            交易金额查询
+            <a-input style=" width: 100px; text-align: center" placeholder="最小金额" @change="timeStartSelect"/>
+            ~
+            <a-input style="width: 100px; text-align: center; " placeholder="最大金额" @change="timeEndSelect"/>
+            <a-button @click="priceBetweenSelect">查询</a-button>
+          </a-space>
+        </a-col>
+      </a-row>
     </div>
     <br>
     <a-table bordered :data-source="tableData" :columns="columns">
@@ -264,11 +298,15 @@
 </template>
 <script>
 import Axios from "axios";
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
+import moment from 'moment';
 
 export default {
   components: {},
   data() {
     return {
+      locale,
+
       ModalText: '确认将此处方分配至指定药厂？',
       confirmVisible: false,
       confirmLoading: false,
@@ -286,6 +324,8 @@ export default {
 
       dateSt: "",
       dateEd: "",
+      timeSt: "",
+      timeEd: "",
 
       currentId: 0,
       form: this.$form.createForm(this),
@@ -729,11 +769,54 @@ export default {
     this.init();
   },
   methods: {
-    //区间查询交易时间按钮
+    moment,
+    //接收处方区间查询时间
+    async timeStartSelect(time, timeString) {
+      this.timeSt = timeString
+      if (this.timeSt == null || this.timeSt === "") {
+        await this.init()
+        return null
+      }
+    },
+    async timeEndSelect(time, timeString) {
+      this.timeEd = timeString
+      if (this.timeEd == null || this.timeEd === "") {
+        await this.init()
+        return null
+      }
+    },
+    //区间查询交易时间
+    async timeBetweenSelect(st, ed) {
+      if (st == null || ed == null || st === "" || ed === "") {
+        await this.init()
+        return null
+      }
+      //组装参数
+      let requestParam = new FormData()
+      requestParam.append("timeSt", st)
+      requestParam.append("timeEd", ed)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_time_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
+        console.log(res.data)
+        //结果集处理
+        if (res.data.status != 200) {
+          this.$message.error('时间区间查询失败！');
+        }
+      })
+    },
+    //区间查询交易日期
     async dateBetweenSelect(date, dateString) {
       this.dateSt = dateString[0]
       this.dateEd = dateString[1]
-      if (this.dateSt == null || this.dateEd == null) {
+      if (this.dateSt == null || this.dateEd == null || this.dateSt === "" || this.dateEd === "") {
         await this.init()
         return null
       }
@@ -747,12 +830,13 @@ export default {
         url: 'http://49.235.113.96:8085/pres_info/get/by_date_bt',
         data: requestParam,
       }).then(res => {
-        this.tableData = null
-        this.tableData = res.data
-        console.log(this.tableData)
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
         console.log(res.data)
         //结果集处理
-        if (res.data.status !== 200) {
+        if (res.data.status != 200) {
           this.$message.error('日期区间查询失败！');
         }
       })
@@ -841,7 +925,7 @@ export default {
     onClose() {
       this.visible = false;
     },
-    //查询所有已分配药厂的处方的记录
+    //查询所有已审核通过的处方的记录
     async init() {
       const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data

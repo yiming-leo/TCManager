@@ -17,6 +17,18 @@
     </properties>
 
     <dependencies>
+        <!--        xss defender-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <!--        sql defender-->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
         <!--        websocket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

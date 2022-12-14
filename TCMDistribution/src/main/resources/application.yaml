@@ -3,8 +3,8 @@ server:
   port: 8085
 # 自定义常量
 constants:
-  posterUrlPostNormal: "http://localhost:8086/poster/from_tcmd"
-  posterUrlPostReject: "http://localhost:8086/poster/from_tcmd/reject"
+  posterUrlPostNormal: "http://49.235.113.96:8086/poster/from_tcmd"
+  posterUrlPostReject: "http://49.235.113.96:8086/poster/from_tcmd/reject"
   aesKey: "0123456789012345"
   logLocation: "tail -f /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/spring.log"
 # 应用名称
@@ -70,7 +70,7 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 # 输出日志等级
-logging:
+logging:17767262343
   group:
     ebank: cn.calendo.tcmdistribution.controller,cn.calendo.tcmdistribution.service,cn.calendo.tcmdistribution.dao
   level:
