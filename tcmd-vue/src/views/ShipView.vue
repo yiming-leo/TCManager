@@ -14,7 +14,7 @@
             <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
             ~
             <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
-            <a-button @click="timeBetweenSelect">查询</a-button>
+            <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
           </a-space>
         </a-col>
       </a-row>
@@ -106,6 +106,8 @@ export default {
 
       dateSt: "",
       dateEd: "",
+      timeSt: "",
+      timeEd: "",
 
       searchText: '',
       searchInput: null,
@@ -412,6 +414,47 @@ export default {
   },
   methods: {
     //区间查询交易时间按钮
+    async timeStartSelect(time, timeString) {
+      this.timeSt = timeString
+      if (this.timeSt == null || this.timeSt === "") {
+        await this.init()
+        return null
+      }
+    },
+    async timeEndSelect(time, timeString) {
+      this.timeEd = timeString
+      if (this.timeEd == null || this.timeEd === "") {
+        await this.init()
+        return null
+      }
+    },
+    async timeBetweenSelect(st, ed) {
+      if (st == null || ed == null || st === "" || ed === "") {
+        await this.init()
+        return null
+      }
+      //组装参数
+      let requestParam = new FormData()
+      requestParam.append("timeSt", st)
+      requestParam.append("timeEd", ed)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/ship_info/get/by_time_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
+        console.log(res.data)
+        //结果集处理
+        if (res.data.status != 200) {
+          this.$message.error('时间区间查询失败！');
+        }
+      })
+    },
+    //区间查询交易日期按钮
     async dateBetweenSelect(date, dateString) {
       this.dateSt = dateString[0]
       this.dateEd = dateString[1]

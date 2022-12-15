@@ -20,18 +20,18 @@
         <a-col :span="6" :order="3">
           <a-space>
             病人年龄查询
-            <a-input style=" width: 100px; text-align: center" placeholder="最小年龄" @change="timeStartSelect"/>
+            <a-input style=" width: 100px; text-align: center" placeholder="最小年龄" v-model="ageSt"/>
             ~
-            <a-input style="width: 100px; text-align: center; " placeholder="最大年龄" @change="timeEndSelect"/>
+            <a-input style="width: 100px; text-align: center; " placeholder="最大年龄" v-model="ageEd"/>
             <a-button @click="ageBetweenSelect">查询</a-button>
           </a-space>
         </a-col>
         <a-col :span="6" :order="4">
           <a-space>
             交易金额查询
-            <a-input style=" width: 100px; text-align: center" placeholder="最小金额" @change="timeStartSelect"/>
+            <a-input style=" width: 100px; text-align: center" placeholder="最小金额" v-model="priceSt"/>
             ~
-            <a-input style="width: 100px; text-align: center; " placeholder="最大金额" @change="timeEndSelect"/>
+            <a-input style="width: 100px; text-align: center; " placeholder="最大金额" v-model="priceEd"/>
             <a-button @click="priceBetweenSelect">查询</a-button>
           </a-space>
         </a-col>
@@ -321,6 +321,11 @@ export default {
       hospitalNo: '',
       decoctMedicine: '',
       deliveryRequire: '',
+
+      ageSt: null,
+      ageEd: null,
+      priceSt: null,
+      priceEd: null,
 
       dateSt: "",
       dateEd: "",
@@ -770,6 +775,66 @@ export default {
   },
   methods: {
     moment,
+    //接收处方区间查询金额
+    async priceBetweenSelect() {
+      console.log(this.priceSt, this.priceEd)
+      if (this.priceSt == null || this.priceEd == null || this.priceSt === "" || this.priceEd === "") {
+        await this.init()
+        return null
+      } else if (this.priceSt > this.priceSt) {
+        this.$message.error('价格区间查询失败！');
+        return null
+      }//组装参数
+      let requestParam = new FormData()
+      requestParam.append("priceSt", this.priceSt)
+      requestParam.append("priceEd", this.priceEd)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_price_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
+        console.log(res.data)
+        //结果集处理
+        if (res.data.status != 200) {
+          this.$message.error('价格区间查询失败！');
+        }
+      })
+    },
+    //接收处方区间查询年龄
+    async ageBetweenSelect() {
+      console.log(this.ageSt, this.ageEd)
+      if (this.ageSt == null || this.ageEd == null || this.ageSt === "" || this.ageEd === "") {
+        await this.init()
+        return null
+      } else if (this.ageSt > this.ageEd) {
+        this.$message.error('年龄区间查询失败！');
+        return null
+      }//组装参数
+      let requestParam = new FormData()
+      requestParam.append("ageSt", this.ageSt)
+      requestParam.append("ageEd", this.ageEd)
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_patient_age_bt',
+        data: requestParam,
+      }).then(res => {
+        this.tableData = res.data.data
+        for (let i = 0; i < this.tableData.length; i++) {
+          this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
+        }
+        console.log(res.data)
+        //结果集处理
+        if (res.data.status != 200) {
+          this.$message.error('年龄区间查询失败！');
+        }
+      })
+    },
     //接收处方区间查询时间
     async timeStartSelect(time, timeString) {
       this.timeSt = timeString
