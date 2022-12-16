@@ -1,17 +1,10 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
 
 package cn.calendo.tcmdistribution.common.exception;
 
 /**
  * 自定义异常
  *
- * @author Mark sunlightcs@gmail.com
+ * @author calendo
  */
 public class GlobalException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

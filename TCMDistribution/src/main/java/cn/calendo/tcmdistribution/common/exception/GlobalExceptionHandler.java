@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
 
 package cn.calendo.tcmdistribution.common.exception;
 
@@ -21,7 +14,7 @@ import java.util.Date;
 /**
  * 异常处理器
  *
- * @author Mark sunlightcs@gmail.com
+ * @author calendo
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

@@ -108,7 +108,7 @@
           <a-col :span="12">
             <a-form-item label="处方ID">
               <a-input id="id"
-                       addon-before="UUID"
+                       addon-before="UID"
                        disabled
                        :placeholder="this.currentId"
                        value="this.currentId"
@@ -286,7 +286,7 @@
             :visible="confirmVisible"
             :confirm-loading="confirmLoading"
             cancelText="取消"
-            okText="确认"
+            okText="确认确定"
             @ok="handleOk"
             @cancel="handleCancel"
         >
@@ -960,7 +960,7 @@ export default {
           this.$message.success('处方分配成功！');
           this.$notification.success({
             message: '处方分配成功！',
-            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp
+            description: '操作行ID: ' + this.id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp
                 + '您现在可以在“药厂报文”菜单里查看新增的待发送的报文了。',
             icon: <a-icon type="check-circle" style="color: #16E09a"/>,
             duration: 0
@@ -969,7 +969,7 @@ export default {
           this.$message.error('处方分配失败！');
           this.$notification.error({
             message: '处方分配失败！',
-            description: '操作行ID: ' + id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
+            description: '操作行ID: ' + this.id + '  状态码: ' + res.data.status + '  时间戳: ' + res.data.timestamp,
             icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
             duration: 0
           });

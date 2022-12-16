@@ -91,7 +91,7 @@ export default {
           {
             name: '去年',
             type: 'line',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 33, 62],
             smooth: true,
             lineStyle: {
               color: 'rgb(29,122,229)'  //线的颜色
@@ -101,7 +101,7 @@ export default {
             name: '今年',
             type: 'line',
             smooth: true,
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 33, 62],
+            data: [64, 132, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             lineStyle: {
               color: 'rgb(225,144,195)' //线的颜色
             }

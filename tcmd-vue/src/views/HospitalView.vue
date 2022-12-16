@@ -84,6 +84,12 @@ const data = [
     HospitalID: '0004',
     HospitalAddress: '浙江省杭州市西湖区留下镇横埠街2号',
   },
+  {
+    key: '5',
+    HospitalName: '浙江医院',
+    HospitalID: '0005',
+    HospitalAddress: '杭州市西湖区灵隐路12号',
+  },
 ];
 export default {
   components: {},

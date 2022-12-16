@@ -82,6 +82,8 @@
         :confirm-loading="confirmLoading"
         @ok="handleOk"
         @cancel="handleCancel"
+        cancelText="取消"
+        okText="确定"
     >
       <p>{{ ModalText }}</p>
     </a-modal>
