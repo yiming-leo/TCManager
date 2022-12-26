@@ -51,7 +51,7 @@ export default {
         //发送请求
         await Axios.request({
           method: 'PUT',
-          url: 'http://49.235.113.96:8085/pres_info/rpt',
+          url: 'http://localhost:8085/pres_info/rpt',
           data: requestParam,
         }).then(res => {
           //结果集处理
@@ -81,7 +81,7 @@ export default {
         //发送请求
         await Axios.request({
           method: 'PUT',
-          url: 'http://49.235.113.96:8085/ship_info/rpt',
+          url: 'http://localhost:8085/ship_info/rpt',
           data: requestParam,
         }).then(res => {
           //结果集处理
@@ -111,7 +111,7 @@ export default {
         //发送请求
         await Axios.request({
           method: 'DELETE',
-          url: 'http://49.235.113.96:8085/pres_info/fov_rmv',
+          url: 'http://localhost:8085/pres_info/fov_rmv',
           data: requestParam,
         }).then(res => {
           //结果集处理
@@ -141,7 +141,7 @@ export default {
         //发送请求
         await Axios.request({
           method: 'DELETE',
-          url: 'http://49.235.113.96:8085/ship_info/fov_rmv',
+          url: 'http://localhost:8085/ship_info/fov_rmv',
           data: requestParam,
         }).then(res => {
           //结果集处理

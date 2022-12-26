@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     queryLog() {
-      var websocket = new WebSocket('ws://49.235.113.96:8085/log');
+      var websocket = new WebSocket('ws://localhost:8085/log');
       websocket.onmessage = function (event) {
         this.dataLog = event.data
       }
@@ -30,7 +30,7 @@ export default {
   },
 }
 // $(document).ready(function () {
-//   var websocket = new WebSocket('ws://49.235.113.96:8085/log');
+//   var websocket = new WebSocket('ws://localhost:8085/log');
 //   websocket.onmessage = function (event) {
 //     $("#log-container div").append(event.data);
 //     $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());

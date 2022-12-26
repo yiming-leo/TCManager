@@ -274,7 +274,7 @@ export default {
   methods: {
     async init() {
       //将所有已分配药厂的处方的历史记录，进行查询
-      const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/his/all')
+      const {data: res} = await Axios.get('http://localhost:8085/pres_info/his/all')
       this.tableData = res.data
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)

@@ -791,7 +791,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/pres_info/get/by_price_bt',
+        url: 'http://localhost:8085/pres_info/get/by_price_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -821,7 +821,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/pres_info/get/by_patient_age_bt',
+        url: 'http://localhost:8085/pres_info/get/by_patient_age_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -863,7 +863,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/pres_info/get/by_time_bt',
+        url: 'http://localhost:8085/pres_info/get/by_time_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -892,7 +892,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/pres_info/get/by_date_bt',
+        url: 'http://localhost:8085/pres_info/get/by_date_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -950,7 +950,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/pres_info/dtb/fac/hand',
+        url: 'http://localhost:8085/pres_info/dtb/fac/hand',
         data: dataJson,
       }).then(res => {
         //结果集处理
@@ -992,7 +992,7 @@ export default {
     },
     //查询所有已审核通过的处方的记录
     async init() {
-      const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
+      const {data: res} = await Axios.get('http://localhost:8085/pres_info/get/all')
       this.tableData = res.data
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)

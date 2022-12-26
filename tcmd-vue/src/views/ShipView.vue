@@ -442,7 +442,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/ship_info/get/by_time_bt',
+        url: 'http://localhost:8085/ship_info/get/by_time_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -471,7 +471,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/ship_info/get/by_date_bt',
+        url: 'http://localhost:8085/ship_info/get/by_date_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -511,7 +511,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/ship_info/snd/normal',
+        url: 'http://localhost:8085/ship_info/snd/normal',
         data: requestParam,
       }).then(res => {
         //结果集处理
@@ -541,7 +541,7 @@ export default {
     async init() {
       await Axios.request({
         method: 'GET',
-        url: 'http://49.235.113.96:8085/ship_info/get/all',
+        url: 'http://localhost:8085/ship_info/get/all',
       }).then(res => {
         this.tableData = res.data.data
         console.log(this.tableData)

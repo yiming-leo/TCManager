@@ -77,7 +77,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/auto_refresh/start',
+        url: 'http://localhost:8085/auto_refresh/start',
         data: requestParam,
       }).then(res => {
         //结果集处理
@@ -107,7 +107,7 @@ export default {
       requestParam.append('taskId', 1)
       await Axios.request({
         method: 'POST',
-        url: 'http://49.235.113.96:8085/auto_refresh/stop',
+        url: 'http://localhost:8085/auto_refresh/stop',
         data: requestParam,
       })
     },
