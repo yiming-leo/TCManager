@@ -70,7 +70,7 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 # 输出日志等级
-logging:17767262343
+logging:
   group:
     ebank: cn.calendo.tcmdistribution.controller,cn.calendo.tcmdistribution.service,cn.calendo.tcmdistribution.dao
   level:
