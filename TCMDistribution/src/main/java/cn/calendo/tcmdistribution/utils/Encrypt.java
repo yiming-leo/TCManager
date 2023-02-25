@@ -1,8 +1,8 @@
 package cn.calendo.tcmdistribution.utils;
 
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.crypto.digest.HMac;import cn.hutool.crypto.digest.HmacAlgorithm;
-
+import cn.hutool.crypto.digest.HMac;
+import cn.hutool.crypto.digest.HmacAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import org.springframework.stereotype.Component;
 

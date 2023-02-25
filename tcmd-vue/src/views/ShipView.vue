@@ -2,19 +2,24 @@
   <div class="ship_info">
     <div>
       <a-row type="flex">
-        <a-col :span="12" :order="1">
+        <a-col :span="10" :order="1">
           <a-space>
             开方日期查询
             <a-range-picker :locale="locale" @change="dateBetweenSelect"/>
           </a-space>
         </a-col>
-        <a-col :span="12" :order="2">
+        <a-col :span="10" :order="2">
           <a-space>
             开方时间查询
             <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
             ~
             <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
             <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
+          </a-space>
+        </a-col>
+        <a-col :span="2" :order="5">
+          <a-space>
+            <a-button @click="shipInfoExcel" type="primary">导出报文表格</a-button>
           </a-space>
         </a-col>
       </a-row>
@@ -442,7 +447,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/ship_info/get/by_time_bt',
+        url: 'http://49.235.113.96:8085/ship_info/get/by_time_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -471,7 +476,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/ship_info/get/by_date_bt',
+        url: 'http://49.235.113.96:8085/ship_info/get/by_date_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -511,7 +516,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/ship_info/snd/normal',
+        url: 'http://49.235.113.96:8085/ship_info/snd/normal',
         data: requestParam,
       }).then(res => {
         //结果集处理
@@ -537,11 +542,55 @@ export default {
       //重新刷新表格
       await this.init()
     },
+    //导出presinfo医生处方的excel数据报表
+    async shipInfoExcel() {
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/poi/get/shipinfo_excel',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/octet-stream",
+        },
+        responseType: 'blob', // 声明返回blob格式
+      }).then(res => {
+        const blob = new Blob([res.data])  // res.data 为接口返回的数据，依实例而行
+        const url = URL.createObjectURL(blob)  // 生成一个 Blob URL
+        const fileName = 'ShipInfo.xlsx'  // 文件名+后缀
+        const listNode = document.createElement("a")
+        listNode.download = fileName
+        listNode.style.display = "none"
+        listNode.href = url // 文件流生成的url
+        document.body.appendChild(listNode)
+        listNode.click()  // 模拟在按钮上实现一次鼠标点击
+        url.revokeObjectURL(listNode.href)  // 释放 URL 对象
+        document.body.removeChild(listNode)  // 移除 a 标签
+
+        //结果集处理
+        this.visible = false;
+        console.log(res.data)
+        if (res.data != null) {
+          this.$message.success('导出医生处方成功！');
+          this.$notification.success({
+            message: '导出医生处方成功！',
+            icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+            duration: 0
+          });
+        } else {
+          this.$message.error('导出医生处方失败！');
+          this.$notification.error({
+            message: '导出医生处方失败！',
+            icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+            duration: 0
+          });
+        }
+      })
+    },
     //将所有未配药厂的报文，进行查询
     async init() {
       await Axios.request({
         method: 'GET',
-        url: 'http://localhost:8085/ship_info/get/all',
+        url: 'http://49.235.113.96:8085/ship_info/get/all',
       }).then(res => {
         this.tableData = res.data.data
         console.log(this.tableData)

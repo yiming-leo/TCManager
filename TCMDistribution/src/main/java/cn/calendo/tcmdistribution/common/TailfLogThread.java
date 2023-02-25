@@ -20,7 +20,7 @@ public class TailfLogThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public void start() {
         String line;
         try {
             while ((line = reader.readLine()) != null) {

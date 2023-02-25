@@ -241,4 +241,22 @@ public interface IShipInfoService extends IService<ShipInfo> {
      */
     boolean repentShipInfoById(RmvShipInfoDTO rmvShipInfoDTO);
 
+    /////////////////////////////////////////////导出报表/////////////////////////////////////////////
+
+    /**
+     * 得到shipinfo 实体类的excel文件，从数据库导出生成
+     * @return List<ShipInfo>
+     * @author Calendo
+     * @date 2023/2/22 15:58
+     */
+    void getShipInfoExcel();
+
+    /**
+     * 得到shipHis 实体类的excel文件，从数据库导出生成
+     * @return void
+     * @author Calendo
+     * @date 2023/2/25 23:28
+     */
+    void getShipHisExcel();
+
 }

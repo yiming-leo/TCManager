@@ -30,10 +30,11 @@ public class LogQuery {
 
     /**
      * 开启新websocket请求
+     *
      * @param session
      */
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session) {
         try {
             process = Runtime.getRuntime().exec(logLocation);
             inputStream = process.getInputStream();
@@ -48,21 +49,21 @@ public class LogQuery {
      * 关闭websocket请求
      */
     @OnClose
-    public void onClose(){
+    public void onClose() {
         try {
-            if (inputStream!=null){
+            if (inputStream != null) {
                 inputStream.close();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (process != null){
+        if (process != null) {
             process.destroy();
         }
     }
 
     @OnError
-    public void onError(Throwable throwable){
+    public void onError(Throwable throwable) {
         throwable.printStackTrace();
     }
 

@@ -3,10 +3,14 @@ server:
   port: 8085
 # 自定义常量
 constants:
-  posterUrlPostNormal: "http://localhost:8086/poster/from_tcmd"
-  posterUrlPostReject: "http://localhost:8086/poster/from_tcmd/reject"
+  posterUrlPostNormal: "http://49.235.113.96:8086/poster/from_tcmd"
+  posterUrlPostReject: "http://49.235.113.96:8086/poster/from_tcmd/reject"
   aesKey: "0123456789012345"
   logLocation: "tail -f /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/spring.log"
+  presInfoLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/PresInfo.xlsx"
+  shipInfoLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipInfo.xlsx"
+  presHisLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/PresHis.xlsx"
+  shipHisLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipHis.xlsx"
 # 应用名称
 spring:
   application:
@@ -17,21 +21,21 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 数据源名称，地址，账号，密码
     name: defaultDataSource
-    url: jdbc:mysql://localhost:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
+    url: jdbc:mysql://8.134.147.174:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
     username: root
-    password: root
+    password: e01jnor36dq5
     # 连接池类型
     type: com.alibaba.druid.pool.DruidDataSource
   # rabbitmq
   rabbitmq:
-    host: localhost
+    host: 8.134.147.174
     port: 5672
   # java mail
   mail:
     host: smtp.qq.com
     protocol: smtps
     username: 2479711422@qq.com
-    password: 123456
+    password: hyfaxtomhlniebdi
     port: 465
     properties:
       mail:
@@ -42,7 +46,7 @@ spring:
             fallback: false
   # redis相关
   redis:
-    host: localhost
+    host: 8.134.147.174
     port: 6379
     password: root
     database: 0
@@ -76,9 +80,9 @@ logging:
   level:
     root: info
     ebank: info
-#  pattern:
-#    dateformat: MM-dd HH:mm:ss:SSS
-#    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
-#  file:
-#    path: /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD
-#    max-size: 10MB
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+    rolling-file-name: TCMD_Server.%d{yyyy-MM-dd}.%i.log
+  file:
+    path: /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD
+    max-size: 20MB

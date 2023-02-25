@@ -2,13 +2,13 @@
   <div class="pres_info">
     <div>
       <a-row type="flex">
-        <a-col :span="6" :order="1">
+        <a-col :span="5" :order="1">
           <a-space>
             开方日期查询
             <a-range-picker :locale="locale" @change="dateBetweenSelect"/>
           </a-space>
         </a-col>
-        <a-col :span="6" :order="2">
+        <a-col :span="5" :order="2">
           <a-space>
             开方时间查询
             <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
@@ -17,7 +17,7 @@
             <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
           </a-space>
         </a-col>
-        <a-col :span="6" :order="3">
+        <a-col :span="5" :order="3">
           <a-space>
             病人年龄查询
             <a-input style=" width: 100px; text-align: center" placeholder="最小年龄" v-model="ageSt"/>
@@ -26,13 +26,18 @@
             <a-button @click="ageBetweenSelect">查询</a-button>
           </a-space>
         </a-col>
-        <a-col :span="6" :order="4">
+        <a-col :span="5" :order="4">
           <a-space>
             交易金额查询
             <a-input style=" width: 100px; text-align: center" placeholder="最小金额" v-model="priceSt"/>
             ~
             <a-input style="width: 100px; text-align: center; " placeholder="最大金额" v-model="priceEd"/>
             <a-button @click="priceBetweenSelect">查询</a-button>
+          </a-space>
+        </a-col>
+        <a-col :span="1" :order="5">
+          <a-space>
+            <a-button @click="presInfoExcel" type="primary">导出处方表格</a-button>
           </a-space>
         </a-col>
       </a-row>
@@ -791,7 +796,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/pres_info/get/by_price_bt',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_price_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -821,7 +826,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/pres_info/get/by_patient_age_bt',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_patient_age_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -863,7 +868,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/pres_info/get/by_time_bt',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_time_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -892,7 +897,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/pres_info/get/by_date_bt',
+        url: 'http://49.235.113.96:8085/pres_info/get/by_date_bt',
         data: requestParam,
       }).then(res => {
         this.tableData = res.data.data
@@ -950,7 +955,7 @@ export default {
       //发送请求
       await Axios.request({
         method: 'POST',
-        url: 'http://localhost:8085/pres_info/dtb/fac/hand',
+        url: 'http://49.235.113.96:8085/pres_info/dtb/fac/hand',
         data: dataJson,
       }).then(res => {
         //结果集处理
@@ -978,6 +983,50 @@ export default {
       //重新刷新表格
       await this.init()
     },
+    //导出presinfo医生处方的excel数据报表
+    async presInfoExcel() {
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/poi/get/presinfo_excel',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/octet-stream",
+        },
+        responseType: 'blob', // 声明返回blob格式
+      }).then(res => {
+        const blob = new Blob([res.data])  // res.data 为接口返回的数据，依实例而行
+        const url = URL.createObjectURL(blob)  // 生成一个 Blob URL
+        const fileName = 'PresInfo.xlsx'  // 文件名+后缀
+        const listNode = document.createElement("a")
+        listNode.download = fileName
+        listNode.style.display = "none"
+        listNode.href = url // 文件流生成的url
+        document.body.appendChild(listNode)
+        listNode.click()  // 模拟在按钮上实现一次鼠标点击
+        url.revokeObjectURL(listNode.href)  // 释放 URL 对象
+        document.body.removeChild(listNode)  // 移除 a 标签
+
+        //结果集处理
+        this.visible = false;
+        console.log(res.data)
+        if (res.data != null) {
+          this.$message.success('导出医生处方成功！');
+          this.$notification.success({
+            message: '导出医生处方成功！',
+            icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+            duration: 0
+          });
+        } else {
+          this.$message.error('导出医生处方失败！');
+          this.$notification.error({
+            message: '导出医生处方失败！',
+            icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+            duration: 0
+          });
+        }
+      })
+    },
     //分配药厂按钮
     distributeFactory(id) {
       this.visible = true;
@@ -992,7 +1041,7 @@ export default {
     },
     //查询所有已审核通过的处方的记录
     async init() {
-      const {data: res} = await Axios.get('http://localhost:8085/pres_info/get/all')
+      const {data: res} = await Axios.get('http://49.235.113.96:8085/pres_info/get/all')
       this.tableData = res.data
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)

@@ -3,8 +3,8 @@ server:
   port: 8086
 # 自定义常量
 constants:
-  factoryUrlPostNormal: "http://localhost:8082/poster/from_tcmd"
-  factoryUrlPostReject: "http://localhost:8082/poster/from_tcmd/reject"
+  factoryUrlPostNormal: "http://49.235.113.96:8082/poster/from_tcmd"
+  factoryUrlPostReject: "http://49.235.113.96:8082/poster/from_tcmd/reject"
   aesKey: "0123456789012345"
 # 应用名称
 spring:
@@ -16,9 +16,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 数据源名称，地址，账号，密码
     name: defaultDataSource
-    url: jdbc:mysql://localhost:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
+    url: jdbc:mysql://8.134.147.174:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
     username: root
-    password: root
+    password: e01jnor36dq5
     # 连接池类型
     type: com.alibaba.druid.pool.DruidDataSource
   # java mail
@@ -26,7 +26,7 @@ spring:
     host: smtp.qq.com
     protocol: smtps
     username: 2479711422@qq.com
-    password: 123456
+    password: hyfaxtomhlniebdi
     port: 465
     properties:
       mail:
@@ -37,7 +37,7 @@ spring:
             fallback: false
   # redis相关
   redis:
-    host: localhost
+    host: 8.134.147.174
     port: 6379
     password: root
     database: 0
@@ -65,8 +65,8 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 # 输出日志等级
-logging:
-  level:
-    cn.calendo: debug # 这里如果不加包名会因映射问题而报错
-  pattern:
-    dateformat: MM-dd HH:mm:ss:SSS
+#logging:
+#  level:
+#    cn.calendo: debug # 这里如果不加包名会因映射问题而报错
+#  pattern:
+#    dateformat: MM-dd HH:mm:ss:SSS

@@ -210,4 +210,22 @@ public interface IPresInfoService extends IService<PresInfo> {
      */
     boolean repentPresInfoById(RmvPresInfoDTO rmvPresInfoDTO);
 
+    /////////////////////////////////////////////导出报表/////////////////////////////////////////////
+
+    /**
+     * 得到presinfo 实体类的excel文件，从数据库导出生成
+     * @return List<PresInfo>
+     * @author Calendo
+     * @date 2023/2/22 15:57
+     */
+    void getPresInfoExcel();
+
+    /**
+    * 得到presHis 实体类的excel文件，从数据库导出生成
+    * @return void
+    * @author Calendo
+    * @date 2023/2/25 23:28
+    */
+    void getPresHisExcel();
+
 }

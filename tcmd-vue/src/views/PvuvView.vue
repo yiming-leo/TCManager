@@ -120,13 +120,13 @@ export default {
           icon: 'roundRect',//图例icon图标
           data: [
             {
-              name: "昨日",
+              name: "前日",
               textStyle: {
                 color: '#8c8686'
               }
 
             }, {
-              name: "今日",
+              name: "昨日",
               textStyle: {
                 color: '#8c8686'
               }
@@ -147,7 +147,7 @@ export default {
         yAxis: {},
         series: [
           {
-            name: '昨日',
+            name: '前日',
             data: [0, 0, 0, 0, 25, 47, 169, 137, 57, 62, 77, 10],
             type: 'line',
             smooth: true,
@@ -156,7 +156,7 @@ export default {
             }
           },
           {
-            name: '今日',
+            name: '昨日',
             data: [0, 0, 0, 0, 0, 12, 45, 77, 22, 41, 37, 0],
             type: 'line',
             smooth: true,

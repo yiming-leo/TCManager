@@ -1,5 +1,13 @@
 <template>
   <div class="ship_his">
+    <a-row type="flex">
+      <a-col :span="2" :order="5">
+        <a-space>
+          <a-button @click="shipHisExcel" type="primary">导出报文历史表格</a-button>
+        </a-space>
+      </a-col>
+    </a-row>
+    <br>
     <a-table :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
@@ -62,7 +70,7 @@ export default {
   components: {},
   data() {
     return {
-      tableData:[],
+      tableData: [],
       searchText: '',
       searchInput: null,
       searchedColumn: '',
@@ -362,11 +370,55 @@ export default {
   methods: {
     async init() {
       //将所有已分配药厂的处方的历史记录，进行查询
-      const {data: res} = await Axios.get('http://localhost:8085/ship_info/his/all')
+      const {data: res} = await Axios.get('http://49.235.113.96:8085/ship_info/his/all')
       this.tableData = res.data
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
       }
+    },
+    //导出presinfo医生处方的excel数据报表
+    async shipHisExcel() {
+      //发送请求
+      await Axios.request({
+        method: 'POST',
+        url: 'http://49.235.113.96:8085/poi/get/shiphis_excel',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/octet-stream",
+        },
+        responseType: 'blob', // 声明返回blob格式
+      }).then(res => {
+        const blob = new Blob([res.data])  // res.data 为接口返回的数据，依实例而行
+        const url = URL.createObjectURL(blob)  // 生成一个 Blob URL
+        const fileName = 'ShipHis.xlsx'  // 文件名+后缀
+        const listNode = document.createElement("a")
+        listNode.download = fileName
+        listNode.style.display = "none"
+        listNode.href = url // 文件流生成的url
+        document.body.appendChild(listNode)
+        listNode.click()  // 模拟在按钮上实现一次鼠标点击
+        url.revokeObjectURL(listNode.href)  // 释放 URL 对象
+        document.body.removeChild(listNode)  // 移除 a 标签
+
+        //结果集处理
+        this.visible = false;
+        console.log(res.data)
+        if (res.data != null) {
+          this.$message.success('导出医生处方成功！');
+          this.$notification.success({
+            message: '导出医生处方成功！',
+            icon: <a-icon type="check-circle" style="color: #16E09a"/>,
+            duration: 0
+          });
+        } else {
+          this.$message.error('导出医生处方失败！');
+          this.$notification.error({
+            message: '导出医生处方失败！',
+            icon: <a-icon type="close-circle" style="color: #CE1919FF"/>,
+            duration: 0
+          });
+        }
+      })
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();

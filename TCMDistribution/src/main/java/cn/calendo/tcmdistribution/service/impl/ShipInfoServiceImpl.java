@@ -14,6 +14,8 @@ import cn.calendo.tcmdistribution.utils.Encrypt;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -47,6 +49,12 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
 
     @Value("${constants.aesKey}")
     private String AES_KEY;
+
+    @Value("${constants.shipInfoLocation}")
+    private String shipInfoLocation;
+
+    @Value("${constants.shipHisLocation}")
+    private String shipHisLocation;
 
     /////////////////////////////////////////////查询历史/////////////////////////////////////////////
 
@@ -279,7 +287,7 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
     @Override
     public boolean sendShipInfo(SndShipInfoDTO sndShipInfoDTO) {
         try {
-            String res = sendRequest.sendPost(POSTER_URL_POST_NORMAL + "?token=123", JSON.toJSONString(sndShipInfoDTO));
+            String res = sendRequest.sendPost(POSTER_URL_POST_NORMAL, JSON.toJSONString(sndShipInfoDTO));
             R r = JSONObject.parseObject(res, R.class);
             System.out.println("res: " + res);
             System.out.println("r: " + r);
@@ -310,6 +318,43 @@ public class ShipInfoServiceImpl extends ServiceImpl<ShipInfoDao, ShipInfo> impl
         lqw.eq(ShipInfo::getId, rmvShipInfoDTO.getId());//条件为获取到的dto的id
         rmvShipInfoDTO.setIsDeleted(0);//设置isDeleted为0
         return update(rmvShipInfoDTO, lqw);//被设置更新后的实体类对象和查询条件
+    }
+/////////////////////////////////////////////导出报表/////////////////////////////////////////////
+
+    @Override
+    public void getShipInfoExcel() {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        //条件为未删除
+        lqw.eq(ShipInfo::getIsDeleted, 0);
+        //按日期降序排列
+        lqw.orderByDesc(ShipInfo::getTransactionDate);
+        //按时间降序排列
+        lqw.orderByDesc(ShipInfo::getTransactionTime);
+        List<ShipInfo> shipInfoList = list(lqw);
+        // 通过工具类创建writer "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipInfo.xlsx"
+        ExcelWriter writer = ExcelUtil.getWriter(shipInfoLocation);
+        // 一次性写出内容，使用默认样式，强制输出标题
+        writer.write(shipInfoList, true);
+        // 关闭writer，释放内存
+        writer.close();
+    }
+
+    @Override
+    public void getShipHisExcel() {
+        LambdaQueryWrapper<ShipInfo> lqw = new LambdaQueryWrapper<>();
+        //条件为未删除
+        lqw.eq(ShipInfo::getIsDeleted, 1);
+        //按日期降序排列
+        lqw.orderByDesc(ShipInfo::getTransactionDate);
+        //按时间降序排列
+        lqw.orderByDesc(ShipInfo::getTransactionTime);
+        List<ShipInfo> shipInfoList = list(lqw);
+        // 通过工具类创建writer "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipInfo.xlsx"
+        ExcelWriter writer = ExcelUtil.getWriter(shipHisLocation);
+        // 一次性写出内容，使用默认样式，强制输出标题
+        writer.write(shipInfoList, true);
+        // 关闭writer，释放内存
+        writer.close();
     }
 
 }
