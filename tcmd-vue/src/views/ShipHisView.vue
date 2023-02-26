@@ -3,7 +3,7 @@
     <a-row type="flex">
       <a-col :span="2" :order="5">
         <a-space>
-          <a-button @click="shipHisExcel" type="primary">导出报文历史表格</a-button>
+          <a-button @click="shipHisExcel" type="primary" icon="file-excel">导出表格</a-button>
         </a-space>
       </a-col>
     </a-row>

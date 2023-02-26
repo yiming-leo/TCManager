@@ -19,7 +19,7 @@
         </a-col>
         <a-col :span="2" :order="5">
           <a-space>
-            <a-button @click="shipInfoExcel" type="primary">导出报文表格</a-button>
+            <a-button @click="shipInfoExcel" type="primary" icon="file-excel">导出表格</a-button>
           </a-space>
         </a-col>
       </a-row>

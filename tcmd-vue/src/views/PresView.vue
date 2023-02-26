@@ -37,7 +37,7 @@
         </a-col>
         <a-col :span="1" :order="5">
           <a-space>
-            <a-button @click="presInfoExcel" type="primary">导出处方表格</a-button>
+            <a-button @click="presInfoExcel" type="primary" icon="file-excel">导出表格</a-button>
           </a-space>
         </a-col>
       </a-row>
