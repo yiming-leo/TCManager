@@ -384,6 +384,11 @@ export default {
         url: 'http://49.235.113.96:8085/poi/get/shiphis_excel',
         headers: {
           "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Max-Age": "3600",
+          "Cache-Control": "no-cache",
           "Content-Type": "application/octet-stream",
         },
         responseType: 'blob', // 声明返回blob格式

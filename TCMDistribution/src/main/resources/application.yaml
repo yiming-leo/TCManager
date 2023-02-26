@@ -11,6 +11,10 @@ constants:
   shipInfoLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipInfo.xlsx"
   presHisLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/PresHis.xlsx"
   shipHisLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/ShipHis.xlsx"
+#  presInfoLocation: "C:/Users/Lenovo/Desktop/PresInfo.xlsx"
+#  shipInfoLocation: "C:/Users/Lenovo/Desktop/ShipInfo.xlsx"
+#  presHisLocation: "C:/Users/Lenovo/Desktop/PresHis.xlsx"
+#  shipHisLocation: "C:/Users/Lenovo/Desktop/ShipHis.xlsx"
 # 应用名称
 spring:
   application:

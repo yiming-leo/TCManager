@@ -49,6 +49,12 @@ public class GetShipHisExcel {
 
         FileSystemResource file = new FileSystemResource(shipHisLocation);
         HttpHeaders headers = new HttpHeaders();
+        //headers.add("Access-Control-Allow-Origin","*");
+        headers.add("Access-Control-Allow-Headers", "*");
+        headers.add("Access-Control-Allow-Methods","*");
+        headers.add("Access-Control-Allow-Credentials","true");
+        headers.add("Access-Control-Max-Age","3600");
+
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getFilename()));
         headers.add("Pragma", "no-cache");
