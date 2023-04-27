@@ -3,8 +3,8 @@ server:
   port: 8085
 # 自定义常量
 constants:
-  posterUrlPostNormal: "http://49.235.113.96:8086/poster/from_tcmd"
-  posterUrlPostReject: "http://49.235.113.96:8086/poster/from_tcmd/reject"
+  posterUrlPostNormal: "http://serverhost:8086/poster/from_tcmd"
+  posterUrlPostReject: "http://serverhost:8086/poster/from_tcmd/reject"
   aesKey: "0123456789012345"
   logLocation: "tail -f /usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/spring.log"
   presInfoLocation: "/usr/local/bttomcat/tomcat8/webapps/TCManager/TCMD/PresInfo.xlsx"
@@ -25,21 +25,21 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 数据源名称，地址，账号，密码
     name: defaultDataSource
-    url: jdbc:mysql://8.134.147.174:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
-    username: root
-    password: e01jnor36dq5
+    url: jdbc:mysql://servername:3306/tcmd?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false
+    username: username
+    password: password
     # 连接池类型
     type: com.alibaba.druid.pool.DruidDataSource
   # rabbitmq
   rabbitmq:
-    host: 8.134.147.174
+    host: serverhost
     port: 5672
   # java mail
   mail:
     host: smtp.qq.com
     protocol: smtps
-    username: 2479711422@qq.com
-    password: hyfaxtomhlniebdi
+    username: username@qq.com
+    password: password
     port: 465
     properties:
       mail:
@@ -50,7 +50,7 @@ spring:
             fallback: false
   # redis相关
   redis:
-    host: 8.134.147.174
+    host: serverhost
     port: 6379
     password: root
     database: 0

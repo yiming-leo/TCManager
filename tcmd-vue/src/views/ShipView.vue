@@ -11,7 +11,8 @@
         <a-col :span="10" :order="2">
           <a-space>
             开方时间查询
-            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
+            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间"
+                           @change="timeStartSelect"/>
             ~
             <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
             <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
@@ -25,40 +26,44 @@
       </a-row>
     </div>
     <br>
-    <a-table :data-source="tableData" :columns="columns">
-      <div
-          slot="filterDropdown"
-          slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
-          style="padding: 8px"
-      >
-        <a-input
-            v-ant-ref="c => (searchInput = c)"
-            :placeholder="`Search ${column.dataIndex}`"
-            :value="selectedKeys[0]"
-            style="width: 188px; margin-bottom: 8px; display: block;"
-            @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-            @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
-        />
-        <a-button
-            type="primary"
-            icon="search"
-            size="small"
-            style="width: 90px; margin-right: 8px"
-            @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+    <div v-if="this.SkeletonStatus===true">
+      <a-skeleton active/>
+    </div>
+    <div v-else-if="this.SkeletonStatus===false">
+      <a-table :data-source="tableData" :columns="columns">
+        <div
+            slot="filterDropdown"
+            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+            style="padding: 8px"
         >
-          Search
-        </a-button>
-        <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
-          Reset
-        </a-button>
-      </div>
-      <a-icon
-          slot="filterIcon"
-          slot-scope="filtered"
-          type="search"
-          :style="{ color: filtered ? '#108ee9' : undefined }"
-      />
-      <template slot="customRender" slot-scope="text, record, index, column">
+          <a-input
+              v-ant-ref="c => (searchInput = c)"
+              :placeholder="`Search ${column.dataIndex}`"
+              :value="selectedKeys[0]"
+              style="width: 188px; margin-bottom: 8px; display: block;"
+              @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+              @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+          />
+          <a-button
+              type="primary"
+              icon="search"
+              size="small"
+              style="width: 90px; margin-right: 8px"
+              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >
+            Search
+          </a-button>
+          <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+            Reset
+          </a-button>
+        </div>
+        <a-icon
+            slot="filterIcon"
+            slot-scope="filtered"
+            type="search"
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
+        <template slot="customRender" slot-scope="text, record, index, column">
       <span v-if="searchText && searchedColumn === column.dataIndex">
         <template
             v-for="(fragment, i) in text
@@ -73,25 +78,26 @@
           <template v-else>{{ fragment }}</template>
         </template>
       </span>
-        <template v-else>
-          {{ text }}
+          <template v-else>
+            {{ text }}
+          </template>
         </template>
-      </template>
-      <template slot="operation" slot-scope="text, record, column, index">
-        <a-button type="primary" @click="showModal(record.id)">发送报文</a-button>
-      </template>
-    </a-table>
-    <a-modal
-        title="请再次确认发送信息"
-        :visible="confirmVisible"
-        :confirm-loading="confirmLoading"
-        @ok="handleOk"
-        @cancel="handleCancel"
-        cancelText="取消"
-        okText="确定"
-    >
-      <p>{{ ModalText }}</p>
-    </a-modal>
+        <template slot="operation" slot-scope="text, record, column, index">
+          <a-button type="primary" @click="showModal(record.id)">发送报文</a-button>
+        </template>
+      </a-table>
+      <a-modal
+          title="请再次确认发送信息"
+          :visible="confirmVisible"
+          :confirm-loading="confirmLoading"
+          @ok="handleOk"
+          @cancel="handleCancel"
+          cancelText="取消"
+          okText="确定"
+      >
+        <p>{{ ModalText }}</p>
+      </a-modal>
+    </div>
   </div>
 </template>
 <script>
@@ -102,6 +108,8 @@ export default {
   components: {},
   data() {
     return {
+      SkeletonStatus: true,
+
       locale,
 
       ModalText: '确认将此报文发送至药厂？',
@@ -602,6 +610,7 @@ export default {
         for (let i = 0; i < this.tableData.length; i++) {
           this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
         }
+        this.SkeletonStatus = false
       })
     },
     handleSearch(selectedKeys, confirm, dataIndex) {

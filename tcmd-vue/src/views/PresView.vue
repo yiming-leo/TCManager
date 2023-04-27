@@ -11,9 +11,11 @@
         <a-col :span="5" :order="2">
           <a-space>
             开方时间查询
-            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间" @change="timeStartSelect"/>
+            <a-time-picker style=" width: 100px; text-align: center" placeholder="起始时间"
+                           @change="timeStartSelect"/>
             ~
-            <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间" @change="timeEndSelect"/>
+            <a-time-picker style="width: 100px; text-align: center; " placeholder="终止时间"
+                           @change="timeEndSelect"/>
             <a-button @click="timeBetweenSelect(timeSt,timeEd)">查询</a-button>
           </a-space>
         </a-col>
@@ -43,40 +45,44 @@
       </a-row>
     </div>
     <br>
-    <a-table bordered :data-source="tableData" :columns="columns">
-      <div
-          slot="filterDropdown"
-          slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
-          style="padding: 8px"
-      >
-        <a-input
-            v-ant-ref="c => (searchInput = c)"
-            :placeholder="`Search ${column.dataIndex}`"
-            :value="selectedKeys[0]"
-            style="width: 188px; margin-bottom: 8px; display: block;"
-            @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-            @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
-        />
-        <a-button
-            type="primary"
-            icon="search"
-            size="small"
-            style="width: 90px; margin-right: 8px"
-            @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+    <div v-if="this.SkeletonStatus===true">
+      <a-skeleton active/>
+    </div>
+    <div v-else-if="this.SkeletonStatus===false">
+      <a-table bordered :data-source="tableData" :columns="columns">
+        <div
+            slot="filterDropdown"
+            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+            style="padding: 8px"
         >
-          Search
-        </a-button>
-        <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
-          Reset
-        </a-button>
-      </div>
-      <a-icon
-          slot="filterIcon"
-          slot-scope="filtered"
-          type="search"
-          :style="{ color: filtered ? '#108ee9' : undefined }"
-      />
-      <template slot="customRender" slot-scope="text, record, index, column">
+          <a-input
+              v-ant-ref="c => (searchInput = c)"
+              :placeholder="`Search ${column.dataIndex}`"
+              :value="selectedKeys[0]"
+              style="width: 188px; margin-bottom: 8px; display: block;"
+              @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+              @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+          />
+          <a-button
+              type="primary"
+              icon="search"
+              size="small"
+              style="width: 90px; margin-right: 8px"
+              @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >
+            Search
+          </a-button>
+          <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+            Reset
+          </a-button>
+        </div>
+        <a-icon
+            slot="filterIcon"
+            slot-scope="filtered"
+            type="search"
+            :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
+        <template slot="customRender" slot-scope="text, record, index, column">
       <span v-if="searchText && searchedColumn === column.dataIndex">
         <template
             v-for="(fragment, i) in text
@@ -91,33 +97,33 @@
           <template v-else>{{ fragment }}</template>
         </template>
       </span>
-        <template v-else>
-          {{ text }}
+          <template v-else>
+            {{ text }}
+          </template>
         </template>
-      </template>
-      <!--      操作区-->
-      <template slot="operation" slot-scope="text, record">
-        <a-button type="primary" @click="distributeFactory(record.id)">分配药厂</a-button>
-      </template>
-    </a-table>
-    <!--    分配框-->
-    <a-drawer
-        title="将此处方分配至指定药厂"
-        :width="720"
-        :visible="visible"
-        :body-style="{ paddingBottom: '80px' }"
-        @close="onClose"
-    >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="处方ID">
-              <a-input id="id"
-                       addon-before="UID"
-                       disabled
-                       :placeholder="this.currentId"
-                       value="this.currentId"
-                       v-decorator="[
+        <!--      操作区-->
+        <template slot="operation" slot-scope="text, record">
+          <a-button type="primary" @click="distributeFactory(record.id)">分配药厂</a-button>
+        </template>
+      </a-table>
+      <!--    分配框-->
+      <a-drawer
+          title="将此处方分配至指定药厂"
+          :width="720"
+          :visible="visible"
+          :body-style="{ paddingBottom: '80px' }"
+          @close="onClose"
+      >
+        <a-form :form="form" layout="vertical" hide-required-mark>
+          <a-row :gutter="16">
+            <a-col :span="12">
+              <a-form-item label="处方ID">
+                <a-input id="id"
+                         addon-before="UID"
+                         disabled
+                         :placeholder="this.currentId"
+                         value="this.currentId"
+                         v-decorator="[
                   'id',
                   {
                     rules: [
@@ -125,40 +131,40 @@
                     ],
                   },
                 ]"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="收件人姓名">
-              <a-input id="recipientName"
-                       v-decorator="[
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="收件人姓名">
+                <a-input id="recipientName"
+                         v-decorator="[
                   'recipientName',
                   {
                     rules: [{ required: true, message: '收件人姓名不能为空！' }],
                   },
                 ]"
-                       placeholder="请填写收件人姓名"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="收件人地址">
-              <a-input id="recipientAddress"
-                       v-decorator="[
+                         placeholder="请填写收件人姓名"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="收件人地址">
+                <a-input id="recipientAddress"
+                         v-decorator="[
                   'recipientAddress',
                   {
                     rules: [{ required: true, message: '请填写收件人地址' }],
                   },
                 ]"
-                       placeholder="请填写收件人地址"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="收件人电话">
-              <a-input id="recipientTelephone"
-                       addon-before="+86"
-                       v-decorator="[
+                         placeholder="请填写收件人地址"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="收件人电话">
+                <a-input id="recipientTelephone"
+                         addon-before="+86"
+                         v-decorator="[
                   'recipientTelephone',
                   {
                     rules: [
@@ -167,16 +173,16 @@
                     ],
                   },
                 ]"
-                       placeholder="请填写收件人电话"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="邮政编码">
-              <a-input id="postalCode"
-                       v-decorator="[
+                         placeholder="请填写收件人电话"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row :gutter="16">
+            <a-col :span="12">
+              <a-form-item label="邮政编码">
+                <a-input id="postalCode"
+                         v-decorator="[
                   'postalCode',
                   {
                     rules: [
@@ -185,60 +191,60 @@
                     ],
                   },
                 ]"
-                       placeholder="邮政编码"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="医院信息">
-              <a-select id="hospitalNo"
-                        v-decorator="[
+                         placeholder="邮政编码"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="医院信息">
+                <a-select id="hospitalNo"
+                          v-decorator="[
                   'hospitalNo',
                   {
                     rules: [{ required: true, message: '请填写医院信息' }],
                   },
                 ]"
-                        placeholder="请填写医院信息"
-              >
-                <a-select-option value="0001">浙江省中医院</a-select-option>
-                <a-select-option value="0002">浙江省新华医院</a-select-option>
-                <a-select-option value="0003">浙江省中山医院</a-select-option>
-                <a-select-option value="0004">浙江省西溪医院</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="选择药厂">
-              <a-select id="facName"
-                        mode="multiple"
-                        style="width: 100%"
-                        placeholder="请选择至少一个以上的药厂"
-                        @change="handleChange"
-                        v-decorator="[
+                          placeholder="请填写医院信息"
+                >
+                  <a-select-option value="0001">浙江省中医院</a-select-option>
+                  <a-select-option value="0002">浙江省新华医院</a-select-option>
+                  <a-select-option value="0003">浙江省中山医院</a-select-option>
+                  <a-select-option value="0004">浙江省西溪医院</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="选择药厂">
+                <a-select id="facName"
+                          mode="multiple"
+                          style="width: 100%"
+                          placeholder="请选择至少一个以上的药厂"
+                          @change="handleChange"
+                          v-decorator="[
                   'facName',
                   {
                     rules: [{ required: true, message: '请选择至少一个以上的药厂' }],
                   },
                 ]"
-              >
-                <a-select-option value="0001">富阳制药</a-select-option>
-                <a-select-option value="0002">华东制药</a-select-option>
-                <a-select-option value="0003">滁州制药</a-select-option>
-                <a-select-option value="0004">台州制药</a-select-option>
-                <a-select-option value="0005">处州制药</a-select-option>
-                <a-select-option value="0006">湖州制药</a-select-option>
-                <a-select-option value="0007">金华制药</a-select-option>
-                <a-select-option value="0008">康恩贝制药</a-select-option>
-                <a-select-option value="0009">甬州制药</a-select-option>
-                <a-select-option value="0010">温州制药</a-select-option>
-                <a-select-option value="0011">衢州制药</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="是否煎药（药品类型）">
-              <a-select id="decoctMedicine"
-                        v-decorator="[
+                >
+                  <a-select-option value="0001">富阳制药</a-select-option>
+                  <a-select-option value="0002">华东制药</a-select-option>
+                  <a-select-option value="0003">滁州制药</a-select-option>
+                  <a-select-option value="0004">台州制药</a-select-option>
+                  <a-select-option value="0005">处州制药</a-select-option>
+                  <a-select-option value="0006">湖州制药</a-select-option>
+                  <a-select-option value="0007">金华制药</a-select-option>
+                  <a-select-option value="0008">康恩贝制药</a-select-option>
+                  <a-select-option value="0009">甬州制药</a-select-option>
+                  <a-select-option value="0010">温州制药</a-select-option>
+                  <a-select-option value="0011">衢州制药</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item label="是否煎药（药品类型）">
+                <a-select id="decoctMedicine"
+                          v-decorator="[
                   'decoctMedicine',
                   {
                     rules: [
@@ -247,32 +253,32 @@
                     ],
                   },
                 ]"
-                        placeholder="请填写是否煎药"
-              >
-                <a-select-option value="0">煎药</a-select-option>
-                <a-select-option value="1">草药</a-select-option>
-                <a-select-option value="2">膏方</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="配送要求">
-              <a-textarea id="deliveryRequire"
-                          v-decorator="[
+                          placeholder="请填写是否煎药"
+                >
+                  <a-select-option value="0">煎药</a-select-option>
+                  <a-select-option value="1">草药</a-select-option>
+                  <a-select-option value="2">膏方</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="24">
+              <a-form-item label="配送要求">
+                <a-textarea id="deliveryRequire"
+                            v-decorator="[
                   'deliveryRequire',
                   {
                     rules: [{ required: true, message: '请填写配送要求' }],
                   },
                 ]"
-                          :rows="4"
-                          placeholder="请填写配送要求"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-          :style="{
+                            :rows="4"
+                            placeholder="请填写配送要求"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+        <div
+            :style="{
           position: 'absolute',
           right: 0,
           bottom: 0,
@@ -283,34 +289,36 @@
           textAlign: 'right',
           zIndex: 1,
         }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">取消</a-button>
-        <a-button type="primary" @click="showModal">分配</a-button>
-        <a-modal
-            title="请再次确认分配信息"
-            :visible="confirmVisible"
-            :confirm-loading="confirmLoading"
-            cancelText="取消"
-            okText="确认确定"
-            @ok="handleOk"
-            @cancel="handleCancel"
         >
-          <p>{{ ModalText }}</p>
-        </a-modal>
-      </div>
-    </a-drawer>
+          <a-button :style="{ marginRight: '8px' }" @click="onClose">取消</a-button>
+          <a-button type="primary" @click="showModal">分配</a-button>
+          <a-modal
+              title="请再次确认分配信息"
+              :visible="confirmVisible"
+              :confirm-loading="confirmLoading"
+              cancelText="取消"
+              okText="确认确定"
+              @ok="handleOk"
+              @cancel="handleCancel"
+          >
+            <p>{{ ModalText }}</p>
+          </a-modal>
+        </div>
+      </a-drawer>
+    </div>
   </div>
 </template>
 <script>
 import Axios from "axios";
-import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 
+moment.locale('en');
 export default {
   components: {},
   data() {
     return {
-      locale,
+      SkeletonStatus: true,
 
       ModalText: '确认将此处方分配至指定药厂？',
       confirmVisible: false,
@@ -1051,6 +1059,7 @@ export default {
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
       }
+      this.SkeletonStatus = false
     },
     //表格查询内置按钮
     handleSearch(selectedKeys, confirm, dataIndex) {

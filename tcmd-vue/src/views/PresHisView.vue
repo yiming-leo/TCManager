@@ -8,6 +8,10 @@
       </a-col>
     </a-row>
     <br>
+    <div v-if="this.SkeletonStatus===true">
+      <a-skeleton active/>
+    </div>
+    <div v-else-if="this.SkeletonStatus===false">
     <a-table :data-source="tableData" :columns="columns">
       <div
           slot="filterDropdown"
@@ -62,6 +66,7 @@
       </template>
     </a-table>
   </div>
+  </div>
 </template>
 <script>
 import Axios from "axios";
@@ -70,6 +75,8 @@ export default {
   components: {},
   data() {
     return {
+      SkeletonStatus: true,
+
       tableData: [],
       searchText: '',
       searchInput: null,
@@ -287,6 +294,7 @@ export default {
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].transactionDate += (" " + this.tableData[i].transactionTime)
       }
+      this.SkeletonStatus = false
     },
     //导出presinfo医生处方的excel数据报表
     async presHisExcel() {
